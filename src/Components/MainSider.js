@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const { Header, Content, Footer, Sider } = Layout;
 
-class SiderDemo extends React.Component {
+class MainSider extends React.Component {
   state = {
     collapsed: false, 
     content: 1
@@ -27,7 +27,7 @@ class SiderDemo extends React.Component {
           <Header style={{ color: "white", textAlign: "center" }}>
             COMNET
           </Header>
-          <Layout style={{ minHeight: "100vh" }}>
+          <Layout style={{ minHeight: "90vh" }}>
             <Sider
               collapsible
               collapsed={this.state.collapsed}
@@ -69,4 +69,4 @@ class SiderDemo extends React.Component {
   }
 }
 
-export default SiderDemo;
+export default MainSider;

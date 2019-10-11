@@ -1,7 +1,10 @@
 import React from "react";
+import DataTable from "./DataTable.js"
+import FakeData from '../FakeData/DataTableData'
+import FakeColumns from '../FakeData/DataTableColumns'
 
 function Vehicles(props) {
-  return <h1>Vehicles</h1>;
+  return <DataTable data={FakeData} columns={FakeColumns}/>;
 }
 
 export default Vehicles;
