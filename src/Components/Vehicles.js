@@ -4,7 +4,11 @@ import FakeData from '../FakeData/DataTableData'
 import FakeColumns from '../FakeData/DataTableColumns'
 
 function Vehicles(props) {
-  return <DataTable data={FakeData} columns={FakeColumns}/>;
+  return <div>
+    <h1>Veículos</h1>
+    <DataTable data={FakeData} columns={FakeColumns}/>
+  </div>
+  
 }
 
 export default Vehicles;
