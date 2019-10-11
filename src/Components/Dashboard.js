@@ -3,6 +3,7 @@ import OlMap from "ol/Map";
 import OlView from "ol/View";
 import OlLayerTile from "ol/layer/Tile";
 import OlSourceOSM from "ol/source/OSM";
+import MapCard from "./MapCard";
 
 class Dashboard extends Component {
   constructor(props) {
@@ -50,8 +51,11 @@ class Dashboard extends Component {
   render() {
     this.updateMap(); // Update map on render?
     return (
-      <div id="map" style={{ width: "100%", height: "100%" }}>
+      <>
+      <div id="map">
+        <MapCard/>
       </div>
+      </>
     );
   }
 }
