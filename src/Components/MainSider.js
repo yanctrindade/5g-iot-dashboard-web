@@ -1,7 +1,7 @@
 import React from "react";
 import { Layout, Menu, Icon } from "antd";
 import "antd/dist/antd.css";
-import MapComponent from "./Map";
+import MapComponent from "./MapComponent";
 import Vehicles from "./Vehicles.js";
 import Statistics from "./Statistics.js";
 
@@ -55,7 +55,7 @@ class MainSider extends React.Component {
             <Layout>
               <Content>
                 {/* <Route exact path="/" component={MapComponent} /> */}
-                <Route exact path={"/"} render={() => <Map update={this.state.collapsed}/>}/>
+                <Route exact path={"/"} render={() => <MapComponent update={this.state.collapsed}/>}/>
                 <Route path="/vehicles" component={Vehicles} />
                 <Route path="/statistics" component={Statistics} />
               </Content>
