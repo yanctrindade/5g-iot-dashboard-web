@@ -1,36 +1,49 @@
 const columns = [
-    {
-      title: 'Placa',
-      dataIndex: 'placa',
-      key: 'placa',
-      width: '30%',
-      //...this.getColumnSearchProps('placa'),
-    },
-    {
-      title: 'Modelo',
-      dataIndex: 'modelo',
-      key: 'modelo',
-      width: '20%',
-      //...this.getColumnSearchProps('modelo'),
-    },
-    {
-      title: 'Fabricante',
-      dataIndex: 'fabricante',
-      key: 'fabricante',
-      //...this.getColumnSearchProps('fabricante'),
-    },
-    {
-        title: 'Data da última revisão',
-        dataIndex: 'datarevisao',
-        key: 'datarevisao',
-        //...this.getColumnSearchProps('datarevisao'),
-    },
-    {
-        title: 'Departamento',
-        dataIndex: 'departamento',
-        key: 'departamento',
-        //...this.getColumnSearchProps('departamento'),
-    },
-  ];
+  {
+    title: 'Placa',
+    dataIndex: 'placa',
+    key: 'placa',
+    //...this.getColumnSearchProps('placa'),
+    onFilter: (value, record) => record.placa.indexOf(value) === 0,
+    sorter: (a, b) => { return a.placa.localeCompare(b.placa)},
+    sortDirections: ['descend', 'ascend'],
+  },
+  {
+    title: 'Modelo',
+    dataIndex: 'modelo',
+    key: 'modelo',
+    //...this.getColumnSearchProps('modelo'),
+    onFilter: (value, record) => record.modelo.indexOf(value) === 0,
+    sorter: (a, b) =>  { return a.modelo.localeCompare(b.modelo)},
+    sortDirections: ['descend', 'ascend'],
+  },
+  {
+    title: 'Fabricante',
+    dataIndex: 'fabricante',
+    key: 'fabricante',
+    //...this.getColumnSearchProps('fabricante'),
+    onFilter: (value, record) => record.fabricante.indexOf(value) === 0,
+    sorter: (a, b) => { return a.fabricante.localeCompare(b.fabricante)},
+    sortDirections: ['descend', 'ascend'],
+  },
+  {
+    title: 'Data da última revisão',
+    dataIndex: 'datarevisao',
+    key: 'datarevisao',
+    //...this.getColumnSearchProps('datarevisao'),
+    onFilter: (value, record) => record.datarevisao.indexOf(value) === 0,
+    sorter: (a, b) => { return a.datarevisao.localeCompare(b.datarevisao)},
+    sortDirections: ['descend', 'ascend'],
+  },
+  {
+    title: 'Departamento',
+    dataIndex: 'departamento',
+    key: 'departamento',
+    //...this.getColumnSearchProps('departamento'),
+    onFilter: (value, record) => record.departamento.indexOf(value) === 0,
+    sorter: (a, b) => { return a.departamento.localeCompare(b.departamento)},
+    sortDirections: ['descend', 'ascend'],
+  },
+];
 
   export default columns;
