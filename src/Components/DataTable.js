@@ -73,7 +73,7 @@ class DataTable extends React.Component {
     
     return <Table 
               columns={columns} dataSource={this.props.data} 
-              pagination={{ defaultPageSize: 5}}
+              pagination={{ defaultPageSize: 6}}
             />;
   }
 }
