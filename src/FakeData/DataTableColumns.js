@@ -28,7 +28,7 @@ const columns = [
     dataIndex: 'datarevisao',
     key: 'datarevisao',
     onFilter: (value, record) => record.datarevisao.indexOf(value) === 0,
-    sorter: (a, b) => { return a.datarevisao.localeCompare(b.datarevisao)},
+    sorter: (a, b) => { return compareDates(a.datarevisao, b.datarevisao)},
     sortDirections: ['descend', 'ascend'],
   },
   {
@@ -40,5 +40,17 @@ const columns = [
     sortDirections: ['descend', 'ascend'],
   },
 ];
+
+function compareDates(a, b){
+  let dateA = new Date(a);
+  let dateB = new Date(b);
+
+  if (dateA > dateB)
+    return 1;
+  if (dateA < dateB)
+    return -1;
+
+  return 0;
+}
 
   export default columns;
