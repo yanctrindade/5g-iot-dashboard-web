@@ -1,13 +1,13 @@
 import React from "react";
 import { Layout, Menu, Icon } from "antd";
 import "antd/dist/antd.css";
-import Dashboard from "./Dashboard.js";
+import MapComponent from "./MapComponent";
 import Vehicles from "./Vehicles.js";
 import Statistics from "./Statistics.js";
 
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, /*Footer,*/ Sider } = Layout;
 
 class MainSider extends React.Component {
   state = {
@@ -53,14 +53,15 @@ class MainSider extends React.Component {
               </Menu>
             </Sider>
             <Layout>
-              <Content style={{ margin: "16px 16px" }}>
-                <Route exact path="/" component={Dashboard} />
+              <Content>
+                {/* <Route exact path="/" component={MapComponent} /> */}
+                <Route exact path={"/"} render={() => <MapComponent update={this.state.collapsed}/>}/>
                 <Route path="/vehicles" component={Vehicles} />
                 <Route path="/statistics" component={Statistics} />
               </Content>
-              <Footer style={{ textAlign: "center" }}>
+              {/* <Footer style={{ textAlign: "center" }}>
                 COMNET - UnB
-              </Footer>
+              </Footer> */}
             </Layout>
           </Layout>
         </Layout>
