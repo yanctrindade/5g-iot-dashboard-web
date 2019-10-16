@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Layout, Menu, Icon } from "antd";
 import "antd/dist/antd.css";
 import MapComponent from "./MapComponent";
@@ -9,7 +9,7 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 
 const { Header, Content, /*Footer,*/ Sider } = Layout;
 
-class MainSider extends React.Component {
+class MainSider extends Component {
   state = {
     collapsed: false, 
     content: 1

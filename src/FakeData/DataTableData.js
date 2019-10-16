@@ -5,7 +5,8 @@ const data = [
       modelo: 'GOL G5 1.0',
       fabricante: 'Wolkswagem',
       datarevisao: "2018-12-23",
-      departamento: "Ciência da Computação"
+      departamento: "Ciência da Computação",
+      statistics: ['50,6', '2019-05-06', '175,28','6'],
     },
     {
       key: '2',
@@ -13,7 +14,8 @@ const data = [
       modelo: 'SAVEIRO 2.0',
       fabricante: 'Wolkswagem',
       datarevisao: "2019-05-11",
-      departamento: "Reitoria"
+      departamento: "Reitoria",
+      statistics: ['15,12', '2020-01-12', '55,82', '4'],
     },
     {
       key: '3',
@@ -21,7 +23,7 @@ const data = [
       modelo: 'FUSION 2.5',
       fabricante: 'Ford',
       datarevisao: "2019-07-06",
-      departamento: "Engenharia Elétrica"
+      departamento: "Engenharia Elétrica",
     },
     {
       key: '4',
@@ -29,7 +31,7 @@ const data = [
       modelo: 'HB20 1.0',
       fabricante: 'Hyundai',
       datarevisao: "2019-01-16",
-      departamento: "Ciência da Computação"
+      departamento: "Ciência da Computação",
     },
     {
       key: '5',
@@ -37,7 +39,7 @@ const data = [
       modelo: 'UP 1.0',
       fabricante: 'Wolkswagem',
       datarevisao: "2019-04-17",
-      departamento: "Ciência da computação"
+      departamento: "Ciência da computação",
     },
     {
       key: '6',
@@ -45,7 +47,7 @@ const data = [
       modelo: 'POLO 2.0',
       fabricante: 'Wolkswagem',
       datarevisao: "2019-08-03",
-      departamento: "Ciência da computação"
+      departamento: "Ciência da computação",
     },
     {
       key: '7',
@@ -53,7 +55,7 @@ const data = [
       modelo: 'UP TSI 1.0',
       fabricante: 'Wolkswagem',
       datarevisao: "2019-01-15",
-      departamento: "Reitoria"
+      departamento: "Reitoria",
     },
     {
       key: '8',
@@ -61,7 +63,7 @@ const data = [
       modelo: 'Fiesta 1.6',
       fabricante: 'Ford',
       datarevisao: "2019-03-20",
-      departamento: "Engenharia Elétrica"
+      departamento: "Engenharia Elétrica",
     },
     {
       key: '9',
@@ -69,7 +71,7 @@ const data = [
       modelo: 'Ka 1.0',
       fabricante: 'Ford',
       datarevisao: "2019-02-14",
-      departamento: "Reitoria"
+      departamento: "Reitoria",
     },
     {
       key: '10',
@@ -77,7 +79,7 @@ const data = [
       modelo: 'Onix 1.4',
       fabricante: 'Chevrolet',
       datarevisao: "2019-11-02",
-      departamento: "Ciência da computação"
+      departamento: "Ciência da computação",
     },
     {
       key: '11',
@@ -85,7 +87,7 @@ const data = [
       modelo: 'Celta 1.6',
       fabricante: 'Chevrolet',
       datarevisao: "2019-10-10",
-      departamento: "Ciência da computação"
+      departamento: "Ciência da computação",
     }
   ];
 
