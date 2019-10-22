@@ -1,8 +1,9 @@
-import React from "react";
+import React, { Component } from "react";
 import { Table, Input, Button, Icon } from 'antd';
 import Highlighter from 'react-highlight-words';
+import VehicleStatistics from './VehicleStatistics'
 
-class DataTable extends React.Component {
+class DataTable extends Component {
   state = {
     searchText: '',
   };
@@ -70,11 +71,22 @@ class DataTable extends React.Component {
   render() {    
     
     const columns = this.props.columns.map(item => ({...item, ...this.getColumnSearchProps(item.dataIndex)}))
-    
-    return <Table 
+
+    if (this.props.showStatistics === 'True')
+    {
+      return <Table 
+              columns={columns} dataSource={this.props.data} 
+              expandedRowRender={record => <VehicleStatistics style={{ margin: 0 }} {...record.statistics} />}
+              pagination={{ defaultPageSize: 6}}
+            />;
+    }
+    else
+    {
+      return <Table 
               columns={columns} dataSource={this.props.data} 
               pagination={{ defaultPageSize: 6}}
             />;
+    }  
   }
 }
 
