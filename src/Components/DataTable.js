@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Table, Input, Button, Icon } from 'antd';
-import Highlighter from 'react-highlight-words';
+//import Highlighter from 'react-highlight-words';
 import VehicleStatistics from './VehicleStatistics'
 
 class DataTable extends Component {
@@ -15,7 +15,7 @@ class DataTable extends Component {
           ref={node => {
             this.searchInput = node;
           }}
-          placeholder={`Buscar ${dataIndex}`}
+          placeholder={`Buscar ${dataIndex.charAt(0).toUpperCase() + dataIndex.slice(1)}`}
           value={selectedKeys[0]}
           onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
@@ -31,7 +31,7 @@ class DataTable extends Component {
           Buscar
         </Button>
         <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
-          Cancelar
+          Limpar
         </Button>
       </div>
     ),
@@ -48,14 +48,14 @@ class DataTable extends Component {
         setTimeout(() => this.searchInput.select());
       }
     },
-    render: text => (
-      <Highlighter
-        highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-        searchWords={[this.state.searchText]}
-        autoEscape
-        textToHighlight={text.toString()}
-      />
-    ),
+    /*render: text => (
+        <Highlighter
+          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+          searchWords={[this.state.searchText]}
+          autoEscape
+          textToHighlight={text.toString()}
+        />
+    ),*/
   });
 
   handleSearch = (selectedKeys, confirm) => {
@@ -71,6 +71,16 @@ class DataTable extends Component {
   render() {    
     
     const columns = this.props.columns.map(item => ({...item, ...this.getColumnSearchProps(item.dataIndex)}))
+
+    // Because of ANTD 'componentWillReceiveProps has been renamed' warning, 
+    // while they don't update their package, this is used to hide the warning.
+    ///////////////////////////////////////////////////////////////////////////
+    const doWarn = window.console.warn
+    window.console.warn = (...args) => {
+      if(typeof args[0] !== 'string' || !args[0].startsWith('Warning: componentWillReceiveProps has been renamed'))
+        doWarn(...args)
+    }
+    ///////////////////////////////////////////////////////////////////////////
 
     if (this.props.showStatistics === 'True')
     {

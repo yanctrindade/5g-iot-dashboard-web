@@ -1,11 +1,37 @@
+import React from "react";
+import { Tag } from 'antd';
+
 const columns = [
   {
     title: 'Placa',
     dataIndex: 'placa',
     key: 'placa',
     onFilter: (value, record) => record.placa.indexOf(value) === 0,
-    sorter: (a, b) => { return a.placa.localeCompare(b.placa)},
-    sortDirections: ['descend', 'ascend'],
+    sorter: (a, b) => { return a.placa[0].localeCompare(b.placa[0])},
+    sortDirections: ['descend', 'ascend'],  
+    render: tags => (
+      <span>
+        {tags.map(tag => {
+          let color;
+          if (tag === 'Operando') {
+            color = 'green';
+          } else if (tag === 'Manuntenção'){
+            color = 'yellow';
+          } else if (tag === 'Quebrado'){
+            color = 'red';
+          } else{
+            tag += '  ';
+            return tag.toUpperCase();
+          }
+
+          return (
+            <Tag color={color} key={tag}>
+              {tag.toUpperCase()}
+            </Tag>
+          );
+        })}
+      </span>
+    ),  
   },
   {
     title: 'Modelo',
@@ -25,10 +51,10 @@ const columns = [
   },
   {
     title: 'Data da última revisão',
-    dataIndex: 'datarevisao',
-    key: 'datarevisao',
-    onFilter: (value, record) => record.datarevisao.indexOf(value) === 0,
-    sorter: (a, b) => { return compareDates(a.datarevisao, b.datarevisao)},
+    dataIndex: 'revisão',
+    key: 'revisao',
+    onFilter: (value, record) => record.revisão.indexOf(value) === 0,
+    sorter: (a, b) => { return compareDates(a.revisão, b.revisão)},
     sortDirections: ['descend', 'ascend'],
   },
   {
