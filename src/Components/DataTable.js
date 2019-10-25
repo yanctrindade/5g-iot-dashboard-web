@@ -8,10 +8,6 @@ class DataTable extends Component {
     searchText: '',
   };
 
-  highlighter = (cellRender) => ({
-
-  })
-
   getColumnSearchProps = (dataIndex, cellRender) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>

@@ -15,8 +15,7 @@ const tagsFunction = tags => (
       } else if (tag === 'Quebrado'){
         color = 'red';
       } else{
-        tag += '  ';
-        return tag.toUpperCase();
+        return console.log('tag not found');
       }
 
       return (
