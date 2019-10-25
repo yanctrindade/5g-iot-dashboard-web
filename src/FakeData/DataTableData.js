@@ -6,7 +6,12 @@ const data = [
       fabricante: 'Wolkswagem',
       revisão: "2018-12-23",
       departamento: "Ciência da Computação",
-      statistics: ['50,6', '2019-05-06', '175,28','6'],
+      statistics: {
+        lastTrip: '50,6', 
+        nextRevision: '2019-05-06', 
+        traveledWeek: '175,28',
+        NumRoutesWeek: '6',
+      },
     },
     {
       key: '2',
@@ -15,7 +20,12 @@ const data = [
       fabricante: 'Wolkswagem',
       revisão: "2019-05-11",
       departamento: "Reitoria",
-      statistics: ['15,12', '2020-01-12', '55,82', '4'],
+      statistics: {
+        lastTrip: '15,12', 
+        nextRevision: '2020-01-12', 
+        traveledWeek: '55,82',
+        NumRoutesWeek: '4',
+      },
     },
     {
       key: '3',

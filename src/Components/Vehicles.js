@@ -5,7 +5,7 @@ import FakeColumns from '../FakeData/DataTableColumns'
 
 function Vehicles(props) {
   return <div>
-    <DataTable columns={FakeColumns} data={FakeData} showStatistics='True'/>
+    <DataTable columns={FakeColumns} data={FakeData}/>
   </div>
   
 }
