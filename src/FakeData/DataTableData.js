@@ -19,7 +19,7 @@ const data = [
     },
     {
       key: '3',
-      placa: ['JLK 7985', 'Quebrado'],
+      placa: ['JLK 7985', 'Quebrado', 'Manuntenção'],
       modelo: 'FUSION 2.5',
       fabricante: 'Ford',
       revisão: "2019-07-06",

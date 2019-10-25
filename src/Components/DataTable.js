@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Table, Input, Button, Icon } from 'antd';
-//import Highlighter from 'react-highlight-words';
+import Highlighter from 'react-highlight-words';
 import VehicleStatistics from './VehicleStatistics'
 
 class DataTable extends Component {
@@ -8,7 +8,11 @@ class DataTable extends Component {
     searchText: '',
   };
 
-  getColumnSearchProps = dataIndex => ({
+  highlighter = (cellRender) => ({
+
+  })
+
+  getColumnSearchProps = (dataIndex, cellRender) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
         <Input
@@ -48,14 +52,24 @@ class DataTable extends Component {
         setTimeout(() => this.searchInput.select());
       }
     },
-    /*render: text => (
-        <Highlighter
-          highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-          searchWords={[this.state.searchText]}
-          autoEscape
-          textToHighlight={text.toString()}
-        />
-    ),*/
+    render: text => {
+      const hasCellRender = (typeof cellRender !== "undefined")
+      const cellText = typeof text === "string" ? text : text[0]
+      const cellElementes = text.slice(1)
+      return  (
+        <>
+          <Highlighter
+            highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+            searchWords={[this.state.searchText]}
+            autoEscape
+            textToHighlight={cellText.toString()}
+          />
+          <>
+          {hasCellRender ? cellRender(cellElementes) : <></>}
+          </>
+        </>
+      )
+    },
   });
 
   handleSearch = (selectedKeys, confirm) => {
@@ -70,7 +84,7 @@ class DataTable extends Component {
 
   render() {    
     
-    const columns = this.props.columns.map(item => ({...item, ...this.getColumnSearchProps(item.dataIndex)}))
+    const columns = this.props.columns.map(item => ({...item, ...this.getColumnSearchProps(item.dataIndex, item.cellRender)}))
 
     // Because of ANTD 'componentWillReceiveProps has been renamed' warning, 
     // while they don't update their package, this is used to hide the warning.

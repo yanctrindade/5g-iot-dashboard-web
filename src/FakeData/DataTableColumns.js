@@ -1,6 +1,33 @@
 import React from "react";
 import { Tag } from 'antd';
 
+const tagsFunction = tags => (
+  <span>
+    {tags.map(tag => {
+      const styles = {
+        float : 'right'
+      };
+      let color;
+      if (tag === 'Operando') {
+        color = 'green';
+      } else if (tag === 'Manuntenção'){
+        color = 'yellow';
+      } else if (tag === 'Quebrado'){
+        color = 'red';
+      } else{
+        tag += '  ';
+        return tag.toUpperCase();
+      }
+
+      return (
+        <Tag color={color} key={tag} style={styles}>
+          {tag.toUpperCase()}
+        </Tag>
+      );
+    })}
+  </span>
+);
+
 const columns = [
   {
     title: 'Placa',
@@ -8,30 +35,8 @@ const columns = [
     key: 'placa',
     onFilter: (value, record) => record.placa.indexOf(value) === 0,
     sorter: (a, b) => { return a.placa[0].localeCompare(b.placa[0])},
-    sortDirections: ['descend', 'ascend'],  
-    render: tags => (
-      <span>
-        {tags.map(tag => {
-          let color;
-          if (tag === 'Operando') {
-            color = 'green';
-          } else if (tag === 'Manuntenção'){
-            color = 'yellow';
-          } else if (tag === 'Quebrado'){
-            color = 'red';
-          } else{
-            tag += '  ';
-            return tag.toUpperCase();
-          }
-
-          return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
-            </Tag>
-          );
-        })}
-      </span>
-    ),  
+    sortDirections: ['descend', 'ascend'],
+    cellRender: tagsFunction, 
   },
   {
     title: 'Modelo',
@@ -79,4 +84,4 @@ function compareDates(a, b){
   return 0;
 }
 
-  export default columns;
+export default columns;
