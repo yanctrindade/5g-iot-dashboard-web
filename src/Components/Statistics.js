@@ -1,7 +1,10 @@
 import React from "react";
+import StatisticsCard from "./StatisticsCard"
 
 function Statistics(props) {
-  return <h1>Statistics</h1>;
+  return <div>
+    <StatisticsCard />
+  </div>;
 }
 
 export default Statistics;
