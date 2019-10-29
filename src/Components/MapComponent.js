@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
-import { Map, GoogleApiWrapper } from 'google-maps-react';
+import { Map, Polyline, GoogleApiWrapper } from 'google-maps-react';
 import MapCard from './MapCard'
+import coordinates from '../FakeData/Coordinates.js'
 
 class MapComponent extends Component {
 
   render() {
+
+    const coords = coordinates.map(x => {return {lat: x[1],lng: x[0]} })
     return (
       <>
         <Map
           google={this.props.google}
-          zoom={16}
+          className={'map'}
+          zoom={14}
           style={mapStyles}
-          initialCenter={{ lat: -15.762919, lng:-47.869899}}
-        />
+          initialCenter={coords[Math.round(coords.length/2)]}
+        >
+          <Polyline
+          path={coords}
+          strokeColor="#0000FF"
+          strokeOpacity={0.5}
+          strokeWeight={4} />
+        </Map>
         <MapCard/>
       </>
     );
