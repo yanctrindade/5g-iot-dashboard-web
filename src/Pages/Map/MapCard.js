@@ -1,7 +1,7 @@
 import React from "react";
-import "../styles.css";
+import "./styles.css";
 import { Row, Col, Icon } from 'antd';
-import VehicleData from '../FakeData/MapCardData';
+import VehicleData from '../../FakeData/MapCardData';
 
 function  MapCard(props){
     const d = VehicleData;

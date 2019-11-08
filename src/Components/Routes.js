@@ -5,7 +5,10 @@ import {
     Route,
     Redirect
 } from "react-router-dom";
-import MainSider from "./MainSider";
+import Map from "../Pages/Map/";
+import Vehicles from "../Pages/Vehicles/";
+import Statistics from "../Pages/Statistics/";
+import Login from "../Pages/Login/";
 import { isAuthenticated } from "./Auth";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -24,8 +27,10 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const Routes = () => (
     <BrowserRouter>
         <Switch>
-            <Route exact path='/' component={() => <h1>Login</h1>}/>        
-            <PrivateRoute path="/mainSider" component={() => <MainSider/>} />
+            <Route exact path='/' component={Login}/>        
+            <PrivateRoute path="/map" component={Map} />
+            <PrivateRoute path="/vehicles" component={Vehicles} />
+            <PrivateRoute path="/statistics" component={Statistics} />
         </Switch>
     </BrowserRouter>
 )

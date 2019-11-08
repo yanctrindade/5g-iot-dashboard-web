@@ -1,18 +1,15 @@
 import React, { Component } from "react";
 import { Layout, Menu, Icon } from "antd";
 import "antd/dist/antd.css";
-import MapComponent from "./MapComponent";
-import Vehicles from "./Vehicles.js";
-import Statistics from "./Statistics.js";
 
-import { BrowserRouter as Router, Route, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
-const { Header, Content, /*Footer,*/ Sider } = Layout;
+const { Header, Sider, Content } = Layout;
 
-class MainSider extends Component {
+class NavBar extends Component {
   state = {
     collapsed: false, 
-    content: 1
+    content: 1,
   };
 
   onCollapse = collapsed => {
@@ -22,7 +19,6 @@ class MainSider extends Component {
 
   render() {
     return (
-      <Router>
         <Layout>
           <Header style={{ color: "white", textAlign: "center" }}>
             COMNET
@@ -34,40 +30,31 @@ class MainSider extends Component {
               onCollapse={this.onCollapse}
             >
               <div className="logo" />
-              <Menu theme="dark" defaultSelectedKeys={["1"]} mode="inline">
-                <Menu.Item key="1">
+              <Menu theme="dark" defaultSelectedKeys="/map" selectedKeys={this.props.pathname} mode="inline">
+                <Menu.Item key="/map">
                   <Icon type="search" />
                   <span>Mapa</span>
-                  <Link to="/" />
+                  <Link to="/map" />
                 </Menu.Item>
-                <Menu.Item key="2">
+                <Menu.Item key="/vehicles">
                   <Icon type="car" />
                   <span>Veículos</span>
                   <Link to="/vehicles" />
                 </Menu.Item>
-                <Menu.Item key="3">
+                <Menu.Item key="/statistics">
                   <Icon type="area-chart" />
                   <span>Estatísticas</span>
                   <Link to="/statistics" />
                 </Menu.Item>
               </Menu>
             </Sider>
-            <Layout>
-              <Content>
-                {/* <Route exact path="/" component={MapComponent} /> */}
-                <Route exact path={"/"} render={() => <MapComponent update={this.state.collapsed}/>}/>
-                <Route path="/vehicles" component={Vehicles} />
-                <Route path="/statistics" component={Statistics} />
-              </Content>
-              {/* <Footer style={{ textAlign: "center" }}>
-                COMNET - UnB
-              </Footer> */}
-            </Layout>
+            <Content>
+              {this.props.content}
+            </Content>
           </Layout>
         </Layout>
-      </Router>
     );
   }
 }
 
-export default MainSider;
+export default NavBar;
