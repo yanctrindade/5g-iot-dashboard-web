@@ -1,5 +1,5 @@
 import React from "react";
-import {Doughnut, Bar} from "react-chartjs-2";
+import {Doughnut, HorizontalBar} from "react-chartjs-2";
 import { Row, Col, Card } from 'antd';
 import VehicleData from '../FakeData/DataTableData'
 
@@ -106,7 +106,7 @@ function Statistics(){
       </Col>
       <Col span={8}>
         <Card title="Consumo médio na semana (L)" bordered={true}>
-          <Bar
+          <HorizontalBar
             data={barData}
             
             options={{
