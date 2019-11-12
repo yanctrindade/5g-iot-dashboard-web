@@ -8,7 +8,11 @@ class MapComponent extends Component {
 
   constructor(props) {
     super(props);
-    this.state = {markers: []};
+    this.state = 
+                {
+                  markers: [],
+                  mapCardVisible: true
+                };
   }
 
   renderPaths = (coords) => (
@@ -56,7 +60,7 @@ class MapComponent extends Component {
         >
         {this.state.markers.map( marker => this.addMarker(marker))}
         </Map>
-        <MapCard/>
+        <MapCard isVisible={this.state.mapCardVisible}/>
       </>
     );
   }
