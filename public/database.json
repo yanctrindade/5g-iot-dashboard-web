@@ -1,0 +1,98 @@
+[
+    {
+        "key": 1,
+        "plate": "PAM 9846",
+        "model": "GOL G5 1.0",
+        "manufacture": "Wolkswagem",
+        "maintence-date": "2018-12-23",
+        "departament": "Ciência da Computação",
+        "updateTime": "2019-10-12T13:53:42Z",
+        "speed": 120,
+        "distance": 45,
+        "year": "2015/2016",
+        "color": "Azul",
+        "maintenceTime": "2020-09-21T09:31:44Z",
+        "statistics": {
+            "last-trip": 50.6,
+            "date" : "2019-05-06", 
+            "mileage": 175.28,
+            "routes" : 6
+        },
+        "paths": [
+            {
+                "id": 1,
+                "coordinates": [
+                    {
+                        "lat": -15.758889,
+                        "lng": -47.869376
+                    }
+                ]
+            }
+        ],
+        "current-path": [
+            {
+                "lat": -15.758889,
+                "lng": -47.869376
+            },
+            {
+                "lat": -12.758889,
+                "lng": -41.869376
+            },
+            {
+                "lat": -14.758889,
+                "lng": -45.869376
+            },
+            {
+                "lat": -15.758889,
+                "lng": -47.869376
+            }
+        ],
+        "currentLocation": {
+            "lat": -15.758485,
+            "lng": -47.869166
+        }
+    },
+    {
+        "key": 2,
+        "plate": "PJK 9126",
+        "model": "UP TSI 1.0",
+        "manufacture": "Wolkswagem",
+        "maintence-date": "2020-01-23",
+        "departament": "Engenharia Ambiental",
+        "updateTime": "2019-10-12T13:53:42Z",
+        "speed": 80,
+        "distance": 10,
+        "year": "2013/2013",
+        "color": "Preto",
+        "maintenceTime": "2021-03-10T11:10:34Z",
+        "statistics": {
+            "last-trip": 31.6,
+            "date" : "2019-05-06", 
+            "mileage": 1125.24,
+            "routes" : 8
+        },
+        "current-path": [
+            {
+                "lat": -15.758889,
+                "lng": -47.869376
+            },
+            {
+                "lat": -12.758889,
+                "lng": -41.869376
+            },
+            {
+                "lat": -14.758889,
+                "lng": -45.869376
+            },
+            {
+                "lat": -15.758889,
+                "lng": -47.869376
+            }
+        ],
+        "currentLocation": {
+            "lat": -15.763178,
+            "lng": -47.873710
+        }
+    }
+
+]
