@@ -11,17 +11,28 @@ class MapComponent extends Component {
     this.state = 
                 {
                   markers: [],
-                  mapCardVisible: true
+                  mapCardVisible: true,
+                  mapCardKey: null
                 };
   }
 
-  renderPaths = (coords) => (
-    <Polyline
-    path={coords}
-    strokeColor="#0000FF"
-    strokeOpacity={0.5}
-    strokeWeight={4} />
-  )
+  renderPaths = (coords) => {
+    coords = coords.map(e => ({lat : e[1], lng: e[0]}))
+    return(
+      <Polyline
+      path={coords}
+      strokeColor="#0000FF"
+      strokeOpacity={0.5}
+      strokeWeight={4} />
+    )
+  }
+
+  clickMarker = (props, marker, e) => {
+    this.setState(
+      {mapCardVisible: true}
+    )
+    console.log(props);
+  }
   
   addMarker = (marker) => {
     const {key, plate, currentLocation} = marker;
@@ -31,6 +42,7 @@ class MapComponent extends Component {
       key={key}
       position={currentLocation}
       name={plate}
+      onClick={this.clickMarker}
       />
     )
   }
@@ -59,6 +71,7 @@ class MapComponent extends Component {
           initialCenter={coords[Math.round(coords.length/2)]}
         >
         {this.state.markers.map( marker => this.addMarker(marker))}
+        {this.renderPaths(coordinates)}
         </Map>
         <MapCard isVisible={this.state.mapCardVisible}/>
       </>
