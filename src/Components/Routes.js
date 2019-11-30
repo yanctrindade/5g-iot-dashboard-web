@@ -1,4 +1,5 @@
-import React from "react"
+import React from "react";
+import {Form} from 'antd';
 import {
     BrowserRouter,
     Switch,
@@ -27,7 +28,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 const Routes = () => (
     <BrowserRouter>
         <Switch>
-            <Route exact path='/' component={Login}/>        
+            <Route exact path='/' component={Form.create()(Login)}/>        
             <PrivateRoute path="/map" component={Map} />
             <PrivateRoute path="/vehicles" component={Vehicles} />
             <PrivateRoute path="/statistics" component={Statistics} />
