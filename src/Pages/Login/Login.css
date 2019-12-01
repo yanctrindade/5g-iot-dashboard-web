@@ -1,4 +1,9 @@
-.login-form {
+  body
+  {
+    background: linear-gradient(to right, #001529, #004793);
+  }
+
+  .login-form {
     max-width: 300px;
   }
   .login-form-forgot {
