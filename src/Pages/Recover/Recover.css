@@ -1,0 +1,8 @@
+body{
+  background: linear-gradient(to right, #001529, #004793);
+}
+
+.forgot-password-text{
+  font-size: medium;
+  color: #1890FF;
+}
