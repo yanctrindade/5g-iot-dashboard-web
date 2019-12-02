@@ -1,8 +1,10 @@
 import React from "react";
-import NavBar from '../../Components/NavBar'
+import NavBar from '../../Components/NavBar';
+import Dashboard from './Dashboard';
 
 function Statistics(props) {
-  return <NavBar pathname="/statistics" content={<h1>Statistics</h1>}/> 
+  const content = <Dashboard/>;
+  return <NavBar pathname="/statistics" content={content}/> 
 }
 
 export default Statistics;

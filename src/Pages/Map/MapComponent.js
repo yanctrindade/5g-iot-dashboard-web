@@ -1,68 +1,91 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-
-import Map from 'ol/Map';
-import View from 'ol/View';
-import TileLayer from 'ol/layer/Tile';
-//import OSM from 'ol/source/OSM';
-import XYZ from 'ol/source/XYZ';
+import { Map, Polyline, Marker, GoogleApiWrapper } from 'google-maps-react';
 import MapCard from './MapCard';
-import "ol/ol.css";
-import {ZoomSlider} from 'ol/control';
-import {fromLonLat} from 'ol/proj';
+import coordinates from '../../FakeData/Coordinates.js';
+import axios from 'axios';
 
 class MapComponent extends Component {
 
   constructor(props) {
     super(props);
-    this.mapRef = null;
-    this.map = null;
-    this.layer = null;
-    this.view = null;
-    this.setMapRef = element => {
-      this.mapRef = element;
-    }
+    this.state = 
+                {
+                  markers: [],
+                  mapCardVisible: true,
+                  mapCardKey: null
+                };
   }
 
-  render() {
-    return (
-      <div className="map" id="map" ref={this.setMapRef}>
-        <MapCard />
-      </div>
+  renderPaths = (coords) => {
+    coords = coords.map(e => ({lat : e[1], lng: e[0]}))
+    return(
+      <Polyline
+      path={coords}
+      strokeColor="#0000FF"
+      strokeOpacity={0.5}
+      strokeWeight={4} />
+    )
+  }
+
+  clickMarker = (props, marker, e) => {
+    this.setState(
+      {mapCardVisible: true}
+    )
+    console.log(props);
+  }
+  
+  addMarker = (marker) => {
+    const {key, plate, currentLocation} = marker;
+    console.log(`addMarker ${key} -> ${currentLocation.lat} ${currentLocation.lng}`);
+    return(
+      <Marker
+      key={key}
+      position={currentLocation}
+      name={plate}
+      onClick={this.clickMarker}
+      />
     )
   }
 
   componentDidMount() {
-    const mapDOMNode = ReactDOM.findDOMNode(this.mapRef);
-    this.layer = new TileLayer({
-      preload: Infinity,
-      source: new XYZ({
-        url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-      })
-    });
-    this.view = new View({
-      center: fromLonLat([-47.869899,-15.762919]),
-      zoom: 17
-    });
-    this.map = new Map({
-      target: mapDOMNode,
-      layers: [
-        this.layer
-      ],
-      view: this.view
-    });
-    let zoomslider = new ZoomSlider();
-    this.map.addControl(zoomslider);
+
+    axios.get('./database.json')
+    .then((res)=>{
+      console.log(res.data);
+      this.setState({markers: res.data});
+    }).catch((err)=>{
+      console.log(err);
+    })
   }
 
-  componentWillReceiveProps(nextProps) {
-    console.log("UpdateSize");
+  render() {
+
+    const coords = coordinates.map(x => {return {lat: x[1],lng: x[0]} })
+    return (
+      <>
+        <Map
+          google={this.props.google}
+          className={'map'}
+          zoom={14}
+          style={mapStyles}
+          initialCenter={coords[Math.round(coords.length/2)]}
+        >
+        {this.state.markers.map( marker => this.addMarker(marker))}
+        {this.renderPaths(coordinates)}
+        </Map>
+        <MapCard isVisible={this.state.mapCardVisible}/>
+      </>
+    );
   }
 
-  shouldComponentUpdate(newProps, newState) {
-    console.log("shouldComponentUpdate: " + !newProps.update);
-    return (!newProps.update);
-  }
 }
 
-export default MapComponent
+const mapStyles = {
+  width: '100%',
+  height: '100%',
+  position: 'relative'
+};
+
+export default GoogleApiWrapper({
+  apiKey: 'AIzaSyDHYWWkJ5p-Du3DKUuJgQoXUAcqyPmwjIQ'
+})(MapComponent);

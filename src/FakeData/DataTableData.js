@@ -49,7 +49,7 @@ const data = [
       modelo: 'UP 1.0',
       fabricante: 'Wolkswagem',
       revisão: "2019-04-17",
-      departamento: "Ciência da computação",
+      departamento: "Ciência da Computação",
     },
     {
       key: '6',
@@ -57,7 +57,7 @@ const data = [
       modelo: 'POLO 2.0',
       fabricante: 'Wolkswagem',
       revisão: "2019-08-03",
-      departamento: "Ciência da computação",
+      departamento: "Ciência da Computação",
     },
     {
       key: '7',
@@ -89,7 +89,7 @@ const data = [
       modelo: 'Onix 1.4',
       fabricante: 'Chevrolet',
       revisão: "2019-11-02",
-      departamento: "Ciência da computação",
+      departamento: "Ciência da Computação",
     },
     {
       key: '11',
@@ -97,7 +97,7 @@ const data = [
       modelo: 'Celta 1.6',
       fabricante: 'Chevrolet',
       revisão: "2019-10-10",
-      departamento: "Ciência da computação",
+      departamento: "Ciência da Computação",
     }
   ];
 
