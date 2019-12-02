@@ -149,7 +149,7 @@ import {
                 </Layout>
             </Row>
 
-            <Row type="flex" justify="center" align="top" style={{minHeight: '100vh'}}>
+            <Row type="flex" justify="center" align="top">
                 <Card style={{ width: 600, height: 700}}>                    
                     <Form {...formItemLayout} onSubmit={this.handleSubmit}>
                         <Form.Item label="E-mail">
@@ -166,6 +166,7 @@ import {
                             ],
                             })(<Input />)}
                         </Form.Item>
+
                         <Form.Item label="Password" hasFeedback>
                             {getFieldDecorator('password', {
                             rules: [
@@ -179,6 +180,7 @@ import {
                             ],
                             })(<Input.Password />)}
                         </Form.Item>
+
                         <Form.Item label="Confirm Password" hasFeedback>
                             {getFieldDecorator('confirm', {
                             rules: [
@@ -192,6 +194,7 @@ import {
                             ],
                             })(<Input.Password onBlur={this.handleConfirmBlur} />)}
                         </Form.Item>
+
                         <Form.Item
                             label={
                             <span>
@@ -206,6 +209,7 @@ import {
                             rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
                             })(<Input />)}
                         </Form.Item>
+
                         <Form.Item label="Habitual Residence">
                             {getFieldDecorator('residence', {
                             initialValue: ['zhejiang', 'hangzhou', 'xihu'],
@@ -214,11 +218,13 @@ import {
                             ],
                             })(<Cascader options={residences} />)}
                         </Form.Item>
+
                         <Form.Item label="Phone Number">
                             {getFieldDecorator('phone', {
                             rules: [{ required: true, message: 'Please input your phone number!' }],
                             })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
                         </Form.Item>
+
                         <Form.Item label="Website">
                             {getFieldDecorator('website', {
                             rules: [{ required: true, message: 'Please input website!' }],
@@ -232,6 +238,7 @@ import {
                             </AutoComplete>,
                             )}
                         </Form.Item>
+
                         <Form.Item label="Captcha" extra="We must make sure that your are a human.">
                             <Row gutter={8}>
                             <Col span={12}>
@@ -244,6 +251,7 @@ import {
                             </Col>
                             </Row>
                         </Form.Item>
+
                         <Form.Item {...tailFormItemLayout}>
                             {getFieldDecorator('agreement', {
                             valuePropName: 'checked',
@@ -253,6 +261,7 @@ import {
                             </Checkbox>,
                             )}
                         </Form.Item>
+
                         <Form.Item {...tailFormItemLayout}>
                             <Button type="primary" htmlType="submit">
                             Register
