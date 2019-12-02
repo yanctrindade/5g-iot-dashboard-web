@@ -12,6 +12,7 @@ import Statistics from "../Pages/Statistics/";
 import Login from "../Pages/Login/";
 import Recover from "../Pages/Recover/";
 import Register from "../Pages/Register/";
+import Agreement from "../Pages/Agreement/";
 import { isAuthenticated } from "./Auth";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
@@ -31,8 +32,9 @@ const Routes = () => (
     <BrowserRouter>
         <Switch>
             <Route exact path='/' component={Form.create()(Login)}/>   
-            <Route exact path='/register' component={Register}/>   
-            <Route exact path='/recover' component={Form.create()(Recover)}/>        
+            <Route exact path='/register' component={Form.create({ name: 'register' })(Register)}/>   
+            <Route exact path='/recover' component={Form.create()(Recover)}/>
+            <Route exact path='/agreement' component={Agreement}/>        
             <PrivateRoute path="/map" component={Map} />
             <PrivateRoute path="/vehicles" component={Vehicles} />
             <PrivateRoute path="/statistics" component={Statistics} />
