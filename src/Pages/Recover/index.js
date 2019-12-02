@@ -5,54 +5,82 @@ import "./Recover.css";
 import "antd/dist/antd.css";
 
 const { Header} = Layout;
-const FormItem = Form.Item;
 const { Text } = Typography;
 
-function Recover(){
-    return (
+class Recover extends React.Component{
+    SendNewPassword = e => {
+        e.preventDefault();
+        this.props.form.validateFields((err, values) => {
+          if (!err) {
+            console.log("Received values of form: ", values); 
+
+            if (values.userName === 'test')
+            {
+                 message.success('Nova senha enviada!', 1.0); 
+            }
+            else
+            {
+                message.error('Usuário inexistente!', 1.0); 
+            }
+          }
+        });
+      };
+
+    render() {
+        const { getFieldDecorator } = this.props.form;
+        return (
         <div>
-            <Layout>
-            <Header style={{ color: "white", textAlign: "center" }}>
-                COMNET
-            </Header>
-            </Layout>
+            <Row style={{ marginBottom: 50 }}>
+                <Layout>
+                    <Header style={{ color: "white", textAlign: "center" }}>
+                        COMNET
+                    </Header>
+                </Layout>
+            </Row>
 
-            <Row type="flex" justify="center" align="middle" style={{minHeight: '100vh'}}>
-                <Card style={{ width: 300}}>
-                    <Text className="forgot-password-text">Insira seu usuário ou E-mail para recuperar a senha:</Text>
-                    <Form>
-                        <FormItem>
-                            <Input
-                                prefix={<Icon type="user" style={{ fontSize: 13 }} />}
-                                placeholder="E-mail ou usuário"
-                            />
-                        </FormItem>
+            <Row type="flex" justify="center" align="top" style={{minHeight: '100vh'}}>
+                <Card style={{ width: 300, height: 250}}>
+                    <Row style={{ marginBottom: 30 }}>
+                        <Text className="forgot-password-text">Insira seu usuário ou E-mail para recuperar a senha:</Text>
+                    </Row>
 
-                        <Button
-                            type="primary"
-                            htmlType="submit"
-                            className="login-form-button"
-                            onClick={SendNewPassword}
-                            >
-                            {/*<a href="map">Entrar</a>*/}
-                            Enviar
-                        </Button>
+                    <Row style={{ marginBottom: 2 }}>
+                        <Form>
+                            <Row style={{ marginBottom: 15 }}>
+                                <Form.Item>
+                                    {getFieldDecorator("userName", {
+                                    rules: [
+                                        { required: true, message: "Insira um usuário ou E-mail!" }
+                                    ]
+                                    })(
+                                    <Input
+                                        prefix={<Icon type="user" style={{ fontSize: 13 }} />}
+                                        placeholder="E-mail ou usuário"
+                                    />
+                                    )}                                    
+                                </Form.Item>
 
-                        <a className="login-form-forgot" href="/">
-                            Voltar a página de Login
-                        </a>
-                    </Form>
+                                <Button
+                                    type="primary"
+                                    htmlType="submit"
+                                    className="login-form-button"
+                                    onClick={this.SendNewPassword}
+                                    >
+                                    Enviar
+                                </Button>
+                            </Row>
+
+                            <Row>
+                                <a className="login-form-forgot" href="/">
+                                    Voltar para a página de Login
+                                </a>
+                            </Row>
+                        </Form>
+                    </Row>
                 </Card>
             </Row>
         </div>
-    );
-}
-
-function SendNewPassword(){
-    message.loading('Enviando...', 2.5)
-    .then(() => {
-        message.success('Nova senha enviada!', 1.0);
-    })
+        );}
 }
 
 export default Recover;

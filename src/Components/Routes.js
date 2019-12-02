@@ -32,7 +32,7 @@ const Routes = () => (
         <Switch>
             <Route exact path='/' component={Form.create()(Login)}/>   
             <Route exact path='/register' component={Register}/>   
-            <Route exact path='/recover' component={Recover}/>        
+            <Route exact path='/recover' component={Form.create()(Recover)}/>        
             <PrivateRoute path="/map" component={Map} />
             <PrivateRoute path="/vehicles" component={Vehicles} />
             <PrivateRoute path="/statistics" component={Statistics} />
