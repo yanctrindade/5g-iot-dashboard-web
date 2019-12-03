@@ -1,7 +1,6 @@
-import React from "react";
+import React,{Component} from "react";
 import {Doughnut, HorizontalBar, Line, Pie, Bar} from "react-chartjs-2";
 import { Row, Col, Card } from 'antd';
-import VehicleData from '../../FakeData/DataTableData'
 
 const doughnutData = {
 	labels: [
@@ -103,21 +102,23 @@ const pieData = {
 	}]
 };
 
-function getData(){
+class Dashboard extends Component{
+
+getData(){
   let i, j, operating = 0, broken = 0, maintenance = 0, unknown = 0;
 
-  for (i=0; i < VehicleData.length; i++){
-    if (VehicleData[i].placa.length > 1){
-      for (j=1; j<VehicleData[i].placa.length; j++){
-        if (VehicleData[i].placa[j] === 'Operando')
+  for (i=0; i < this.props.vehicleData.length; i++){
+    if (this.props.vehicleData[i].plate.length > 1){
+      for (j=1; j<this.props.vehicleData[i].plate.length; j++){
+        if (this.props.vehicleData[i].plate[j] === 'Operando')
         {
           operating += 1;
         }
-        else if (VehicleData[i].placa[j] === 'Manuntenção')
+        else if (this.props.vehicleData[i].plate[j] === 'Manuntenção')
         {
           maintenance += 1;
         }
-        else if (VehicleData[i].placa[j] === 'Quebrado')
+        else if (this.props.vehicleData[i].plate[j] === 'Quebrado')
         {
           broken += 1;
         }
@@ -127,8 +128,8 @@ function getData(){
       unknown += 1;
     }
 
-    if (!horizontalBarData.labels.includes(VehicleData[i].departamento)){
-      horizontalBarData.labels.push(VehicleData[i].departamento);
+    if (!horizontalBarData.labels.includes(this.props.vehicleData[i].departament)){
+      horizontalBarData.labels.push(this.props.vehicleData[i].departament);
     }
   }
 
@@ -139,11 +140,11 @@ function getData(){
   
 }
 
-function Dashboard(){
+render(){
   
   if (doughnutData.datasets[0].data.length === 0)
   {
-    getData();
+    this.getData();
   }
     
   return( 
@@ -151,7 +152,7 @@ function Dashboard(){
      <Row>
       <Col span={8}>
         <Card title="Estatísticas" bordered={true} style={{height: 270}} >
-          <p>Quantidade de veículos: {VehicleData.length} </p>
+          <p>Quantidade de veículos: {this.props.vehicleData.length} </p>
           <p>Consumo médio total estimado: 9,5 Km/L</p>
           <p>Total de kilometros percorridos: 2365,12 Km</p>
           <p>Custo total estimado: R$965,87 </p>
@@ -193,7 +194,7 @@ function Dashboard(){
         </Card>     
       </Col>
       <Col span={8}>
-        <Card title="Quantidade de carros por departamento" bordered={true} style={{height: 270}} >
+        <Card title="Quantidade de carros por departament" bordered={true} style={{height: 270}} >
           <Pie data={pieData} options={{
             responsive: true,
             maintainAspectRatio: true,
@@ -226,5 +227,5 @@ function Dashboard(){
     </Row>
   </div>
     )}
-
+}
 export default Dashboard;

@@ -37,7 +37,7 @@ class MapComponent extends Component {
               position={startPosition}
               icon = {{
                 url: StartIcon, // url
-                scaledSize: new this.props.google.maps.Size(30,30), // scaled size
+                scaledSize: new this.props.google.maps.Size(20,20), // scaled size
               }}
               clickable={false}
             />
