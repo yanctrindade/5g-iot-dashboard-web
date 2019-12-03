@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
-import { Map, Polyline, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Map, Polyline, Marker, GoogleApiWrapper, Size, Point } from 'google-maps-react';
 import MapCard from './MapCard';
 import coordinates from '../../FakeData/Coordinates.js';
 import axios from 'axios';
+import CarIcon from '../../Assets/CarPin.png'
+import StartIcon from '../../Assets/StartIcon.png'
 
 class MapComponent extends Component {
 
@@ -20,13 +22,28 @@ class MapComponent extends Component {
   renderPaths = (coords) => {
     coords = coords.map(e => ({lat : e[1], lng: e[0]}))
     return(
-      <Polyline
-      path={coords}
-      strokeColor="#0000FF"
-      strokeOpacity={0.5}
-      strokeWeight={4} />
+        <Polyline
+          path={coords}
+          strokeColor="#f04337"
+          strokeOpacity={0.5}
+          strokeWeight={4} 
+        />
     )
   }
+
+  renderStart = (coords) => {
+    let startPosition = {lat : coords[0][1], lng: coords[0][0]}
+    console.log(startPosition)
+    return <Marker
+              key={1000}
+              position={startPosition}
+              icon = {{
+                url: StartIcon, // url
+                scaledSize: new this.props.google.maps.Size(30,30), // scaled size
+              }}
+              clickable={false}
+            />
+    }
 
   clickMarker = (props, marker, e) => {
     this.setState(
@@ -46,6 +63,12 @@ class MapComponent extends Component {
         name={marker.plate}
         data={marker}
         onClick={this.clickMarker}
+        icon = {{
+          url: CarIcon, // url
+          scaledSize: new this.props.google.maps.Size(40,40), // scaled size
+          //origin: new Point(0,0), // origin
+          //anchor: new Point(0, 0) // anchor
+        }}
       />
     )
   }
@@ -76,6 +99,7 @@ class MapComponent extends Component {
         >
         {this.state.markers.map( marker => this.addMarker(marker))}
         {this.state.vehicleSelected ? this.renderPaths(this.state.vehicleContent.currentPath) : <></>}
+        {this.state.vehicleSelected ? this.renderStart(this.state.vehicleContent.currentPath) : <></>}
         </Map>
         <MapCard isVisible={this.state.vehicleSelected} onClose={this.closeMapCard} content={this.state.vehicleContent}/>
       </>
