@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { Map, Polyline, Marker, GoogleApiWrapper, Size, Point } from 'google-maps-react';
+import { Map, Polyline, Marker, GoogleApiWrapper } from 'google-maps-react';
 import MapCard from './MapCard';
-import coordinates from '../../FakeData/Coordinates.js';
 import axios from 'axios';
 import CarIcon from '../../Assets/CarPin.png'
 import StartIcon from '../../Assets/StartIcon.png'
@@ -35,7 +34,6 @@ class MapComponent extends Component {
     let startPosition = {lat : coords[0][1], lng: coords[0][0]}
     console.log(startPosition)
     return <Marker
-              key={1000}
               position={startPosition}
               icon = {{
                 url: StartIcon, // url
