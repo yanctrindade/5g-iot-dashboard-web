@@ -11,7 +11,8 @@ class MapComponent extends Component {
     this.state = 
                 {
                   markers: [],
-                  mapCardVisible: true,
+                  mapCardVisible: false,
+                  mapCardContent: null,
                   mapCardKey: null
                 };
   }
@@ -29,20 +30,22 @@ class MapComponent extends Component {
 
   clickMarker = (props, marker, e) => {
     this.setState(
-      {mapCardVisible: true}
-    )
-    console.log(props);
+      { mapCardContent: marker.data,
+        mapCardVisible: true}
+    )    
   }
+
+  closeMapCard = () => this.setState({mapCardVisible : false})
   
   addMarker = (marker) => {
-    const {key, plate, currentLocation} = marker;
-    console.log(`addMarker ${key} -> ${currentLocation.lat} ${currentLocation.lng}`);
+    console.log(`addMarker ${marker.key} -> ${marker.currentLocation.lat} ${marker.currentLocation.lng}`);
     return(
       <Marker
-      key={key}
-      position={currentLocation}
-      name={plate}
-      onClick={this.clickMarker}
+        key={marker.key}
+        position={marker.currentLocation}
+        name={marker.plate}
+        data={marker}
+        onClick={this.clickMarker}
       />
     )
   }
@@ -73,7 +76,7 @@ class MapComponent extends Component {
         {this.state.markers.map( marker => this.addMarker(marker))}
         {this.renderPaths(coordinates)}
         </Map>
-        <MapCard isVisible={this.state.mapCardVisible}/>
+        <MapCard isVisible={this.state.mapCardVisible} onClose={this.closeMapCard} content={this.state.mapCardContent}/>
       </>
     );
   }
