@@ -1,27 +1,27 @@
 import React from "react";
 import { Row, Col } from 'antd';
 
-function VehicleStatistics(statistics) {
+function VehicleStatistics(data) {
 
-    if (statistics !== undefined && Object.keys(statistics).length !== 1)
+    if (data.statistics !== undefined && Object.keys(data.statistics).length !== 1)
     {
         return <div>
         <Row>
           <Col span={10}>
-            <p>Última viagem: {statistics.lastTrip} km</p>
+            <p>Última viagem: {data.statistics.lastTrip} km</p>
           </Col>
           <Col span={10}>
-            <p>Próxima manuntenção: {statistics.nextRevision}</p>
+            <p>Próxima manuntenção: {data.nextRevision}</p>
           </Col>
         </Row>
 
         <Row>
           <Col span={10}>
-            <p>Total percorrido na semana: {statistics.traveledWeek} km</p>
+            <p>Total percorrido na semana: {data.statistics.traveledWeek} km</p>
           </Col>
 
           <Col span={10}>
-            <p>Quantidade de rotas feitas na semana: {statistics.NumRoutesWeek}</p>
+            <p>Quantidade de rotas feitas na semana: {data.statistics.NumRoutesWeek}</p>
           </Col>
         </Row>
       </div>

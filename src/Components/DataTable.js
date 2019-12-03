@@ -94,7 +94,7 @@ class DataTable extends Component {
 
     return <Table 
               columns={columns} dataSource={this.props.data} 
-              expandedRowRender={record => <VehicleStatistics style={{ margin: 0 }} {...record.statistics} />}
+              expandedRowRender={record => <VehicleStatistics style={{ margin: 0 }} {...record} />}
               pagination={{ 
                 pageSizeOptions: ["5", "10", "15", "20"],
                 showSizeChanger: true,

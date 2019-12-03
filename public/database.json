@@ -4,19 +4,19 @@
         "plate": "PAM 9846",
         "model": "GOL G5 1.0",
         "manufacture": "Wolkswagem",
-        "maintenceDate": "2018-12-23",
+        "lastMaintenceDate": "2018-12-23",
         "departament": "Ciência da Computação",
         "updateTime": "2019-10-12T13:53:42Z",
         "speed": 20,
         "distance": 5,
         "year": "2015/2016",
         "color": "Azul",
-        "maintenceTime": "2020-09-21T09:31:44Z",
+        "nextMaintenceDate": "2020-09-21T09:31:44Z",
         "statistics": {
-            "last-trip": 50.6,
-            "date" : "2019-05-06", 
-            "mileage": 175.28,
-            "routes" : 6
+            "lastTrip": 50.6,
+            "mileage" : 11580.36, 
+            "traveledWeek": 175.28,
+            "NumRoutesWeek" : 6
         },
         "paths": [
             {
@@ -245,19 +245,19 @@
         "plate": "PJK 9126",
         "model": "UP TSI 1.0",
         "manufacture": "Wolkswagem",
-        "maintenceDate": "2020-01-23",
+        "lastMaintenceDate": "2020-01-23",
         "departament": "Engenharia Ambiental",
         "updateTime": "2019-10-12T13:53:42Z",
         "speed": 8,
         "distance": 3,
         "year": "2013/2013",
         "color": "Preto",
-        "maintenceTime": "2021-03-10T11:10:34Z",
+        "nextMaintenceDate": "2021-03-10T11:10:34Z",
         "statistics": {
-            "last-trip": 31.6,
-            "date" : "2019-05-06", 
-            "mileage": 1125.24,
-            "routes" : 8
+            "lastTrip": 31.6,
+            "mileage" : 6542.12, 
+            "traveledWeek": 1125.24,
+            "NumRoutesWeek" : 8
         },
         "currentPath": [
             [
@@ -479,19 +479,19 @@
         "plate": "PAM 8272",
         "model": "SAVEIRO 2.0",
         "manufacture": "Wolkswagem",
-        "maintenceDate": "2019-05-11",
+        "lastMaintenceDate": "2019-05-11",
         "departament": "Engenharia Elétrica",
         "updateTime": "2019-11-12T15:23:42Z",
         "speed": 3,
         "distance": 7,
         "year": "2014/2014",
         "color": "Prata",
-        "maintenceTime": "2021-05-10T10:10:34Z",
+        "nextMaintenceDate": "2021-05-10T10:10:34Z",
         "statistics": {
-            "last-trip": 31.6,
-            "date" : "2019-05-06", 
-            "mileage": 1125.24,
-            "routes" : 8
+            "lastTrip": 31.6,
+            "mileage" : 4578.67, 
+            "traveledWeek": 1125.24,
+            "NumRoutesWeek" : 8
         },
         "currentPath": [
             [

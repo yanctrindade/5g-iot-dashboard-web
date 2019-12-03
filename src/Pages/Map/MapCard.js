@@ -5,6 +5,7 @@ import { Row, Col, Icon } from 'antd';
 class MapCard extends Component{
     
     getDate = (date) => new Date(date).toLocaleDateString();
+    getTime = (date) => new Date(date).toLocaleTimeString();
 
     render(){
         let data = this.props.content;
@@ -16,7 +17,7 @@ class MapCard extends Component{
                     <Row  className="MapCard-title">
                         <Icon type="close" id="CloseButton" onClick={this.props.onClose}/>
                         <h3>{data.plate}</h3>
-                        <p>última atualização em {this.getDate(data.updateDate)} às {this.getDate(data.updateTime)}</p>
+                        <p>Última atualização em {this.getDate(data.updateTime)} às {this.getTime(data.updateTime)}</p>
                     </Row>
                     <Row>
                         <Col span={12}>
@@ -42,7 +43,7 @@ class MapCard extends Component{
                     </Row>
                     <Row style={{padding: '10px 10px 0px 10px'}}>
                         <Col span={18} className="Info" style={{fontSize: '16px'}}>Data da próxima manutenção:</Col>
-                        <Col span={6} className="Info" style={{textAlign: 'right', fontSize: '16px'}}>{this.getDate(data.maintenceDate)}</Col>
+                        <Col span={6} className="Info" style={{textAlign: 'right', fontSize: '16px'}}>{this.getDate(data.nextMaintenceDate)}</Col>
                     </Row>
                 </div>
             ) : (

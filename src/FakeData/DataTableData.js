@@ -6,9 +6,9 @@ const data = [
       manufacture: 'Wolkswagem',
       maintenceDate: "2018-12-23",
       departament: "Ciência da Computação",
+      nextRevision: '2019-05-06', 
       statistics: {
         lastTrip: '50,6', 
-        nextRevision: '2019-05-06', 
         traveledWeek: '175,28',
         NumRoutesWeek: '6',
       },
