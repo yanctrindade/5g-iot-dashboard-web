@@ -11,8 +11,8 @@ class MapComponent extends Component {
     this.state = 
                 {
                   markers: [],
-                  mapCardVisible: false,
-                  mapCardContent: null,
+                  vehicleSelected: false,
+                  vehicleContent: null,
                   mapCardKey: null
                 };
   }
@@ -30,12 +30,12 @@ class MapComponent extends Component {
 
   clickMarker = (props, marker, e) => {
     this.setState(
-      { mapCardContent: marker.data,
-        mapCardVisible: true}
+      { vehicleContent: marker.data,
+        vehicleSelected: true}
     )    
   }
 
-  closeMapCard = () => this.setState({mapCardVisible : false})
+  closeMapCard = () => this.setState({vehicleSelected : false})
   
   addMarker = (marker) => {
     console.log(`addMarker ${marker.key} -> ${marker.currentLocation.lat} ${marker.currentLocation.lng}`);
@@ -63,20 +63,21 @@ class MapComponent extends Component {
 
   render() {
 
-    const coords = coordinates.map(x => {return {lat: x[1],lng: x[0]} })
+    //const coords = coordinates.map(x => {return {lat: x[1],lng: x[0]} })
     return (
       <>
         <Map
           google={this.props.google}
           className={'map'}
-          zoom={14}
+          zoom={15}
           style={mapStyles}
-          initialCenter={coords[Math.round(coords.length/2)]}
+          //initialCenter={coords[Math.round(coords.length/2)]}
+          initialCenter={{lat:-15.765577, lng:-47.857529}}
         >
         {this.state.markers.map( marker => this.addMarker(marker))}
-        {this.renderPaths(coordinates)}
+        {this.state.vehicleSelected ? this.renderPaths(this.state.vehicleContent.currentPath) : <></>}
         </Map>
-        <MapCard isVisible={this.state.mapCardVisible} onClose={this.closeMapCard} content={this.state.mapCardContent}/>
+        <MapCard isVisible={this.state.vehicleSelected} onClose={this.closeMapCard} content={this.state.vehicleContent}/>
       </>
     );
   }
