@@ -11,7 +11,7 @@ function VehicleStatistics(data) {
             <p>Última viagem: {data.statistics.lastTrip} km</p>
           </Col>
           <Col span={10}>
-            <p>Próxima manuntenção: {data.nextRevision}</p>
+            <p>Próxima manuntenção: {data.nextMaintenceDate}</p>
           </Col>
         </Row>
 
