@@ -95,7 +95,7 @@ class Login extends React.Component {
                 })(
                   <Input
                     prefix={<Icon type="user" style={{ fontSize: 13 }} />}
-                    placeholder="Usuário"
+                    placeholder="E-mail ou Usuário"
                   />
                 )}
               </Form.Item>

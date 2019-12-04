@@ -4,60 +4,19 @@ import {
     Input,
     Tooltip,
     Icon,
-    Cascader,
-    Select,
     Row,
     Col,
     Checkbox,
     Button,
-    AutoComplete,
     Card,
     Layout,
   } from 'antd';
   
-  const { Option } = Select;
-  const AutoCompleteOption = AutoComplete.Option;
   const { Header} = Layout;
-  
-  const residences = [
-    {
-      value: 'zhejiang',
-      label: 'Zhejiang',
-      children: [
-        {
-          value: 'hangzhou',
-          label: 'Hangzhou',
-          children: [
-            {
-              value: 'xihu',
-              label: 'West Lake',
-            },
-          ],
-        },
-      ],
-    },
-    {
-      value: 'jiangsu',
-      label: 'Jiangsu',
-      children: [
-        {
-          value: 'nanjing',
-          label: 'Nanjing',
-          children: [
-            {
-              value: 'zhonghuamen',
-              label: 'Zhong Hua Men',
-            },
-          ],
-        },
-      ],
-    },
-  ];
   
   class Register extends React.Component {
     state = {
-      confirmDirty: false,
-      autoCompleteResult: [],
+      confirmDirty: false
     };
   
     handleSubmit = e => {
@@ -77,7 +36,7 @@ import {
     compareToFirstPassword = (rule, value, callback) => {
       const { form } = this.props;
       if (value && value !== form.getFieldValue('password')) {
-        callback('Two passwords that you enter is inconsistent!');
+        callback('As senhas digitadas não são iguais!');
       } else {
         callback();
       }
@@ -91,20 +50,9 @@ import {
       callback();
     };
   
-    handleWebsiteChange = value => {
-      let autoCompleteResult;
-      if (!value) {
-        autoCompleteResult = [];
-      } else {
-        autoCompleteResult = ['.com', '.org', '.net'].map(domain => `${value}${domain}`);
-      }
-      this.setState({ autoCompleteResult });
-    };
-  
     render() {
       const { getFieldDecorator } = this.props.form;
-      const { autoCompleteResult } = this.state;
-  
+
       const formItemLayout = {
         labelCol: {
           xs: { span: 24 },
@@ -127,17 +75,6 @@ import {
           },
         },
       };
-      const prefixSelector = getFieldDecorator('prefix', {
-        initialValue: '55',
-      })(
-        <Select style={{ width: 70 }}>
-          <Option value="55">+55</Option>
-        </Select>,
-      );
-  
-      const websiteOptions = autoCompleteResult.map(website => (
-        <AutoCompleteOption key={website}>{website}</AutoCompleteOption>
-      ));
   
       return (
         <div>
@@ -150,29 +87,29 @@ import {
             </Row>
 
             <Row type="flex" justify="center" align="top">
-                <Card style={{ width: 600, height: 700}}>                    
+                <Card style={{ width: 600, height: 500}}>                    
                     <Form {...formItemLayout} onSubmit={this.handleSubmit}>
                         <Form.Item label="E-mail">
                             {getFieldDecorator('email', {
                             rules: [
                                 {
                                 type: 'email',
-                                message: 'The input is not valid E-mail!',
+                                message: 'O E-mail digitado não é valido!',
                                 },
                                 {
                                 required: true,
-                                message: 'Please input your E-mail!',
+                                message: 'Insira seu E-mail!',
                                 },
                             ],
                             })(<Input />)}
                         </Form.Item>
 
-                        <Form.Item label="Password" hasFeedback>
+                        <Form.Item label="Senha" hasFeedback>
                             {getFieldDecorator('password', {
                             rules: [
                                 {
                                 required: true,
-                                message: 'Please input your password!',
+                                message: 'Insira sua senha!',
                                 },
                                 {
                                 validator: this.validateToNextPassword,
@@ -181,12 +118,12 @@ import {
                             })(<Input.Password />)}
                         </Form.Item>
 
-                        <Form.Item label="Confirm Password" hasFeedback>
+                        <Form.Item label="Confirmar Senha" hasFeedback>
                             {getFieldDecorator('confirm', {
                             rules: [
                                 {
                                 required: true,
-                                message: 'Please confirm your password!',
+                                message: 'Confirme a senha digitada anteriormente!',
                                 },
                                 {
                                 validator: this.compareToFirstPassword,
@@ -198,52 +135,23 @@ import {
                         <Form.Item
                             label={
                             <span>
-                                Nickname&nbsp;
-                                <Tooltip title="What do you want others to call you?">
+                                Usuário&nbsp;
+                                <Tooltip title="O nome de usuário usado para entrar">
                                 <Icon type="question-circle-o" />
                                 </Tooltip>
                             </span>
                             }
                         >
                             {getFieldDecorator('nickname', {
-                            rules: [{ required: true, message: 'Please input your nickname!', whitespace: true }],
+                            rules: [{ required: true, message: 'Insira o nome de usuário!', whitespace: true }],
                             })(<Input />)}
                         </Form.Item>
 
-                        <Form.Item label="Habitual Residence">
-                            {getFieldDecorator('residence', {
-                            initialValue: ['zhejiang', 'hangzhou', 'xihu'],
-                            rules: [
-                                { type: 'array', required: true, message: 'Please select your habitual residence!' },
-                            ],
-                            })(<Cascader options={residences} />)}
-                        </Form.Item>
-
-                        <Form.Item label="Phone Number">
-                            {getFieldDecorator('phone', {
-                            rules: [{ required: true, message: 'Please input your phone number!' }],
-                            })(<Input addonBefore={prefixSelector} style={{ width: '100%' }} />)}
-                        </Form.Item>
-
-                        <Form.Item label="Website">
-                            {getFieldDecorator('website', {
-                            rules: [{ required: true, message: 'Please input website!' }],
-                            })(
-                            <AutoComplete
-                                dataSource={websiteOptions}
-                                onChange={this.handleWebsiteChange}
-                                placeholder="website"
-                            >
-                                <Input />
-                            </AutoComplete>,
-                            )}
-                        </Form.Item>
-
-                        <Form.Item label="Captcha" extra="We must make sure that your are a human.">
+                        <Form.Item label="Captcha" extra="Verifica se você é humano.">
                             <Row gutter={8}>
                             <Col span={12}>
                                 {getFieldDecorator('captcha', {
-                                rules: [{ required: true, message: 'Please input the captcha you got!' }],
+                                rules: [{ required: true, message: 'Insira a captcha!' }],
                                 })(<Input />)}
                             </Col>
                             <Col span={12}>
@@ -257,14 +165,14 @@ import {
                             valuePropName: 'checked',
                             })(
                             <Checkbox>
-                                I have read the <a href="agreement">agreement</a>
+                                Eu li e aceito <a href="agreement">os termos de serviço</a>
                             </Checkbox>,
                             )}
                         </Form.Item>
 
                         <Form.Item {...tailFormItemLayout}>
                             <Button type="primary" htmlType="submit">
-                            Register
+                            Registrar
                             </Button>
                         </Form.Item>
                     </Form>

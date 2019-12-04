@@ -92,13 +92,17 @@ class MapComponent extends Component {
           className={'map'}
           zoom={15}
           style={mapStyles}
+          streetViewControl={false}
+          fullscreenControl={false}
+          //zoomControlOptions={{position: this.props.google.maps.ControlPosition.LEFT_TOP}}
           //initialCenter={coords[Math.round(coords.length/2)]}
           initialCenter={{lat:-15.765577, lng:-47.857529}}
         >
-        {this.state.markers.map( marker => this.addMarker(marker))}
-        {this.state.vehicleSelected ? this.renderPaths(this.state.vehicleContent.currentPath) : <></>}
-        {this.state.vehicleSelected ? this.renderStart(this.state.vehicleContent.currentPath) : <></>}
+          {this.state.markers.map( marker => this.addMarker(marker))}
+          {this.state.vehicleSelected ? this.renderPaths(this.state.vehicleContent.currentPath) : <></>}
+          {this.state.vehicleSelected ? this.renderStart(this.state.vehicleContent.currentPath) : <></>}
         </Map>
+
         <MapCard isVisible={this.state.vehicleSelected} onClose={this.closeMapCard} content={this.state.vehicleContent}/>
       </>
     );
