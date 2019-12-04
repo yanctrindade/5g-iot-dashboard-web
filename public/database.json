@@ -1,7 +1,8 @@
 [
     {
         "key": 1,
-        "plate": ["PAM 9846", "Operando"],
+        "plate": "PAM 9846",
+        "tags" : ["Operando"],
         "model": "GOL G5 1.0",
         "manufacture": "Wolkswagem",
         "lastMaintenceDate": "2018-12-23",
@@ -242,7 +243,8 @@
     },
     {
         "key": 2,
-        "plate": ["PJK 9126", "Operando"],
+        "plate": "PJK 9126",
+        "tags" : ["Quebrado"],
         "model": "UP TSI 1.0",
         "manufacture": "Wolkswagem",
         "lastMaintenceDate": "2020-01-23",
@@ -476,7 +478,8 @@
     },
     {
         "key": 3,
-        "plate": ["PAM 8272", "Operando"],
+        "plate": "PAM 8272",
+        "tags" : [],
         "model": "SAVEIRO 2.0",
         "manufacture": "Wolkswagem",
         "lastMaintenceDate": "2019-05-11",
