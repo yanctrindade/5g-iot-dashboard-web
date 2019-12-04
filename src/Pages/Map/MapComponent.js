@@ -4,6 +4,7 @@ import MapCard from './MapCard';
 import axios from 'axios';
 import CarIcon from '../../Assets/CarPin.png'
 import StartIcon from '../../Assets/StartIcon.png'
+import MapDatePicker from  '../../Components/MapDatePicker'
 
 class MapComponent extends Component {
 
@@ -101,9 +102,9 @@ class MapComponent extends Component {
           {this.state.markers.map( marker => this.addMarker(marker))}
           {this.state.vehicleSelected ? this.renderPaths(this.state.vehicleContent.currentPath) : <></>}
           {this.state.vehicleSelected ? this.renderStart(this.state.vehicleContent.currentPath) : <></>}
+          <MapDatePicker />
+          <MapCard isVisible={this.state.vehicleSelected} onClose={this.closeMapCard} content={this.state.vehicleContent}/>
         </Map>
-
-        <MapCard isVisible={this.state.vehicleSelected} onClose={this.closeMapCard} content={this.state.vehicleContent}/>
       </>
     );
   }
@@ -111,5 +112,6 @@ class MapComponent extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: 'AIzaSyDHYWWkJ5p-Du3DKUuJgQoXUAcqyPmwjIQ'
+  apiKey: 'AIzaSyDHYWWkJ5p-Du3DKUuJgQoXUAcqyPmwjIQ',
+  language: 'pt-br'
 })(MapComponent);

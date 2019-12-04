@@ -22,6 +22,8 @@
         "paths": [
             {
                 "id": 1,
+                "startTime": "2019-04-12T09:31:44Z",
+                "endTime": "2019-04-12T09:31:44Z",
                 "coordinates": [
                     {
                         "lat": -15.758889,
@@ -261,6 +263,19 @@
             "traveledWeek": 1125.24,
             "NumRoutesWeek" : 8
         },
+        "paths": [
+            {
+                "id": 1,
+                "startTime": "2019-04-12T09:31:44Z",
+                "endTime": "2019-04-12T09:31:44Z",
+                "coordinates": [
+                    {
+                        "lat": -15.758889,
+                        "lng": -47.869376
+                    }
+                ]
+            }
+        ],
         "currentPath": [
             [
                 -47.8733,
@@ -496,6 +511,19 @@
             "traveledWeek": 1125.24,
             "NumRoutesWeek" : 8
         },
+        "paths": [
+            {
+                "id": 1,
+                "startTime": "2019-04-12T09:31:44Z",
+                "endTime": "2019-04-12T09:31:44Z",
+                "coordinates": [
+                    {
+                        "lat": -15.758889,
+                        "lng": -47.869376
+                    }
+                ]
+            }
+        ],
         "currentPath": [
             [
                 -47.85792,
