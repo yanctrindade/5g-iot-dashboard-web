@@ -88,6 +88,7 @@ class MapComponent extends Component {
     return (
       <>
         <Map
+          containerStyle={{ width: '100%', height: '90vh', position: 'relative' }}
           google={this.props.google}
           className={'map'}
           zoom={15}
