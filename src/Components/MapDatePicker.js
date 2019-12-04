@@ -77,6 +77,7 @@ class MapDatePicker extends Component{
                 return current && current >= moment();
                 }}
                 disabledTime={this.disabledRangeTime}
+                size={"large"}
             />
           );
       }

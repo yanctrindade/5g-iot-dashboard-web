@@ -5,6 +5,7 @@ import axios from 'axios';
 import CarIcon from '../../Assets/CarPin.png'
 import StartIcon from '../../Assets/StartIcon.png'
 import MapDatePicker from  '../../Components/MapDatePicker'
+import GradientGenerator from  '../../Components/GradientGenerator'
 
 class MapComponent extends Component {
 
@@ -24,7 +25,7 @@ class MapComponent extends Component {
     return(
         <Polyline
           path={coords}
-          strokeColor="#f04337"
+          strokeColor="#001529"
           strokeOpacity={0.5}
           strokeWeight={4} 
         />
