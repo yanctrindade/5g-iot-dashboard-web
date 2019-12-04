@@ -7,22 +7,19 @@ const doughnutData = {
 	labels: [
 		'Operando',
     'Manuntenção',
-    'Quebrado',
-    'Sem dados'
+    'Quebrado'
 	],
 	datasets: [{
 		data: [],
 		backgroundColor: [
-		'#008000',
-    '#FFFF00',
-    '#FF0000',
-    '#808080'
+		'#34eb52',
+    '#f9ff3d',
+    '#fc3232'
 		],
 		hoverBackgroundColor: [
-		'#008000',
-    '#FFFF00',
-    '#FF0000',
-    '#808080'
+		'#34eb52',
+    '#f9ff3d',
+    '#fc3232'
 		]
 	}]
 };
@@ -31,8 +28,8 @@ const horizontalBarData = {
   labels: [],
   datasets: [
     {
-      backgroundColor: '#0000ff',
-      borderColor: '#0000ff',
+      backgroundColor: '#268bff',
+      borderColor: '#268bff',
       borderWidth: 1,
       hoverBackgroundColor: '#004fff',
       hoverBorderColor: '#004fff',
@@ -45,11 +42,11 @@ const barData = {
   labels: ['ENE', 'CIC', 'Reitoria'],
   datasets: [
     {
-      backgroundColor: '#008000',
-      borderColor: '#008000',
+      backgroundColor: '#34eb52',
+      borderColor: '#34eb52',
       borderWidth: 1,
-      hoverBackgroundColor: '#005400',
-      hoverBorderColor: '#005400',
+      hoverBackgroundColor: '#00ff2f',
+      hoverBorderColor: '#00ff2f',
       data: [20, 25, 30]
     }
   ]
@@ -122,27 +119,22 @@ componentDidMount() {
 }
 
 getData(){
-  let i, j, operating = 0, broken = 0, maintenance = 0, unknown = 0;
+  let i, j, operating = 0, broken = 0, maintenance = 0;
 
   for (i=0; i < this.state.VehicleData.length; i++){
-    if (this.state.VehicleData[i].plate.length > 1){
-      for (j=1; j<this.state.VehicleData[i].plate.length; j++){
-        if (this.state.VehicleData[i].plate[j] === 'Operando')
+      for (j=0; j<this.state.VehicleData[i].tags.length; j++){
+        if (this.state.VehicleData[i].tags[j] === 'Operando')
         {
           operating += 1;
         }
-        else if (this.state.VehicleData[i].plate[j] === 'Manuntenção')
+        else if (this.state.VehicleData[i].tags[j] === 'Manuntenção')
         {
           maintenance += 1;
         }
-        else if (this.state.VehicleData[i].plate[j] === 'Quebrado')
+        else if (this.state.VehicleData[i].tags[j] === 'Quebrado')
         {
           broken += 1;
         }
-      }
-    }
-    else{
-      unknown += 1;
     }
 
     if (!horizontalBarData.labels.includes(this.state.VehicleData[i].departament)){
@@ -153,7 +145,6 @@ getData(){
   doughnutData.datasets[0].data.push(operating);
   doughnutData.datasets[0].data.push(maintenance);
   doughnutData.datasets[0].data.push(broken);
-  doughnutData.datasets[0].data.push(unknown);
   
 }
 
@@ -212,7 +203,7 @@ render(){
         </Card>     
       </Col>
       <Col span={8}>
-        <Card title="Quantidade de carros por departament" bordered={true} style={{height: 270}} >
+        <Card title="Quantidade de carros por departamento" bordered={true} style={{height: 270}} >
           <Pie data={pieData} options={{
             responsive: true,
             maintainAspectRatio: true,

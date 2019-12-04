@@ -494,7 +494,7 @@
     {
         "key": 3,
         "plate": "PAM 8272",
-        "tags" : [],
+        "tags" : ["Manuntenção"],
         "model": "SAVEIRO 2.0",
         "manufacture": "Wolkswagem",
         "lastMaintenceDate": "2019-05-11",
