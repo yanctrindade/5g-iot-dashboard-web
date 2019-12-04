@@ -95,7 +95,6 @@ class MapComponent extends Component {
           streetViewControl={false}
           fullscreenControl={false}
           zoomControl= {true}
-          //zoomControlOptions={{position: this.props.google.maps.ControlPosition.TOP_RIGHT}}
           //initialCenter={coords[Math.round(coords.length/2)]}
           initialCenter={{lat:-15.765577, lng:-47.857529}}
         >
