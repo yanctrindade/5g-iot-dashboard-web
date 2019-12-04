@@ -1,11 +1,15 @@
-import React from "react";
+import React, {Component} from "react";
 import NavBar from '../../Components/NavBar';
 import Dashboard from './Dashboard';
-import VehicleData from '../../FakeData/DataTableData'
 
-function Statistics(props) {
-  const content = <Dashboard vehicleData={VehicleData}/>;
-  return <NavBar pathname="/statistics" content={content}/> 
+class Statistics extends Component {
+
+  render()
+  {
+    return (
+      <NavBar pathname="/statistics" content={<Dashboard />}/>
+    ); 
+  }  
 }
 
 export default Statistics;

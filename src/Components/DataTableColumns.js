@@ -54,11 +54,11 @@ const columns = [
     sortDirections: ['descend', 'ascend'],
   },
   {
-    title: 'Data da última maintenceDate',
-    dataIndex: 'maintenceDate',
+    title: 'Data da última Manuntenção',
+    dataIndex: 'nextMaintenceDate',
     key: 'revisao',
-    onFilter: (value, record) => record.maintenceDate.indexOf(value) === 0,
-    sorter: (a, b) => { return compareDates(a.maintenceDate, b.maintenceDate)},
+    onFilter: (value, record) => record.nextMaintenceDate.indexOf(value) === 0,
+    sorter: (a, b) => { return compareDates(a.nextMaintenceDate, b.nextMaintenceDate)},
     sortDirections: ['descend', 'ascend'],
   },
   {

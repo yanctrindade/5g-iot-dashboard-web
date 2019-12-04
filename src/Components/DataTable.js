@@ -2,11 +2,27 @@ import React, { Component } from "react";
 import { Table, Input, Button, Icon } from 'antd';
 import Highlighter from 'react-highlight-words';
 import VehicleStatistics from './VehicleStatistics'
+import DataColumns from './DataTableColumns';
+import axios from 'axios';
 
 class DataTable extends Component {
-  state = {
-    searchText: '',
-  };
+  constructor(props) {
+    super(props);
+    this.state = { 
+                  VehicleData: null,
+                  searchText: '',
+                 };
+  }
+
+  componentDidMount() {
+    axios.get('./database.json')
+    .then((res)=>{
+      console.log(res.data);
+      this.setState({VehicleData: res.data});
+    }).catch((err)=>{
+      console.log(err);
+    })
+  }
 
   getColumnSearchProps = (dataIndex, cellRender) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
@@ -78,9 +94,19 @@ class DataTable extends Component {
     this.setState({ searchText: '' });
   };
 
+  getDate = (date) => new Date(date).toLocaleDateString();
+
+  dataFilter = (data) => {
+    data.map(item => {
+      item.nextMaintenceDate = this.getDate(item.nextMaintenceDate)
+      return item
+    })
+    return data
+  }
+
   render() {    
     
-    const columns = this.props.columns.map(item => ({...item, ...this.getColumnSearchProps(item.dataIndex, item.cellRender)}))
+    const columns = DataColumns.map(item => ({...item, ...this.getColumnSearchProps(item.dataIndex, item.cellRender)}))
 
     // Because of ANTD 'componentWillReceiveProps has been renamed' warning, 
     // while they don't update their package, this is used to hide the warning.
@@ -92,14 +118,16 @@ class DataTable extends Component {
     }
     ///////////////////////////////////////////////////////////////////////////
 
-    return <Table 
-              columns={columns} dataSource={this.props.data} 
+    return (
+    this.state.VehicleData !== null ?
+          <Table 
+              columns={columns} dataSource={this.dataFilter(this.state.VehicleData)} 
               expandedRowRender={record => <VehicleStatistics style={{ margin: 0 }} {...record} />}
               pagination={{ 
                 pageSizeOptions: ["5", "10", "15", "20"],
                 showSizeChanger: true,
-              }}
-            />;
+              }} 
+            /> : <></>);
   }
 }
 

@@ -1,6 +1,7 @@
 import React,{Component} from "react";
 import {Doughnut, HorizontalBar, Line, Pie, Bar} from "react-chartjs-2";
 import { Row, Col, Card } from 'antd';
+import axios from 'axios';
 
 const doughnutData = {
 	labels: [
@@ -104,21 +105,37 @@ const pieData = {
 
 class Dashboard extends Component{
 
+constructor(props) {
+  super(props);
+  this.state = { VehicleData: null };
+}
+
+componentDidMount() {
+
+  axios.get('./database.json')
+  .then((res)=>{
+    console.log(res.data);
+    this.setState({VehicleData: res.data});
+  }).catch((err)=>{
+    console.log(err);
+  })
+}
+
 getData(){
   let i, j, operating = 0, broken = 0, maintenance = 0, unknown = 0;
 
-  for (i=0; i < this.props.vehicleData.length; i++){
-    if (this.props.vehicleData[i].plate.length > 1){
-      for (j=1; j<this.props.vehicleData[i].plate.length; j++){
-        if (this.props.vehicleData[i].plate[j] === 'Operando')
+  for (i=0; i < this.state.VehicleData.length; i++){
+    if (this.state.VehicleData[i].plate.length > 1){
+      for (j=1; j<this.state.VehicleData[i].plate.length; j++){
+        if (this.state.VehicleData[i].plate[j] === 'Operando')
         {
           operating += 1;
         }
-        else if (this.props.vehicleData[i].plate[j] === 'Manuntenção')
+        else if (this.state.VehicleData[i].plate[j] === 'Manuntenção')
         {
           maintenance += 1;
         }
-        else if (this.props.vehicleData[i].plate[j] === 'Quebrado')
+        else if (this.state.VehicleData[i].plate[j] === 'Quebrado')
         {
           broken += 1;
         }
@@ -128,8 +145,8 @@ getData(){
       unknown += 1;
     }
 
-    if (!horizontalBarData.labels.includes(this.props.vehicleData[i].departament)){
-      horizontalBarData.labels.push(this.props.vehicleData[i].departament);
+    if (!horizontalBarData.labels.includes(this.state.VehicleData[i].departament)){
+      horizontalBarData.labels.push(this.state.VehicleData[i].departament);
     }
   }
 
@@ -142,17 +159,18 @@ getData(){
 
 render(){
   
-  if (doughnutData.datasets[0].data.length === 0)
+  if (this.state.VehicleData !== null && doughnutData.datasets[0].data.length === 0)
   {
     this.getData();
   }
     
   return( 
+    this.state.VehicleData !== null ?
    <div>
      <Row>
       <Col span={8}>
         <Card title="Estatísticas" bordered={true} style={{height: 270}} >
-          <p>Quantidade de veículos: {this.props.vehicleData.length} </p>
+          <p>Quantidade de veículos: {this.state.VehicleData.length} </p>
           <p>Consumo médio total estimado: 9,5 Km/L</p>
           <p>Total de kilometros percorridos: 2365,12 Km</p>
           <p>Custo total estimado: R$965,87 </p>
@@ -225,7 +243,7 @@ render(){
         </Card>
       </Col>
     </Row>
-  </div>
+  </div> : <></>
     )}
 }
 export default Dashboard;

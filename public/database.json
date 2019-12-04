@@ -1,7 +1,7 @@
 [
     {
         "key": 1,
-        "plate": "PAM 9846",
+        "plate": ["PAM 9846", "Operando"],
         "model": "GOL G5 1.0",
         "manufacture": "Wolkswagem",
         "lastMaintenceDate": "2018-12-23",
@@ -11,7 +11,7 @@
         "distance": 5,
         "year": "2015/2016",
         "color": "Azul",
-        "nextMaintenceDate": "2020-09-21T09:31:44Z",
+        "nextMaintenceDate": "2020-09-12T09:31:44Z",
         "statistics": {
             "lastTrip": 50.6,
             "mileage" : 11580.36, 
@@ -242,7 +242,7 @@
     },
     {
         "key": 2,
-        "plate": "PJK 9126",
+        "plate": ["PJK 9126", "Operando"],
         "model": "UP TSI 1.0",
         "manufacture": "Wolkswagem",
         "lastMaintenceDate": "2020-01-23",
@@ -476,7 +476,7 @@
     },
     {
         "key": 3,
-        "plate": "PAM 8272",
+        "plate": ["PAM 8272", "Operando"],
         "model": "SAVEIRO 2.0",
         "manufacture": "Wolkswagem",
         "lastMaintenceDate": "2019-05-11",
