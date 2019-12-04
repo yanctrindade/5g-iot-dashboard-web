@@ -92,10 +92,10 @@ class MapComponent extends Component {
           google={this.props.google}
           className={'map'}
           zoom={15}
-          style={mapStyles}
           streetViewControl={false}
           fullscreenControl={false}
-          //zoomControlOptions={{position: this.props.google.maps.ControlPosition.LEFT_TOP}}
+          zoomControl= {true}
+          //zoomControlOptions={{position: this.props.google.maps.ControlPosition.TOP_RIGHT}}
           //initialCenter={coords[Math.round(coords.length/2)]}
           initialCenter={{lat:-15.765577, lng:-47.857529}}
         >
@@ -110,12 +110,6 @@ class MapComponent extends Component {
   }
 
 }
-
-const mapStyles = {
-  width: '100%',
-  height: '100%',
-  position: 'relative'
-};
 
 export default GoogleApiWrapper({
   apiKey: 'AIzaSyDHYWWkJ5p-Du3DKUuJgQoXUAcqyPmwjIQ'
