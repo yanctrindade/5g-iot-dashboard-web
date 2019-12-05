@@ -9,7 +9,6 @@ class MapCard extends Component{
 
     render(){
         let data = this.props.content;
-        console.log(data)
         return(
             <>
             {this.props.isVisible ? (

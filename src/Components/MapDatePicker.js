@@ -19,13 +19,13 @@ class MapDatePicker extends Component{
   }
 
     onChange = (dates, dateStrings) => {
-        console.log("From: ", dates[0], ", to: ", dates[1]);
-        console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
+      if(dates[0] === undefined && dates[1] === undefined){
+        this.props.onClose()
+      }
     }
     
     onOk = (dates, dateString) => {
-      console.log("ok")
-      this.props.render()
+      this.props.render(dates[0],dates[1])
     }
 
     getDisabledHours = (date) => {

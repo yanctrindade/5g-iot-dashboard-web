@@ -97,12 +97,13 @@ class DataTable extends Component {
   getDate = (date) => new Date(date).toLocaleDateString();
 
   dataFilter = (data) => {
-    data.map(item => {
-      item.nextMaintenceDate = this.getDate(item.nextMaintenceDate)
-      item.plate = [item.plate].concat(item.tags)
-      return item
-    })
-
+    if(typeof data[0].plate === 'string'){
+      data.map(item => {
+        item.nextMaintenceDate = this.getDate(item.nextMaintenceDate)
+        item.plate = [item.plate].concat(item.tags)
+        return item
+      })
+    }
     return data
   }
 
