@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import { DatePicker } from "antd";
+import { DatePicker} from "antd";
 import moment from "moment";
 import locale from "antd/es/date-picker/locale/pt_BR";
 import "antd/dist/antd.css";
@@ -8,20 +8,34 @@ const { RangePicker } = DatePicker;
 
 class MapDatePicker extends Component{
 
+  constructor(props) {
+    super(props);
+
+    this.state = 
+                {
+                  dateStart:null,
+                  dateEnd:null,
+                };
+  }
+
     onChange = (dates, dateStrings) => {
         console.log("From: ", dates[0], ", to: ", dates[1]);
         console.log("From: ", dateStrings[0], ", to: ", dateStrings[1]);
     }
-      
+    
+    onOk = (dates, dateString) => {
+      console.log("ok")
+      this.props.render()
+    }
+
     getDisabledHours = (date) => {
         var hours = [];
         if(moment().diff(date, 'days') === 0)
         {
-            for (var i = 24; i > moment().hour(); i--) {
+          for (var i = 24; i > moment().hour(); i--) {
             hours.push(i);
-            }
+          }
         }
-
         return hours;
     }
 
@@ -59,7 +73,7 @@ class MapDatePicker extends Component{
                 disabledMinutes: () => this.getDisabledMinutes(date[1], selectedHour)
               };
             }    
-          } 
+        } 
       }
 
       render(){
@@ -74,10 +88,11 @@ class MapDatePicker extends Component{
                 showTime={{ format: "HH:mm" }}
                 onChange={this.onChange}
                 disabledDate={current => {
-                return current && current >= moment();
+                  return current && current >= moment();
                 }}
+                onOk={this.onOk}
                 disabledTime={this.disabledRangeTime}
-                size={"large"}
+                // size={"large"}
             />
           );
       }

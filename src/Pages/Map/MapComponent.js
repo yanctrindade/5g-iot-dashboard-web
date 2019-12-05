@@ -5,7 +5,7 @@ import axios from 'axios';
 import CarIcon from '../../Assets/CarPin.png'
 import StartIcon from '../../Assets/StartIcon.png'
 import MapDatePicker from  '../../Components/MapDatePicker'
-import GradientGenerator from  '../../Components/GradientGenerator'
+import tinygradient from 'tinygradient';
 
 class MapComponent extends Component {
 
@@ -16,20 +16,43 @@ class MapComponent extends Component {
                   markers: [],
                   vehicleSelected: false,
                   vehicleContent: null,
-                  mapCardKey: null
+                  mapCardKey: null,
+                  filterState: false,
+                  filterPaths: [],
+                  gradientColors:[]
                 };
   }
 
-  renderPaths = (coords) => {
+  renderPath = (coords, key, color) => {
     coords = coords.map(e => ({lat : e[1], lng: e[0]}))
+    color = color != typeof(undefined) ? color : "#001529"
+    key = key !=  typeof(undefined) ? key : 0
     return(
         <Polyline
+          key = {key}
           path={coords}
-          strokeColor="#001529"
+          strokeColor={color}
           strokeOpacity={0.5}
           strokeWeight={4} 
         />
     )
+  }
+
+  getGradients = (gradients) => {
+    console.log(gradients); // ["rgb(255, 51, 51)", "rgb(255, 102, 102)", "rgb(255, 153, 153)", "rgb(255, 204, 204)", "rgb(255, 255, 255)"]
+    this.setState({gradientColors: gradients})
+  }
+
+  setFilterPaths = (startDate,endDate) => {
+    const paths = this.state.vehicleContent.paths.map(item => item.coordinates)
+    let gradient = tinygradient('red', 'green', 'blue');
+    if(paths.length > 1){
+      gradient = gradient.rgb(paths.length).map(color => color.toHexString())
+    }else{
+      gradient = ['#03fc28']
+    }
+    const paths_dictionary = paths.map((item, index) => ({'path': item, 'color': gradient[index]}))
+    this.setState({filterPaths: paths_dictionary, filterState: true})
   }
 
   renderStart = (coords) => {
@@ -43,7 +66,7 @@ class MapComponent extends Component {
               }}
               clickable={false}
             />
-    }
+  }
 
   clickMarker = (props, marker, e) => {
     this.setState(
@@ -52,7 +75,7 @@ class MapComponent extends Component {
     )    
   }
 
-  closeMapCard = () => this.setState({vehicleSelected : false})
+  closeMapCard = () => this.setState({vehicleSelected : false, filterState: false})
   
   addMarker = (marker) => {
     console.log(`addMarker ${marker.key} -> ${marker.currentLocation.lat} ${marker.currentLocation.lng}`);
@@ -74,7 +97,6 @@ class MapComponent extends Component {
   }
 
   componentDidMount() {
-
     axios.get('./database.json')
     .then((res)=>{
       console.log(res.data);
@@ -100,10 +122,11 @@ class MapComponent extends Component {
           //initialCenter={coords[Math.round(coords.length/2)]}
           initialCenter={{lat:-15.765577, lng:-47.857529}}
         >
-          {this.state.markers.map( marker => this.addMarker(marker))}
-          {this.state.vehicleSelected ? this.renderPaths(this.state.vehicleContent.currentPath) : <></>}
-          {this.state.vehicleSelected ? this.renderStart(this.state.vehicleContent.currentPath) : <></>}
-          <MapDatePicker />
+          {!this.state.vehicleSelected ? this.state.markers.map( marker => this.addMarker(marker)) : <></>}
+          {this.state.vehicleSelected && this.state.filterState ? this.state.filterPaths.map( (item, index) => this.renderPath(item.path, index, item.color)) : <></>}
+          {this.state.vehicleSelected && !this.state.filterState ? this.renderPath(this.state.vehicleContent.currentPath) : <></>}
+          {this.state.vehicleSelected && !this.state.filterState ? this.renderStart(this.state.vehicleContent.currentPath) : <></>}
+          {this.state.vehicleSelected ? <MapDatePicker render={this.setFilterPaths}/> : <></>}
           <MapCard isVisible={this.state.vehicleSelected} onClose={this.closeMapCard} content={this.state.vehicleContent}/>
         </Map>
       </>
