@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Icon, Input, Button, Typography, Row, Card, Layout, message } from "antd";
 
-import "./Recover.css";
+import "./styles.css";
 import "antd/dist/antd.css";
 
 const { Header} = Layout;

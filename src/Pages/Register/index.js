@@ -11,6 +11,8 @@ import {
     Card,
     Layout,
   } from 'antd';
+
+  import "./styles.css";
   
   const { Header} = Layout;
   

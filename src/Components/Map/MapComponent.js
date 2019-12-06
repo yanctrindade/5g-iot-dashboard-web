@@ -7,7 +7,7 @@ import CarIcon from '../../Assets/CarPin.png'
 import StartIcon from '../../Assets/StartIcon.png'
 import Start from '../../Assets/start.png'
 import End from '../../Assets/end.png'
-import MapDatePicker from  '../../Components/MapDatePicker'
+import MapDatePicker from  './MapDatePicker'
 import tinygradient from 'tinygradient';
 
 class MapComponent extends Component {

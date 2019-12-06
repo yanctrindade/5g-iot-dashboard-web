@@ -6,14 +6,14 @@ import {
     Route,
     Redirect
 } from "react-router-dom";
-import Map from "../Pages/Map/";
-import Vehicles from "../Pages/Vehicles/";
-import Statistics from "../Pages/Statistics/";
-import Login from "../Pages/Login/";
-import Recover from "../Pages/Recover/";
-import Register from "../Pages/Register/";
-import Agreement from "../Pages/Agreement/";
-import { isAuthenticated } from "./Auth";
+import Map from "../../Pages/Map/";
+import Vehicles from "../../Pages/Vehicles/";
+import Statistics from "../../Pages/Statistics/";
+import Login from "../../Pages/Login/";
+import Recover from "../../Pages/Recover/";
+import Register from "../../Pages/Register/";
+import Agreement from "../../Pages/Agreement/";
+import { isAuthenticated } from "../Login/Auth";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route

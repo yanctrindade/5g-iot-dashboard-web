@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import NavBar from '../../Components/NavBar';
-import DataTable from "../../Components/DataTable.js";
+import NavBar from '../../Components/NavBar/NavBar';
+import DataTable from "../../Components/Vehicle/DataTable.js";
 
 class Vehicles extends Component {
   render(){

@@ -1,6 +1,6 @@
 import React, {Component} from "react";
-import NavBar from '../../Components/NavBar';
-import Dashboard from './Dashboard';
+import NavBar from '../../Components/NavBar/NavBar';
+import Dashboard from '../../Components/Statistics/Dashboard';
 
 class Statistics extends Component {
 

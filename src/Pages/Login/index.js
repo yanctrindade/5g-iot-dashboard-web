@@ -5,7 +5,7 @@ import { Form, Icon, Input, Button, Checkbox, Row, Card, Layout, message } from 
 import { Redirect } from 'react-router-dom'
 ///////////////////////////////////////////////
 
-import "./Login.css";
+import "./styles.css";
 import "antd/dist/antd.css";
 
 const { Header} = Layout;
