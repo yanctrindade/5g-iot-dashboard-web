@@ -9,7 +9,7 @@ class DataTable extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-                  VehicleData: null,
+                  VehicleData: [],
                   searchText: '',
                  };
   }
@@ -17,8 +17,7 @@ class DataTable extends Component {
   componentDidMount() {
     axios.get('./database.json')
     .then((res)=>{
-      console.log(res.data);
-      this.setState({VehicleData: res.data});
+      this.setState({VehicleData: this.dataFilter(res.data)});
     }).catch((err)=>{
       console.log(err);
     })
@@ -97,40 +96,27 @@ class DataTable extends Component {
   getDate = (date) => new Date(date).toLocaleDateString();
 
   dataFilter = (data) => {
-    if(typeof data[0].plate === 'string'){
       data.map(item => {
         item.nextMaintenceDate = this.getDate(item.nextMaintenceDate)
         item.plate = [item.plate].concat(item.tags)
         return item
       })
-    }
+
     return data
   }
 
   render() {    
-    
     const columns = DataColumns.map(item => ({...item, ...this.getColumnSearchProps(item.dataIndex, item.cellRender)}))
 
-    // Because of ANTD 'componentWillReceiveProps has been renamed' warning, 
-    // while they don't update their package, this is used to hide the warning.
-    ///////////////////////////////////////////////////////////////////////////
-    const doWarn = window.console.warn
-    window.console.warn = (...args) => {
-      if(typeof args[0] !== 'string' || !args[0].startsWith('Warning: componentWillReceiveProps has been renamed'))
-        doWarn(...args)
-    }
-    ///////////////////////////////////////////////////////////////////////////
-
     return (
-    this.state.VehicleData !== null ?
-          <Table 
-              columns={columns} dataSource={this.dataFilter(this.state.VehicleData)} 
-              expandedRowRender={record => <VehicleStatistics style={{ margin: 0 }} {...record} />}
-              pagination={{ 
-                pageSizeOptions: ["5", "10", "15", "20"],
-                showSizeChanger: true,
-              }} 
-            /> : <></>);
+      <Table 
+          columns={columns} dataSource={this.state.VehicleData} 
+          expandedRowRender={record => <VehicleStatistics style={{ margin: 0 }} {...record} />}
+          pagination={{ 
+            pageSizeOptions: ["5", "10", "15", "20"],
+            showSizeChanger: true,
+          }} 
+        />);
   }
 }
 

@@ -18,6 +18,17 @@ class NavBar extends Component {
   };
 
   render() {
+
+    // Because of ANTD 'componentWillReceiveProps has been renamed' warning, 
+    // while they don't update their package, this is used to hide the warning.
+    ///////////////////////////////////////////////////////////////////////////
+    const doWarn = window.console.warn
+    window.console.warn = (...args) => {
+      if(typeof args[0] !== 'string' || !args[0].startsWith('Warning: componentWillReceiveProps has been renamed'))
+        doWarn(...args)
+    }
+    ///////////////////////////////////////////////////////////////////////////
+    
     return (
         <Layout>
           <Header style={{ color: "white", textAlign: "center" }}>

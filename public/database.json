@@ -12,6 +12,7 @@
         "distance": 5,
         "year": "2015/2016",
         "color": "Azul",
+        "averageFuelEconomy": 13.5,
         "nextMaintenceDate": "2020-09-12T09:31:44Z",
         "statistics": {
             "lastTrip": 50.6,
@@ -1067,6 +1068,7 @@
         "distance": 3,
         "year": "2013/2013",
         "color": "Preto",
+        "averageFuelEconomy": 16.3,
         "nextMaintenceDate": "2021-03-10T11:10:34Z",
         "statistics": {
             "lastTrip": 31.6,
@@ -1479,11 +1481,12 @@
         "distance": 7,
         "year": "2014/2014",
         "color": "Prata",
+        "averageFuelEconomy": 11.0,
         "nextMaintenceDate": "2021-05-10T10:10:34Z",
         "statistics": {
             "lastTrip": 31.6,
             "mileage" : 4578.67, 
-            "traveledWeek": 1125.24,
+            "traveledWeek": 115.84,
             "NumRoutesWeek" : 8
         },
         "paths": [

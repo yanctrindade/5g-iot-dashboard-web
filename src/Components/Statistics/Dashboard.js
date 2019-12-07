@@ -1,7 +1,14 @@
 import React,{Component} from "react";
 import {Doughnut, HorizontalBar, Line, Pie, Bar} from "react-chartjs-2";
 import { Row, Col, Card } from 'antd';
+import tinygradient from 'tinygradient';
 import axios from 'axios';
+
+const statistics = {
+  vehicleCount: 0,
+  totalMileage: 0,
+  averageFuelEconomy: 0,
+}
 
 const doughnutData = {
 	labels: [
@@ -10,7 +17,7 @@ const doughnutData = {
     'Quebrado'
 	],
 	datasets: [{
-		data: [],
+		data: [0, 0, 0],
 		backgroundColor: [
 		'#34eb52',
     '#f9ff3d',
@@ -33,13 +40,13 @@ const horizontalBarData = {
       borderWidth: 1,
       hoverBackgroundColor: '#004fff',
       hoverBorderColor: '#004fff',
-      data: [80, 25, 30]
+      data: []
     }
   ]
 };
 
 const barData = {
-  labels: ['ENE', 'CIC', 'Reitoria'],
+  labels: [],
   datasets: [
     {
       backgroundColor: '#34eb52',
@@ -80,22 +87,14 @@ const lineData = {
 };
 
 const pieData = {
-	labels: [
-		'Ciência da Computação',
-		'Reitoria',
-		'Engenharia Elétrica'
-	],
+	labels: [],
 	datasets: [{
-		data: [3, 5, 1],
+		data: [],
 		backgroundColor: [
-		'#FF6384',
-		'#36A2EB',
-		'#FFCE56'
+		
 		],
 		hoverBackgroundColor: [
-		'#FF6384',
-		'#36A2EB',
-		'#FFCE56'
+		
 		]
 	}]
 };
@@ -104,66 +103,105 @@ class Dashboard extends Component{
 
 constructor(props) {
   super(props);
-  this.state = { VehicleData: null };
+  this.state = { VehicleData: [] };
 }
 
 componentDidMount() {
 
   axios.get('./database.json')
   .then((res)=>{
-    console.log(res.data);
+    this.handleData(res.data);    
     this.setState({VehicleData: res.data});
   }).catch((err)=>{
     console.log(err);
   })
 }
 
-getData(){
-  let i, j, operating = 0, broken = 0, maintenance = 0;
+handleData = (data) => {
+  let i, j, k;
 
-  for (i=0; i < this.state.VehicleData.length; i++){
-      for (j=0; j<this.state.VehicleData[i].tags.length; j++){
-        if (this.state.VehicleData[i].tags[j] === 'Operando')
+  // Erasing all data from array
+  doughnutData.datasets[0].data = [0, 0, 0];
+  statistics.totalMileage = 0;
+
+  // Iterating on every car
+  for (i=0; i < data.length; i++){
+      // Iterating on every tag label
+      for (j=0; j<data[i].tags.length; j++){
+        if (data[i].tags[j] === 'Operando')
         {
-          operating += 1;
+          doughnutData.datasets[0].data[0] += 1;
         }
-        else if (this.state.VehicleData[i].tags[j] === 'Manuntenção')
+        else if (data[i].tags[j] === 'Manuntenção')
         {
-          maintenance += 1;
+          doughnutData.datasets[0].data[1] += 1;
         }
-        else if (this.state.VehicleData[i].tags[j] === 'Quebrado')
+        else if (data[i].tags[j] === 'Quebrado')
         {
-          broken += 1;
+          doughnutData.datasets[0].data[2] += 1;
         }
     }
 
-    if (!horizontalBarData.labels.includes(this.state.VehicleData[i].departament)){
-      horizontalBarData.labels.push(this.state.VehicleData[i].departament);
+    // Add to the total mileage statistics counter
+    statistics.totalMileage += data[i].statistics.mileage;
+
+    // Add to the average fuel economy the total of km/L of every vehicle
+    statistics.averageFuelEconomy += data[i].averageFuelEconomy;
+
+    // Add departament to horizontal bar graph
+    if (!horizontalBarData.labels.includes(data[i].departament)){
+      horizontalBarData.labels.push(data[i].departament);
+      horizontalBarData.datasets[0].data.push(0);
+    }
+
+    // Ads to horizontal bar the average distance data according to the departament
+    for (k = 0; k < horizontalBarData.labels.length; k++)
+    {
+      if (data[i].departament === horizontalBarData.labels[k])
+      {
+        horizontalBarData.datasets[0].data[k] += data[i].statistics.traveledWeek;
+      }
+    }
+
+    // Add departament to vertical bar graph
+    if (!barData.labels.includes(data[i].departament)){
+      barData.labels.push(data[i].departament);
+    }
+
+    // Add departament to the pie graph
+    if (!pieData.labels.includes(data[i].departament)){
+      pieData.labels.push(data[i].departament);
+      pieData.datasets[0].data.push(0);
+    }
+
+    // Ads to pie graph the total number of cars each departament has
+    for (k = 0; k < pieData.labels.length; k++)
+    {
+      if (data[i].departament === pieData.labels[k])
+      {
+        pieData.datasets[0].data[k] += 1;
+      }
     }
   }
 
-  doughnutData.datasets[0].data.push(operating);
-  doughnutData.datasets[0].data.push(maintenance);
-  doughnutData.datasets[0].data.push(broken);
-  
+  // Set pieData backgroundColor and hoverBackgroundColor colors
+  pieData.datasets[0].backgroundColor = tinygradient('red', 'green', 'blue').rgb(pieData.labels.length).map(color => color.toHexString());
+  pieData.datasets[0].hoverBackgroundColor = pieData.datasets[0].backgroundColor;
+
+  // Write acquired statistics to their respective object
+  statistics.vehicleCount = data.length;
+  statistics.averageFuelEconomy = (statistics.averageFuelEconomy / statistics.vehicleCount);
 }
 
-render(){
-  
-  if (this.state.VehicleData !== null && doughnutData.datasets[0].data.length === 0)
-  {
-    this.getData();
-  }
-    
+render(){    
   return( 
-    this.state.VehicleData !== null ?
    <div>
      <Row>
       <Col span={8}>
         <Card title="Estatísticas" bordered={true} style={{height: 270}} >
-          <p>Quantidade de veículos: {this.state.VehicleData.length} </p>
-          <p>Consumo médio total estimado: 9,5 Km/L</p>
-          <p>Total de kilometros percorridos: 2365,12 Km</p>
+          <p>Quantidade de veículos: {statistics.vehicleCount} </p>
+          <p>Consumo médio total estimado: {statistics.averageFuelEconomy} Km/L</p>
+          <p>Total de kilometros percorridos: {statistics.totalMileage} Km</p>
           <p>Custo total estimado: R$965,87 </p>
         </Card>     
       </Col>
@@ -234,7 +272,7 @@ render(){
         </Card>
       </Col>
     </Row>
-  </div> : <></>
+  </div>
     )}
 }
 export default Dashboard;
