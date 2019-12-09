@@ -90,12 +90,8 @@ const pieData = {
 	labels: [],
 	datasets: [{
 		data: [],
-		backgroundColor: [
-		
-		],
-		hoverBackgroundColor: [
-		
-		]
+		backgroundColor: [],
+		hoverBackgroundColor: []
 	}]
 };
 
@@ -117,12 +113,26 @@ componentDidMount() {
   })
 }
 
+eraseDashboardData(){
+  doughnutData.datasets[0].data = [0, 0, 0];
+  statistics.totalMileage = 0;
+  statistics.totalMileage = 0;
+  statistics.averageFuelEconomy = 0;
+  doughnutData.datasets[0].data = [0, 0, 0];
+  horizontalBarData.labels = [];
+  horizontalBarData.datasets[0].data = [];
+  barData.labels = [];
+  pieData.labels = [];
+  pieData.datasets[0].data = [];
+  pieData.datasets[0].backgroundColor = [];
+  pieData.datasets[0].hoverBackgroundColor = [];
+}
+
 handleData = (data) => {
   let i, j, k;
 
-  // Erasing all data from array
-  doughnutData.datasets[0].data = [0, 0, 0];
-  statistics.totalMileage = 0;
+  // Erasing all data from dashboard
+  this.eraseDashboardData();
 
   // Iterating on every car
   for (i=0; i < data.length; i++){
