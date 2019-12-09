@@ -26,34 +26,6 @@ class MapComponent extends Component {
                 };
   }
 
-  renderPath = (coords, key, color) => {
-    coords = coords.map(e => ({lat : e[1], lng: e[0]}))
-    color = color != typeof(undefined) ? color : "#001529"
-    key = key !=  typeof(undefined) ? key : 0
-    return(
-        <Polyline
-          key = {key}
-          path={coords}
-          strokeColor={color}
-          strokeOpacity={0.5}
-          strokeWeight={4} 
-        />
-    )
-  }
-
-  renderFilterPath = (coords, key, color) => {
-    coords = coords.map(e => ({lat : e[1], lng: e[0]}))
-    return(
-        <Polyline
-          key = {key+2000}
-          path={coords}
-          strokeColor={color}
-          strokeOpacity={0.5}
-          strokeWeight={4} 
-        />
-    )
-  }
-
   setFilterPaths = (startDate,endDate) => {
     const paths = this.state.vehicleContent.paths
 
@@ -77,6 +49,21 @@ class MapComponent extends Component {
     paths_filtered = paths_filtered.map((item,index) => ({'path':item.coordinates, 'color': gradient[index]}))
 
     this.setState({filterPaths: paths_filtered, filterState: true})
+  }
+
+  renderPath = (coords, key, color) => {
+    coords = coords.map(e => ({lat : e[1], lng: e[0]}))
+    color = color != typeof(undefined) ? color : "#001529"
+    key = key !=  typeof(undefined) ? key : 0
+    return(
+        <Polyline
+          key = {key}
+          path={coords}
+          strokeColor={color}
+          strokeOpacity={0.5}
+          strokeWeight={4} 
+        />
+    )
   }
 
   renderStart = (coords) => {
@@ -124,25 +111,24 @@ class MapComponent extends Component {
 
   addPoint = (key, path, type) => {
     let location
-    let url
+    let iconUrl
 
     if(type === 'start'){
       location = {lat : path[0][1], lng: path[0][0]}
-      url = Start
+      iconUrl = Start
     }else{
       location = {lat : path[path.length -1][1], lng: path[path.length -1][0]}
-      url = End
+      iconUrl = End
     }
 
     return(
       <Marker
         key={key}
         position={location}
+        clickable={false}
         icon = {{
-          url: url, // url
-          scaledSize: new this.props.google.maps.Size(20,20), // scaled size
-          //origin: new Point(0,0), // origin
-          //anchor: new Point(0, 0) // anchor
+          url: iconUrl, // The url containing the icon file
+          scaledSize: new this.props.google.maps.Size(20,20),
         }}
       />
     )
@@ -174,9 +160,9 @@ class MapComponent extends Component {
           initialCenter={{lat:-15.765577, lng:-47.857529}}
         >
           {!this.state.vehicleSelected ? this.state.markers.map( marker => this.addMarker(marker)) : <></>}
-          {this.state.vehicleSelected && this.state.filterState ? this.state.filterPaths.map( (item, index) => this.renderFilterPath(item.path, index, item.color)) : <></>}
-          {this.state.vehicleSelected && this.state.filterState ? this.state.filterPaths.map( (item,index) => this.addPoint(index,item.path,'start'))  : <></>}
-          {this.state.vehicleSelected && this.state.filterState ? this.state.filterPaths.map( (item,index) => this.addPoint(index,item.path,'end'))  : <></>}
+          {this.state.vehicleSelected && this.state.filterState ? this.state.filterPaths.map( (item, index) => this.renderPath(item.path, index+2000, item.color)) : <></>}
+          {this.state.vehicleSelected && this.state.filterState ? this.state.filterPaths.map( (item, index) => this.addPoint(index, item.path,'start'))  : <></>}
+          {this.state.vehicleSelected && this.state.filterState ? this.state.filterPaths.map( (item, index) => this.addPoint(index, item.path,'end'))  : <></>}
           {this.state.vehicleSelected && !this.state.filterState ? this.renderPath(this.state.vehicleContent.currentPath) : <></>}
           {this.state.vehicleSelected && !this.state.filterState ? this.renderStart(this.state.vehicleContent.currentPath) : <></>}
           {this.state.vehicleSelected && !this.state.filterState ? this.addMarker(this.state.vehicleContent) : <></>}
