@@ -62,7 +62,7 @@ class MapComponent extends Component {
         />
     )
   }
-  
+
   getFilterPaths = (startDate,endDate) => {
     // Get all data from the selected vehicle
     const vehiclePaths = this.state.vehicleContent.paths
@@ -113,9 +113,10 @@ class MapComponent extends Component {
     )
   }
 
-  addPoint = (location, iconUrl) => {
+  addPoint = (key, location, iconUrl) => {
     return(
       <Marker
+        key={key}
         position={location}
         clickable={false}
         icon = {{
@@ -144,10 +145,10 @@ class MapComponent extends Component {
         >
           {!this.state.vehicleSelected ? this.state.markers.map( marker => this.addMarker(marker)) : <></>}
           {this.state.vehicleSelected && this.state.filterState ? this.state.filterPaths.map( (item, index) => this.renderPath(item.path, index, item.color)) : <></>}
-          {this.state.vehicleSelected && this.state.filterState ? this.state.filterPaths.map( (item) => this.addPoint({lat : item.path[0][1], lng: item.path[0][0]}, Start))  : <></>}
-          {this.state.vehicleSelected && this.state.filterState ? this.state.filterPaths.map( (item) => this.addPoint({lat : item.path[item.path.length -1][1], lng: item.path[item.path.length -1][0]},End))  : <></>}
+          {this.state.vehicleSelected && this.state.filterState ? this.state.filterPaths.map( (item, index) => this.addPoint(index, {lat : item.path[0][1], lng: item.path[0][0]}, Start))  : <></>}
+          {this.state.vehicleSelected && this.state.filterState ? this.state.filterPaths.map( (item, index) => this.addPoint(index, {lat : item.path[item.path.length -1][1], lng: item.path[item.path.length -1][0]},End))  : <></>}
           {this.state.vehicleSelected && !this.state.filterState ? this.renderPath(this.state.vehicleContent.currentPath) : <></>}
-          {this.state.vehicleSelected && !this.state.filterState ? this.addPoint({lat : this.state.vehicleContent.currentPath[0][1], lng: this.state.vehicleContent.currentPath[0][0]}, StartIcon) : <></>}
+          {this.state.vehicleSelected && !this.state.filterState ? this.addPoint(0, {lat : this.state.vehicleContent.currentPath[0][1], lng: this.state.vehicleContent.currentPath[0][0]}, StartIcon) : <></>}
           {this.state.vehicleSelected && !this.state.filterState ? this.addMarker(this.state.vehicleContent) : <></>}
           {this.state.vehicleSelected ? <MapDatePicker render={this.getFilterPaths} onClose={this.closeDatePicker}/> : <></>}
           <MapCard isVisible={this.state.vehicleSelected && !this.state.filterState} onClose={this.closeMapCard} content={this.state.vehicleContent}/>
