@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Layout, Menu, Icon } from "antd";
+import { Layout, Menu, Icon, Button } from "antd";
 import "antd/dist/antd.css";
 
 import { Link } from "react-router-dom";
@@ -33,7 +33,12 @@ class NavBar extends Component {
         <Layout>
           <Header style={{ color: "white", textAlign: "center" }}>
             COMNET
+            
+            <Button type="link" style={{ color: "white", textAlign: "center", float: "right", marginTop: "15px"}} href='/'>
+              Sair
+            </Button>
           </Header>
+
           <Layout style={{ minHeight: "90vh" }}>
             <Sider
               collapsible

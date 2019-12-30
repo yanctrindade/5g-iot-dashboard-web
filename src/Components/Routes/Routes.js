@@ -13,13 +13,13 @@ import Login from "../../Pages/Login/";
 import Recover from "../../Pages/Recover/";
 import Register from "../../Pages/Register/";
 import Agreement from "../../Pages/Agreement/";
-import { isAuthenticated } from "../Login/Auth";
+import { auth } from "../Login/Auth";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route
     {...rest}
     render={props =>
-      isAuthenticated() ? (
+      auth.isAuthenticated === true ? (
         <Component {...props} />
       ) : (
         <Redirect to={{ pathname: "/", state: { from: props.location } }} />

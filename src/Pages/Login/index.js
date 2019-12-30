@@ -1,5 +1,6 @@
 import React from "react";
 import { Form, Icon, Input, Button, Checkbox, Row, Card, Layout, message } from "antd";
+import { checkCredentials, auth } from "../../Components/Login/Auth";
 
 /////////////////REMOVE/////////////////////////
 import { Redirect } from 'react-router-dom'
@@ -47,20 +48,19 @@ class Login extends React.Component {
       if (!err) {
         message.loading('Carregando...', 1.5)
         .then(() => {
-          if (values.userName === 'test' && values.password === 'test')
+          if (checkCredentials(values.userName, values.password))
           {
-            message.success('Carregado!', 1.0);
+            auth.authenticate(() => {
+              this.setState(() => ({
+                redirectToReferrer: true
+              }))
+            })
+
             this.setState({
               redirect: true
             })
           }
-          else
-          {
-            message.error('Usuário inexistente!', 1.0);
-          }
-          
-          console.log("Received values of form: ", values);  
-        })        
+        })
       }
     });
   };
