@@ -21,27 +21,6 @@ class Login extends React.Component {
     redirect: false
   }
 
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      return <Redirect to='/map' />
-    }
-  }
-
-  componentDidMount() {
-    // To disabled submit button at the beginning.
-    this.props.form.validateFields();
-  }
-
-  checkUsername = (rule, value, callback) => {
-    const form = this.props.form;
-    form.setFields({
-      username: {
-        value: "asdas"
-      }
-    });
-    form.setFieldsValue("pedro, manada");
-  };
-
   LoginButton = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
@@ -64,6 +43,12 @@ class Login extends React.Component {
       }
     });
   };
+
+  renderRedirect = () => {
+    if (this.state.redirect) {
+      return <Redirect to='/map' />
+    }
+  }
 
   render() {
     const { getFieldDecorator, getFieldsError, isFieldTouched, getFieldError } = this.props.form;
@@ -88,9 +73,9 @@ class Login extends React.Component {
             <Form className="login-form">
               <Form.Item validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
                 {getFieldDecorator("userName", {
+                  initialValue: "",
                   rules: [
-                    { required: true, message: "Insira um usuário!" }/*,
-                    { validator: this.checkUsername }*/
+                    { required: true, message: "Insira um usuário!" }
                   ]
                 })(
                   <Input
@@ -102,6 +87,7 @@ class Login extends React.Component {
 
               <Form.Item validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
                 {getFieldDecorator("password", {
+                  initialValue: "",
                   rules: [{ required: true, message: "Insira sua senha!" }]
                 })(
                   <Input
@@ -124,7 +110,7 @@ class Login extends React.Component {
                   type="primary"
                   htmlType="submit"
                   className="login-form-button"
-                  disabled={hasErrors(getFieldsError())}
+                  disabled={hasErrors(getFieldsError()) || !isFieldTouched('userName') || !isFieldTouched('password')}
                   onClick={this.LoginButton}
                 >
                   Entrar
