@@ -1,5 +1,6 @@
 import React from "react";
-import { Tag } from 'antd';
+import { Tag, Icon } from 'antd';
+import { Link } from "react-router-dom";
 
 const tagsFunction = tags => (
   <span>
@@ -68,6 +69,16 @@ const columns = [
     onFilter: (value, record) => record.departament.indexOf(value) === 0,
     sorter: (a, b) => { return a.departament.localeCompare(b.departament)},
     sortDirections: ['descend', 'ascend'],
+  },
+  {
+    title: 'Editar',
+    key: 'edit',
+    render: () => 
+      <div style={{ textAlign: "center" }}>
+        <Link to='/vehicles/edit'>
+          <Icon type="edit"/>
+        </Link>
+      </div>
   },
 ];
 

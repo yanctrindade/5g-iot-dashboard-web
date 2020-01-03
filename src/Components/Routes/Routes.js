@@ -14,6 +14,8 @@ import Recover from "../../Pages/Recover/";
 import Register from "../../Pages/Register/";
 import Agreement from "../../Pages/Agreement/";
 import { isAuthenticated } from "../Login/Auth";
+import EditVehicles from "../../Pages/Vehicles/EditVehicles";
+import AddVehicles from "../../Pages/Vehicles/AddVehicles";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route
@@ -36,6 +38,8 @@ const Routes = () => (
             <Route exact path='/recover' component={Form.create()(Recover)}/>
             <Route exact path='/agreement' component={Agreement}/>        
             <PrivateRoute path="/map" component={Map} />
+            <PrivateRoute path="/vehicles/edit" component={EditVehicles} />
+            <PrivateRoute path="/vehicles/add" component={AddVehicles} />
             <PrivateRoute path="/vehicles" component={Vehicles} />
             <PrivateRoute path="/statistics" component={Statistics} />
         </Switch>

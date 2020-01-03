@@ -106,7 +106,7 @@ class DataTable extends Component {
   }
 
   render() {    
-    const columns = DataColumns.map(item => ({...item, ...this.getColumnSearchProps(item.dataIndex, item.cellRender)}))
+    const columns = DataColumns.map(item => (item.title !== "Editar" ? {...item, ...this.getColumnSearchProps(item.dataIndex, item.cellRender)} : item))
 
     return (
       <Table 
