@@ -109,14 +109,22 @@ class DataTable extends Component {
     const columns = DataColumns.map(item => (item.title !== "Editar" ? {...item, ...this.getColumnSearchProps(item.dataIndex, item.cellRender)} : item))
 
     return (
-      <Table 
-          columns={columns} dataSource={this.state.VehicleData} 
-          expandedRowRender={record => <VehicleStatistics style={{ margin: 0 }} {...record} />}
-          pagination={{ 
-            pageSizeOptions: ["5", "10", "15", "20"],
-            showSizeChanger: true,
-          }} 
-        />);
+      <div style={{ margin: '25px' }}>
+        <Table 
+            bordered = {true}
+            columns={columns} dataSource={this.state.VehicleData} 
+            expandedRowRender={record => <VehicleStatistics style={{ margin: 0 }} {...record} />}
+            pagination={{ 
+              pageSizeOptions: ["5", "10", "15", "20"],
+              showSizeChanger: true,
+            }} 
+          />
+        <a href='/vehicles/add' style={{fontSize: '25px'}} >
+          +
+          <Icon type="car"/>
+        </a>
+      </div>
+      );
   }
 }
 

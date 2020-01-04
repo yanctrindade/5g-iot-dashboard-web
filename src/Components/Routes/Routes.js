@@ -38,8 +38,8 @@ const Routes = () => (
             <Route exact path='/recover' component={Form.create()(Recover)}/>
             <Route exact path='/agreement' component={Agreement}/>        
             <PrivateRoute path="/map" component={Map} />
-            <PrivateRoute path="/vehicles/edit" component={EditVehicles} />
-            <PrivateRoute path="/vehicles/add" component={AddVehicles} />
+            <PrivateRoute path="/vehicles/edit" component={Form.create()(EditVehicles)} />
+            <PrivateRoute path="/vehicles/add" component={Form.create()(AddVehicles)} />
             <PrivateRoute path="/vehicles" component={Vehicles} />
             <PrivateRoute path="/statistics" component={Statistics} />
         </Switch>

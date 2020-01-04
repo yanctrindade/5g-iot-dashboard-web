@@ -78,7 +78,6 @@ const columns = [
         <Link to={'/vehicles/edit?plate=' + record.plate[0].replace(" ", "")}>
           <Icon type="edit"/>
         </Link>
-        {console.log(record.plate[0])}
       </div>
   },
 ];
