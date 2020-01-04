@@ -73,11 +73,12 @@ const columns = [
   {
     title: 'Editar',
     key: 'edit',
-    render: () => 
+    render: (record) => 
       <div style={{ textAlign: "center" }}>
-        <Link to='/vehicles/edit'>
+        <Link to={'/vehicles/edit?plate=' + record.plate[0].replace(" ", "")}>
           <Icon type="edit"/>
         </Link>
+        {console.log(record.plate[0])}
       </div>
   },
 ];

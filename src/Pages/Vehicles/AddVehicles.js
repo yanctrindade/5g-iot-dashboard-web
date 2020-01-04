@@ -5,7 +5,7 @@ import AddVehicle from "../../Components/Vehicle/AddnEditVehicle";
 class AddVehicles extends Component {
   render(){
   return (
-    <NavBar pathname="/vehicles" content={<AddVehicle addOrEdit={true}/>}/>
+    <NavBar pathname="/vehicles" content={<AddVehicle />}/>
     );
   }
 }
