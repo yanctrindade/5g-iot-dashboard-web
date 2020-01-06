@@ -119,10 +119,12 @@ class DataTable extends Component {
               showSizeChanger: true,
             }} 
           />
+        <div style={{position: "absolute", bottom: "-12%"}}>
         <a href='/vehicles/add' style={{fontSize: '25px'}} >
           +
           <Icon type="car"/>
         </a>
+      </div>
       </div>
       );
   }

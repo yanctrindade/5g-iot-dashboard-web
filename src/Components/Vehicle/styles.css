@@ -1,0 +1,14 @@
+.ant-calendar-picker {
+    width: 100%;
+    position: relative;
+    margin: 0px;
+    top: 0%;
+    right: 0%;
+    box-shadow: 0 0px 0px 0 rgba(0, 0, 0, 0), 0 0px 0px 0 rgba(0, 0, 0, 0);
+}
+
+.tag-warning-text {
+    position: relative;
+    left: 12.5%;
+    bottom: 10px;
+}

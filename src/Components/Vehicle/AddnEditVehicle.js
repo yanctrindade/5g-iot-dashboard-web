@@ -6,9 +6,13 @@ import {
     Row,
     Col,
     Tag,
-    Typography
+    Typography,
+    DatePicker
   } from 'antd';
-  import axios from 'axios';
+import axios from 'axios';
+import "./styles.css";
+
+const { Text } = Typography;
 
 function hasErrors(fieldsError) {
 return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -171,7 +175,7 @@ class AddnEditVehicle extends Component {
 
     setBroken = e => {
         e.preventDefault();
-        if(!this.state.broken && this.state.operating){
+        if((!this.state.broken && this.state.operating) || (this.state.broken && this.state.operating && this.state.maintenance)){
             this.setState(prevState => ({
                 broken: !prevState.broken,
                 tagErrorMessage: "Seleção inválida!"
@@ -191,7 +195,7 @@ class AddnEditVehicle extends Component {
 
     setMaintenance = e => {
         e.preventDefault();
-        if(!this.state.maintenance && this.state.operating){
+        if((!this.state.maintenance && this.state.operating) || (this.state.maintenance && this.state.operating && this.state.broken)){
             this.setState(prevState => ({
                 maintenance: !prevState.maintenance,
                 tagErrorMessage: "Seleção inválida!"
@@ -209,6 +213,10 @@ class AddnEditVehicle extends Component {
         }    
     };
 
+    carYear = (date, dateString) => {
+        console.log(date, dateString);
+    }
+
     render(){      
         const { getFieldDecorator, isFieldTouched, getFieldError, getFieldsError } = this.props.form;     
         const plateError = isFieldTouched('plate') && getFieldError('plate');   
@@ -221,98 +229,141 @@ class AddnEditVehicle extends Component {
         return(
             <>
                 <Form onSubmit={this.handleSubmit}>
-                        
-                        <Form.Item label="Placa" validateStatus={plateError ? 'error' : ''} help={plateError || ''}>
-                            {getFieldDecorator("plate", {
-                                initialValue: this.state.plate,
-                                rules: [
-                                    { required: true, message: "Insira a placa do carro!" }
-                                ]
-                                })(
-                                <Input
-                                    placeholder="Placa do carro"
-                                    allowClear={true}
-                                />
-                                )}
-                        </Form.Item>
+                    <Row>
+                        <Col span={7} style={{margin: "1%"}}>
+                            <Form.Item label="Placa" validateStatus={plateError ? 'error' : ''} help={plateError || ''}>
+                                {getFieldDecorator("plate", {
+                                    initialValue: this.state.plate,
+                                    rules: [
+                                        { required: true, message: "Insira a placa do carro!" }
+                                    ]
+                                    })(
+                                    <Input
+                                        placeholder="Placa do carro"
+                                        allowClear={true}
+                                    />
+                                    )}
+                            </Form.Item>
+                        </Col>
+                        <Col span={7} style={{margin: "1%"}}>
+                            <Form.Item label="Modelo" validateStatus={modelError ? 'error' : ''} help={modelError || ''}>
+                                {getFieldDecorator("model", {
+                                    initialValue: this.state.model,
+                                    rules: [
+                                        { required: true, message: "Insira o modelo do carro!" }
+                                    ]
+                                    })(
+                                    <Input
+                                        placeholder="Modelo do carro"
+                                        allowClear={true}
+                                    />
+                                    )}
+                            </Form.Item>
+                        </Col>
+                        <Col span={7} style={{margin: "1%"}}>
+                            <Form.Item label="Fabricante" validateStatus={manufactureError ? 'error' : ''} help={manufactureError || ''}>
+                                {getFieldDecorator("manufacture", {
+                                    initialValue: this.state.manufacture,
+                                    rules: [
+                                        { required: true, message: "Insira o fabricante do carro!" }
+                                    ]
+                                    })(
+                                    <Input
+                                        placeholder="Fabricante do carro"
+                                        allowClear={true}
+                                    />
+                                    )}
+                            </Form.Item>
+                        </Col>
+                    </Row>
 
-                        <Form.Item label="Modelo" validateStatus={modelError ? 'error' : ''} help={modelError || ''}>
-                            {getFieldDecorator("model", {
-                                initialValue: this.state.model,
-                                rules: [
-                                    { required: true, message: "Insira o modelo do carro!" }
-                                ]
-                                })(
-                                <Input
-                                    placeholder="Modelo do carro"
-                                    allowClear={true}
+                    <Row>
+                        <Col span={7} style={{margin: "1%"}}>
+                            <Form.Item label="Cor" validateStatus={colorError ? 'error' : ''} help={colorError || ''}>
+                                {getFieldDecorator("color", {
+                                    initialValue: this.state.color,
+                                    rules: [
+                                        { required: true, message: "Insira a cor do carro!" }
+                                    ]
+                                    })(
+                                    <Input
+                                        placeholder="Cor do carro"
+                                        allowClear={true}
+                                    />
+                                    )}
+                            </Form.Item>
+                        </Col>
+                        <Col span={7} style={{margin: "1%"}}>
+                            <Form.Item label="Ano">
+                                <DatePicker 
+                                className="ant-calendar-picker"
+                                onChange={this.carYear}
+                                placeholder={"Ano do carro"}
+                                format={"YYYY"}
+                                allowClear={true}
+                                mode={"year"}
                                 />
-                                )}
-                        </Form.Item>
+                            </Form.Item>
+                        </Col>
+                        <Col span={7} style={{margin: "1%"}}>
+                            <Form.Item label="Hodômetro" validateStatus={mileageError ? 'error' : ''} help={mileageError || ''}>
+                                {getFieldDecorator("mileage", {
+                                    initialValue: this.state.mileage,
+                                    rules: [
+                                        { required: true, message: "Insira a quilometragem do carro!" }
+                                    ]
+                                    })(
+                                    <Input
+                                        placeholder="Hodômetro do carro"
+                                        allowClear={true}
+                                    />
+                                    )}
+                            </Form.Item>
+                        </Col>
+                    </Row>
 
-                        <Form.Item label="Fabricante" validateStatus={manufactureError ? 'error' : ''} help={manufactureError || ''}>
-                            {getFieldDecorator("manufacture", {
-                                initialValue: this.state.manufacture,
-                                rules: [
-                                    { required: true, message: "Insira o fabricante do carro!" }
-                                ]
-                                })(
-                                <Input
-                                    placeholder="Fabricante do carro"
-                                    allowClear={true}
+                    <Row>
+                        <Col span={7} style={{margin: "1%"}}>
+                            <Form.Item label="Última manuntenção">
+                                <DatePicker 
+                                //onChange={this.carYear}
+                                className="ant-calendar-picker"
+                                placeholder={"Última manuntenção do carro"}
+                                allowClear={true}
                                 />
-                                )}
-                        </Form.Item>
-
-                        <Form.Item label="Departamento" validateStatus={departamentError ? 'error' : ''} help={departamentError || ''}>
-                            {getFieldDecorator("departament", {
-                                initialValue: this.state.departament,
-                                rules: [
-                                    { required: true, message: "Insira o departamento que pertence o carro!" }
-                                ]
-                                })(
-                                <Input
-                                    placeholder="Departamento do carro"
-                                    allowClear={true}
+                            </Form.Item>
+                        </Col>
+                        <Col span={7} style={{margin: "1%"}}>
+                            <Form.Item label="Próxima manuntenção">
+                                <DatePicker 
+                                //onChange={this.carYear}
+                                className="ant-calendar-picker"
+                                placeholder={"Próxima manuntenção do carro"}
+                                allowClear={true}
                                 />
-                                )}
-                        </Form.Item>
+                            </Form.Item>
+                        </Col>
+                        <Col span={7} style={{margin: "1%"}}>
+                            <Form.Item label="Departamento" validateStatus={departamentError ? 'error' : ''} help={departamentError || ''}>
+                                {getFieldDecorator("departament", {
+                                    initialValue: this.state.departament,
+                                    rules: [
+                                        { required: true, message: "Insira o departamento que pertence o carro!" }
+                                    ]
+                                    })(
+                                    <Input
+                                        placeholder="Departamento do carro"
+                                        allowClear={true}
+                                    />
+                                    )}
+                            </Form.Item>
+                        </Col>
+                    </Row>
 
-                        <Form.Item label="Cor" validateStatus={colorError ? 'error' : ''} help={colorError || ''}>
-                            {getFieldDecorator("color", {
-                                initialValue: this.state.color,
-                                rules: [
-                                    { required: true, message: "Insira a cor do carro!" }
-                                ]
-                                })(
-                                <Input
-                                    placeholder="Cor do carro"
-                                    allowClear={true}
-                                />
-                                )}
-                        </Form.Item>
-
-                        <Form.Item label="Hodômetro" validateStatus={mileageError ? 'error' : ''} help={mileageError || ''}>
-                            {getFieldDecorator("mileage", {
-                                initialValue: this.state.mileage,
-                                rules: [
-                                    { required: true, message: "Insira a quilometragem do carro!" }
-                                ]
-                                })(
-                                <Input
-                                    placeholder="Hodômetro do carro"
-                                    allowClear={true}
-                                />
-                                )}
-                        </Form.Item>
-
-{/*
-                      lastMaintenceDate: "",
-                      year: "",
-                      nextMaintenceDate: "",
-*/}
+                    <Row style={{marginLeft: "32.4%"}}>
                         <Form.Item label="Estado atual" validateStatus={this.getTagError() ? 'error' : ''} help={this.getTagError() || ''}>
                             <Tag
+                                style={{marginLeft: "5%"}}
                                 color={this.state.operating ? "green" : "blue"}
                                 onClick={this.setOperating}
                             >
@@ -331,9 +382,11 @@ class AddnEditVehicle extends Component {
                                 Manuntenção
                             </Tag>
                             <br/>
-                            <Typography type="warning">{this.state.tagErrorMessage}</Typography>
+                            <Text type="danger" className="tag-warning-text">{this.state.tagErrorMessage}</Text>
                         </Form.Item>
+                    </Row>
 
+                    <Row style={{marginLeft: "37%", marginTop: "5%"}}>
                         <Form.Item >
                             <Row>
                                 <Col span={5}>                                
@@ -352,6 +405,7 @@ class AddnEditVehicle extends Component {
                                 </Col>
                             </Row>
                         </Form.Item>
+                    </Row>
                 </Form>
             </>
         );
