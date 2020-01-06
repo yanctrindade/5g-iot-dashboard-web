@@ -155,12 +155,12 @@ class AddnEditVehicle extends Component {
         if(this.state.maintenance && !this.state.operating){
             this.setState(prevState => ({
                 operating: !prevState.operating,
-                tagErrorMessage: "Seleção inválida!"
+                tagErrorMessage: "Combinação de estados inválida!"
             }));
         } else if(this.state.broken && !this.state.operating){
             this.setState(prevState => ({
                 operating: !prevState.operating,
-                tagErrorMessage: "Seleção inválida!"
+                tagErrorMessage: "Combinação de estados inválida!"
             }));
         } else if(this.state.operating && !this.state.broken && !this.state.maintenance){
             this.setState(prevState => ({
@@ -180,7 +180,7 @@ class AddnEditVehicle extends Component {
         if((!this.state.broken && this.state.operating) || (this.state.broken && this.state.operating && this.state.maintenance)){
             this.setState(prevState => ({
                 broken: !prevState.broken,
-                tagErrorMessage: "Seleção inválida!"
+                tagErrorMessage: "Combinação de estados inválida!"
             }));
         } else if(!this.state.operating && this.state.broken && !this.state.maintenance){
             this.setState(prevState => ({
@@ -200,7 +200,7 @@ class AddnEditVehicle extends Component {
         if((!this.state.maintenance && this.state.operating) || (this.state.maintenance && this.state.operating && this.state.broken)){
             this.setState(prevState => ({
                 maintenance: !prevState.maintenance,
-                tagErrorMessage: "Seleção inválida!"
+                tagErrorMessage: "Combinação de estados inválida!"
             }));
         } else if(!this.state.operating && !this.state.broken && this.state.maintenance){
             this.setState(prevState => ({

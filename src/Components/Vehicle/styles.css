@@ -9,6 +9,12 @@
 
 .tag-warning-text {
     position: relative;
-    right: 192px;
+    right: 252px;
     top: 26px;
+}
+
+.new-car-buttom {
+    font-size: 25px;
+    position: relative;
+    bottom: 50px;
 }

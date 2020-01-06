@@ -4,6 +4,7 @@ import Highlighter from 'react-highlight-words';
 import VehicleStatistics from './VehicleStatistics'
 import DataColumns from './DataTableColumns';
 import axios from 'axios';
+import "./styles.css";
 
 class DataTable extends Component {
   constructor(props) {
@@ -119,12 +120,10 @@ class DataTable extends Component {
               showSizeChanger: true,
             }} 
           />
-        <div style={{position: "absolute", bottom: "-12%"}}>
-        <a href='/vehicles/add' style={{fontSize: '25px'}} >
+        <a href='/vehicles/add' className="new-car-buttom" >
           +
           <Icon type="car"/>
         </a>
-      </div>
       </div>
       );
   }
