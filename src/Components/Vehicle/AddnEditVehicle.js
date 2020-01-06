@@ -10,6 +10,7 @@ import {
     DatePicker
   } from 'antd';
 import axios from 'axios';
+import moment from "moment";
 import "./styles.css";
 
 const { Text } = Typography;
@@ -30,11 +31,11 @@ class AddnEditVehicle extends Component {
                       maintenance: false,
                       model: "",
                       manufacture: "",
-                      lastMaintenceDate: "",
+                      lastMaintenceDate: null,
                       departament: "",
                       year: "",
                       color: "",
-                      nextMaintenceDate: "",
+                      nextMaintenceDate: null,
                       mileage: "",
                       tagErrorMessage: ""
                      };
@@ -135,7 +136,8 @@ class AddnEditVehicle extends Component {
         this.props.form.validateFields((err, values) => {
           if (!err) {
             console.log(values.plate);
-
+            // Every value is saved in state, so it can be retrieved with this.state or 
+            // with values.obj
             if(this.state.isNewCar){
                 // Save to database as new entry
                 console.log("new entry!");
@@ -213,8 +215,58 @@ class AddnEditVehicle extends Component {
         }    
     };
 
-    carYear = (date, dateString) => {
-        console.log(date, dateString);
+    lastMaintenceDate = (date, dateString) => {
+        this.setState(({
+            lastMaintenceDate: date !== null ? date.format("YYYY-MM-DD") : null
+        }));
+    }
+
+    nextMaintenceDate = (date, dateString) => {
+        this.setState(({
+            nextMaintenceDate: date !== null ? date.format("YYYY-MM-DD") : null
+        }));
+    }
+
+    updatePlate = (e) => {
+        this.setState(({
+            plate: e.target.value
+        }));
+    }
+
+    updateModel = (e) => {
+        this.setState(({
+            model: e.target.value
+        }));
+    }
+
+    updateManufacture = (e) => {
+        this.setState(({
+            manufacture: e.target.value
+        }));
+    }
+
+    updateColor = (e) => {
+        this.setState(({
+            color: e.target.value
+        }));
+    }
+
+    updateYear = (e) => {
+        this.setState(({
+            year: e.target.value
+        }));
+    }
+
+    updateMileage = (e) => {
+        this.setState(({
+            mileage: e.target.value
+        }));
+    }
+
+    updateDepartament = (e) => {
+        this.setState(({
+            departament: e.target.value
+        }));
     }
 
     render(){      
@@ -224,7 +276,10 @@ class AddnEditVehicle extends Component {
         const manufactureError = isFieldTouched('manufacture') && getFieldError('manufacture');
         const departamentError = isFieldTouched('departament') && getFieldError('departament');
         const colorError = isFieldTouched('color') && getFieldError('color');
+        const yearError = isFieldTouched('year') && getFieldError('year');
         const mileageError = isFieldTouched('mileage') && getFieldError('mileage');
+        const lastMaintenceDateError = isFieldTouched('lastMaintenceDate') && getFieldError('lastMaintenceDate');
+        const nextMaintenceDateError = isFieldTouched('nextMaintenceDate') && getFieldError('nextMaintenceDate');
         
         return(
             <>
@@ -240,6 +295,7 @@ class AddnEditVehicle extends Component {
                                     })(
                                     <Input
                                         placeholder="Placa do carro"
+                                        onChange={this.updatePlate}
                                         allowClear={true}
                                     />
                                     )}
@@ -255,6 +311,7 @@ class AddnEditVehicle extends Component {
                                     })(
                                     <Input
                                         placeholder="Modelo do carro"
+                                        onChange={this.updateModel}
                                         allowClear={true}
                                     />
                                     )}
@@ -270,6 +327,7 @@ class AddnEditVehicle extends Component {
                                     })(
                                     <Input
                                         placeholder="Fabricante do carro"
+                                        onChange={this.updateManufacture}
                                         allowClear={true}
                                     />
                                     )}
@@ -288,21 +346,26 @@ class AddnEditVehicle extends Component {
                                     })(
                                     <Input
                                         placeholder="Cor do carro"
+                                        onChange={this.updateColor}
                                         allowClear={true}
                                     />
                                     )}
                             </Form.Item>
                         </Col>
                         <Col span={7} style={{margin: "1%"}}>
-                            <Form.Item label="Ano">
-                                <DatePicker 
-                                className="ant-calendar-picker"
-                                onChange={this.carYear}
-                                placeholder={"Ano do carro"}
-                                format={"YYYY"}
-                                allowClear={true}
-                                mode={"year"}
-                                />
+                            <Form.Item label="Ano" validateStatus={yearError ? 'error' : ''} help={yearError || ''}>
+                                {getFieldDecorator("year", {
+                                    initialValue: this.state.year,
+                                    rules: [
+                                        { required: true, message: "Insira o ano do carro!" }
+                                    ]
+                                    })(
+                                    <Input
+                                        placeholder="Ano do carro"
+                                        onChange={this.updateYear}
+                                        allowClear={true}
+                                    />
+                                )}
                             </Form.Item>
                         </Col>
                         <Col span={7} style={{margin: "1%"}}>
@@ -315,6 +378,7 @@ class AddnEditVehicle extends Component {
                                     })(
                                     <Input
                                         placeholder="Hodômetro do carro"
+                                        onChange={this.updateMileage}
                                         allowClear={true}
                                     />
                                     )}
@@ -324,23 +388,39 @@ class AddnEditVehicle extends Component {
 
                     <Row>
                         <Col span={7} style={{margin: "1%"}}>
-                            <Form.Item label="Última manuntenção">
-                                <DatePicker 
-                                //onChange={this.carYear}
-                                className="ant-calendar-picker"
-                                placeholder={"Última manuntenção do carro"}
-                                allowClear={true}
-                                />
+                            <Form.Item label="Última manuntenção" validateStatus={lastMaintenceDateError ? 'error' : ''} help={lastMaintenceDateError || ''}>
+                                {getFieldDecorator("lastMaintenceDate", {
+                                    initialValue: this.state.lastMaintenceDate !== null ? moment(this.state.lastMaintenceDate) : null,
+                                    rules: [
+                                        { required: true, message: "Selecione uma data!" }
+                                    ]
+                                    })(
+                                        <DatePicker 
+                                            onChange={this.lastMaintenceDate}
+                                            format="DD/MM/YYYY"
+                                            className="vehicle-calendar-picker"
+                                            placeholder={"Última manuntenção do carro"}
+                                            allowClear={true}
+                                        />
+                                    )}
                             </Form.Item>
                         </Col>
                         <Col span={7} style={{margin: "1%"}}>
-                            <Form.Item label="Próxima manuntenção">
-                                <DatePicker 
-                                //onChange={this.carYear}
-                                className="ant-calendar-picker"
-                                placeholder={"Próxima manuntenção do carro"}
-                                allowClear={true}
-                                />
+                            <Form.Item label="Próxima manuntenção" required={true} validateStatus={nextMaintenceDateError ? 'error' : ''} help={nextMaintenceDateError || ''}>
+                                {getFieldDecorator("nextMaintenceDate", {
+                                    initialValue: this.state.nextMaintenceDate !== null ? moment(this.state.nextMaintenceDate) : null,
+                                    rules: [
+                                        { required: true, message: "Selecione uma data!" }
+                                    ]
+                                    })(
+                                        <DatePicker 
+                                            onChange={this.nextMaintenceDate}
+                                            format="DD/MM/YYYY"
+                                            className="vehicle-calendar-picker"
+                                            placeholder={"Próxima manuntenção do carro"}
+                                            allowClear={true}
+                                        />
+                                    )}
                             </Form.Item>
                         </Col>
                         <Col span={7} style={{margin: "1%"}}>
@@ -353,6 +433,7 @@ class AddnEditVehicle extends Component {
                                     })(
                                     <Input
                                         placeholder="Departamento do carro"
+                                        onChange={this.updateDepartament}
                                         allowClear={true}
                                     />
                                     )}
@@ -381,7 +462,6 @@ class AddnEditVehicle extends Component {
                             >
                                 Manuntenção
                             </Tag>
-                            <br/>
                             <Text type="danger" className="tag-warning-text">{this.state.tagErrorMessage}</Text>
                         </Form.Item>
                     </Row>

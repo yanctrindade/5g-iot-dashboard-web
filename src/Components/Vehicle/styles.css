@@ -1,4 +1,4 @@
-.ant-calendar-picker {
+.vehicle-calendar-picker {
     width: 100%;
     position: relative;
     margin: 0px;
@@ -9,6 +9,6 @@
 
 .tag-warning-text {
     position: relative;
-    left: 12.5%;
-    bottom: 10px;
+    right: 192px;
+    top: 26px;
 }
