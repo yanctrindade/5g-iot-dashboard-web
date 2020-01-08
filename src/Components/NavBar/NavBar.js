@@ -12,7 +12,7 @@ const cookies = new Cookies();
 class NavBar extends Component {
   constructor(props) {
     super(props);
-    const isCollapsed = cookies.get('isCollapsed') !== undefined ? cookies.get('isCollapsed') === "true" : false;
+    const isCollapsed = cookies.get('isCollapsed') === "true" ? true : false;
     
     this.state = { 
                   collapsed: isCollapsed
