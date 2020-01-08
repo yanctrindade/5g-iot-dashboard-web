@@ -1,18 +1,28 @@
 import React, { Component } from "react";
 import { Layout, Menu, Icon, Button } from "antd";
 import auth from "../../Components/Login/Auth";
+import { Cookies } from 'react-cookie';
 import "antd/dist/antd.css";
 
 import { Link } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
+const cookies = new Cookies();
 
 class NavBar extends Component {
-  state = {
-    collapsed: false
-  };
+  constructor(props) {
+    super(props);
+    const isCollapsed = cookies.get('isCollapsed') !== undefined ? cookies.get('isCollapsed') === "true" : false;
+    
+    this.state = { 
+                  collapsed: isCollapsed
+                 };
+  }
 
   onCollapse = collapsed => {
+    cookies.remove('isCollapsed');
+    cookies.set('isCollapsed', !this.state.collapsed, { path: '/' });
+    
     this.setState({ collapsed });
   };
 
