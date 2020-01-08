@@ -1,34 +1,20 @@
 import React, { Component } from "react";
 import { Layout, Menu, Icon, Button } from "antd";
-import { auth } from "../../Components/Login/Auth";
+import auth from "../../Components/Login/Auth";
 import "antd/dist/antd.css";
 
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const { Header, Sider, Content } = Layout;
 
 class NavBar extends Component {
   state = {
-    collapsed: false, 
-    content: 1,
-    logout: false,
+    collapsed: false
   };
 
   onCollapse = collapsed => {
-    console.log(collapsed);
     this.setState({ collapsed });
   };
-
-  logout = (e) => {
-    e.preventDefault();
-    auth.signout(() => {
-      this.setState(() => ({
-        redirectToReferrer: true
-      }))
-    })
-
-    this.setState({ logout: true });
-  }
 
   render() {
 
@@ -43,12 +29,20 @@ class NavBar extends Component {
     ///////////////////////////////////////////////////////////////////////////
     
     return (
-        this.state.logout ? <Redirect to="/" /> :
         <Layout>
           <Header style={{ color: "white", textAlign: "center" }}>
             COMNET
             
-            <Button type="link" style={{ color: "white", textAlign: "center", float: "right", marginTop: "15px"}} href='#' onClick={this.logout}>
+            <Button 
+              type="link" 
+              style={{ color: "white", textAlign: "center", float: "right", marginTop: "15px"}} 
+              href='#' 
+              onClick={
+                () => {
+                  auth.logout(() => {
+                  this.props.history.push("/");
+                });
+              }}>
               Sair
             </Button>
           </Header>

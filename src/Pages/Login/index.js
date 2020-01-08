@@ -1,10 +1,6 @@
 import React from "react";
 import { Form, Icon, Input, Button, Checkbox, Row, Card, Layout, message } from "antd";
-import { checkCredentials, auth } from "../../Components/Login/Auth";
-
-/////////////////REMOVE/////////////////////////
-import { Redirect } from 'react-router-dom'
-///////////////////////////////////////////////
+import auth from "../../Components/Login/Auth";
 
 import "./styles.css";
 import "antd/dist/antd.css";
@@ -16,39 +12,20 @@ function hasErrors(fieldsError) {
 }
 
 class Login extends React.Component {
-
-  state = {
-    redirect: false
-  }
-
   LoginButton = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         message.loading('Carregando...', 1.5)
         .then(() => {
-          if (checkCredentials(values.userName, values.password))
-          {
-            auth.authenticate(() => {
-              this.setState(() => ({
-                redirectToReferrer: true
-              }))
-            })
-
-            this.setState({
-              redirect: true
-            })
-          }
+          auth.login(values.userName, values.password);
+          if (auth.isAuthenticated()){
+            this.props.history.push("/map");
+          }         
         })
       }
     });
   };
-
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      return <Redirect to='/map' />
-    }
-  }
 
   render() {
     const { getFieldDecorator, getFieldsError, isFieldTouched, getFieldError } = this.props.form;
@@ -59,7 +36,6 @@ class Login extends React.Component {
 
     return (
       <div>
-        {this.renderRedirect()}
         <Row style={{ marginBottom: 50 }}>
           <Layout>
             <Header style={{ color: "white", textAlign: "center" }}>
