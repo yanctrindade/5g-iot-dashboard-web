@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import { Layout, Menu, Icon } from "antd";
+import { Layout, Menu, Icon, Button } from "antd";
+import auth from "../../Components/Login/Auth";
 import "antd/dist/antd.css";
 
 import { Link } from "react-router-dom";
@@ -8,12 +9,10 @@ const { Header, Sider, Content } = Layout;
 
 class NavBar extends Component {
   state = {
-    collapsed: false, 
-    content: 1,
+    collapsed: false
   };
 
   onCollapse = collapsed => {
-    console.log(collapsed);
     this.setState({ collapsed });
   };
 
@@ -33,7 +32,21 @@ class NavBar extends Component {
         <Layout>
           <Header style={{ color: "white", textAlign: "center" }}>
             COMNET
+            
+            <Button 
+              type="link" 
+              style={{ color: "white", textAlign: "center", float: "right", marginTop: "15px"}} 
+              href='#' 
+              onClick={
+                () => {
+                  auth.logout(() => {
+                  this.props.history.push("/");
+                });
+              }}>
+              Sair
+            </Button>
           </Header>
+
           <Layout style={{ minHeight: "90vh" }}>
             <Sider
               collapsible

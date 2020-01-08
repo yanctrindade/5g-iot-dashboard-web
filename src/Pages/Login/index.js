@@ -1,9 +1,6 @@
 import React from "react";
 import { Form, Icon, Input, Button, Checkbox, Row, Card, Layout, message } from "antd";
-
-/////////////////REMOVE/////////////////////////
-import { Redirect } from 'react-router-dom'
-///////////////////////////////////////////////
+import auth from "../../Components/Login/Auth";
 
 import "./styles.css";
 import "antd/dist/antd.css";
@@ -15,52 +12,17 @@ function hasErrors(fieldsError) {
 }
 
 class Login extends React.Component {
-
-  state = {
-    redirect: false
-  }
-
-  renderRedirect = () => {
-    if (this.state.redirect) {
-      return <Redirect to='/map' />
-    }
-  }
-
-  componentDidMount() {
-    // To disabled submit button at the beginning.
-    this.props.form.validateFields();
-  }
-
-  checkUsername = (rule, value, callback) => {
-    const form = this.props.form;
-    form.setFields({
-      username: {
-        value: "asdas"
-      }
-    });
-    form.setFieldsValue("pedro, manada");
-  };
-
   LoginButton = e => {
     e.preventDefault();
     this.props.form.validateFields((err, values) => {
       if (!err) {
         message.loading('Carregando...', 1.5)
         .then(() => {
-          if (values.userName === 'test' && values.password === 'test')
-          {
-            message.success('Carregado!', 1.0);
-            this.setState({
-              redirect: true
-            })
-          }
-          else
-          {
-            message.error('Usuário inexistente!', 1.0);
-          }
-          
-          console.log("Received values of form: ", values);  
-        })        
+          auth.login(values.userName, values.password);
+          if (auth.isAuthenticated()){
+            this.props.history.push("/map");
+          }         
+        })
       }
     });
   };
@@ -74,7 +36,6 @@ class Login extends React.Component {
 
     return (
       <div>
-        {this.renderRedirect()}
         <Row style={{ marginBottom: 50 }}>
           <Layout>
             <Header style={{ color: "white", textAlign: "center" }}>
@@ -88,9 +49,9 @@ class Login extends React.Component {
             <Form className="login-form">
               <Form.Item validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
                 {getFieldDecorator("userName", {
+                  initialValue: "",
                   rules: [
-                    { required: true, message: "Insira um usuário!" }/*,
-                    { validator: this.checkUsername }*/
+                    { required: true, message: "Insira um usuário!" }
                   ]
                 })(
                   <Input
@@ -102,6 +63,7 @@ class Login extends React.Component {
 
               <Form.Item validateStatus={passwordError ? 'error' : ''} help={passwordError || ''}>
                 {getFieldDecorator("password", {
+                  initialValue: "",
                   rules: [{ required: true, message: "Insira sua senha!" }]
                 })(
                   <Input
@@ -124,7 +86,7 @@ class Login extends React.Component {
                   type="primary"
                   htmlType="submit"
                   className="login-form-button"
-                  disabled={hasErrors(getFieldsError())}
+                  disabled={hasErrors(getFieldsError()) || !isFieldTouched('userName') || !isFieldTouched('password')}
                   onClick={this.LoginButton}
                 >
                   Entrar
