@@ -16,6 +16,7 @@ import Recover from "../../Pages/Recover/";
 import Register from "../../Pages/Register/";
 import Agreement from "../../Pages/Agreement/";
 import auth from "../Login/Auth";
+import NotFound from "./NotFound";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route
@@ -38,10 +39,10 @@ const Routes = () => (
             <Route exact path='/register' component={Form.create({ name: 'register' })(Register)}/>   
             <Route exact path='/recover' component={Form.create()(Recover)}/>
             <Route exact path='/agreement' component={Agreement}/>        
-            <PrivateRoute path="/map" component={Map} />
-            <PrivateRoute path="/vehicles" component={Vehicles} />
-            <PrivateRoute path="/statistics" component={Statistics} />
-            <Route exact path='*' component={() => "404 - Not Found"}/>   
+            <PrivateRoute exact path="/map" component={Map} />
+            <PrivateRoute exact path="/vehicles" component={Vehicles} />
+            <PrivateRoute exact path="/statistics" component={Statistics} />
+            <Route exact path='*' component={NotFound}/>   
         </Switch>
     </BrowserRouter>
   </ConfigProvider>
