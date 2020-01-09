@@ -50,7 +50,7 @@ class NavBar extends Component {
             COMNET
             <Button 
               type="link" 
-              className="logout-buttom"
+              className="main-logout-buttom"
               href='#' 
               onClick={
                 () => {

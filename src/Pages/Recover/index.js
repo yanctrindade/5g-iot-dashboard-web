@@ -7,6 +7,10 @@ import "antd/dist/antd.css";
 const { Header} = Layout;
 const { Text } = Typography;
 
+function hasErrors(fieldsError) {
+    return Object.keys(fieldsError).some(field => fieldsError[field]);
+}
+
 class Recover extends React.Component{
     SendNewPassword = e => {
         e.preventDefault();
@@ -27,9 +31,10 @@ class Recover extends React.Component{
       };
 
     render() {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator, isFieldTouched, getFieldsError } = this.props.form;
         return (
         <div>
+            {console.log(isFieldTouched('userName'))}
             <Row style={{ marginBottom: 50 }}>
                 <Layout>
                     <Header style={{ color: "white", textAlign: "center" }}>
@@ -64,6 +69,7 @@ class Recover extends React.Component{
                                     type="primary"
                                     htmlType="submit"
                                     className="login-form-button"
+                                    disabled={hasErrors(getFieldsError()) || !isFieldTouched('userName')}
                                     onClick={this.SendNewPassword}
                                     >
                                     Enviar
