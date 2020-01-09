@@ -1,5 +1,7 @@
 import React from "react";
 import { Form, Icon, Input, Button, Typography, Row, Card, Layout, message } from "antd";
+import fiwareLogo from '../../Assets/poweredbyfiware.png';
+import comnetLogo from '../../Assets/comnetlogo.png';
 
 import "./styles.css";
 import "antd/dist/antd.css";
@@ -38,7 +40,8 @@ class Recover extends React.Component{
             <Row style={{ marginBottom: 50 }}>
                 <Layout>
                     <Header style={{ color: "white", textAlign: "center" }}>
-                        COMNET
+                        <img src={fiwareLogo} alt="fiwareLogo" width="130" style={{position: "absolute", right: "40px"}} />
+                        <img src={comnetLogo} alt="comnetLogo" width="180" style={{position: "absolute", left: "40px"}} />
                     </Header>
                 </Layout>
             </Row>

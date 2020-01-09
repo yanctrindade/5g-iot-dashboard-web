@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import { Layout, Menu, Icon, Button, Avatar } from "antd";
 import auth from "../../Components/Login/Auth";
 import { Cookies } from 'react-cookie';
+import fiwareLogo from '../../Assets/poweredbyfiware.png';
+import comnetLogo from '../../Assets/comnetlogo.png';
 import "antd/dist/antd.css";
 import "./styles.css"
 
@@ -47,7 +49,8 @@ class NavBar extends Component {
     return (
         <Layout>
           <Header style={{ color: "white", textAlign: "center" }}>
-            COMNET
+            <img src={fiwareLogo} alt="fiwareLogo" width="130" style={{position: "absolute", right: "100px"}} />
+            <img src={comnetLogo} alt="comnetLogo" width="180" style={{position: "absolute", left: "8px"}} />
             <Button 
               type="link" 
               className="main-logout-buttom"

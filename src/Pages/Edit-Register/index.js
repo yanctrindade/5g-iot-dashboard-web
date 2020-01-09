@@ -11,7 +11,9 @@ import {
     Card,
     Layout,
   } from 'antd';
-  import auth from "../../Components/Login/Auth";
+import auth from "../../Components/Login/Auth";
+import fiwareLogo from '../../Assets/poweredbyfiware.png';
+import comnetLogo from '../../Assets/comnetlogo.png';
 
   import "./styles.css";
   
@@ -84,7 +86,8 @@ import {
             <Row style={{ marginBottom: 50 }}>
                 <Layout>
                     <Header style={{ color: "white", textAlign: "center" }}>
-                        COMNET
+                        <img src={fiwareLogo} alt="fiwareLogo" width="130" style={{position: "absolute", right: auth.isAuthenticated() ? "100px" : "40px"}} />
+                        <img src={comnetLogo} alt="comnetLogo" width="180" style={{position: "absolute", left: "40px"}} />
                         {auth.isAuthenticated() ? <Button 
                                                     type="link" 
                                                     className="edit-user-logout-buttom"
