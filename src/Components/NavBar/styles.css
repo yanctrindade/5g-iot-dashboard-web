@@ -1,0 +1,16 @@
+.edit-user-button{
+    position: relative;
+    color: white;
+    text-align: center;
+    float: right;
+    margin-top: 5px;
+    left: 60px;
+}
+
+.logout-buttom{
+    position: relative;
+    color: white;
+    text-align: center;
+    float: right;
+    margin-top: 35px;
+}

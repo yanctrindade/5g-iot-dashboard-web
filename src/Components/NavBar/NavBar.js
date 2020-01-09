@@ -3,6 +3,7 @@ import { Layout, Menu, Icon, Button, Avatar } from "antd";
 import auth from "../../Components/Login/Auth";
 import { Cookies } from 'react-cookie';
 import "antd/dist/antd.css";
+import "./styles.css"
 
 import { Link } from "react-router-dom";
 
@@ -49,7 +50,7 @@ class NavBar extends Component {
             COMNET
             <Button 
               type="link" 
-              style={{ color: "white", textAlign: "center", float: "right", marginTop: "3%"}} 
+              className="logout-buttom"
               href='#' 
               onClick={
                 () => {
@@ -61,7 +62,7 @@ class NavBar extends Component {
             </Button>
             <Button 
               type="link" 
-              style={{ color: "white", textAlign: "center", float: "right", marginTop: "0.5%", left: "5%"}} 
+              className="edit-user-button"
               href='/edit-user' 
               >
               <Avatar style={{ backgroundColor:"#1890FF"}}>{this.getInitials(auth.getUserName())}</Avatar>
