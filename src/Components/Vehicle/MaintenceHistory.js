@@ -197,7 +197,7 @@ class MaintenceHistory extends Component {
                                     </Col>
                                 </Row>
 
-                                <Row style={{marginLeft: "37%", marginTop: "5%"}}>
+                                <Row className="back-save-button">
                                     <Form.Item >
                                         <Row>
                                             <Col span={5}>                                
@@ -222,7 +222,7 @@ class MaintenceHistory extends Component {
                     </Collapse>
 
                     {this.state.collapsed ? 
-                    <Row style={{marginLeft: "42%", marginTop: "5%"}}>                             
+                    <Row className="back-button">                             
                         <Button type="primary" href="/vehicles">
                             Voltar
                         </Button>                           

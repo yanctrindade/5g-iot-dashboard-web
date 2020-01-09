@@ -19,3 +19,15 @@
     bottom: 50px;
     left: 4px;
 }
+
+.back-save-button {
+    position: relative;
+    margin-left: 460px;
+    margin-top: 5px;
+}
+
+.back-button {
+    position: relative;
+    margin-left: 500px;
+    margin-top: 20px;
+}
