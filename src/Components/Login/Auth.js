@@ -64,6 +64,10 @@ class Auth {
   userAcessLevel(){
     return this.userAcessLevel;
   }
+
+  getUserName(){
+    return this.user;
+  }
 }
 
 export default new Auth();

@@ -13,7 +13,7 @@ import Vehicles from "../../Pages/Vehicles/";
 import Statistics from "../../Pages/Statistics/";
 import Login from "../../Pages/Login/";
 import Recover from "../../Pages/Recover/";
-import Register from "../../Pages/Register/";
+import EditRegister from "../../Pages/Edit-Register/";
 import Agreement from "../../Pages/Agreement/";
 import EditVehicles from "../../Pages/Vehicles/EditVehicles";
 import AddVehicles from "../../Pages/Vehicles/AddVehicles";
@@ -38,9 +38,10 @@ const Routes = () => (
     <BrowserRouter>
         <Switch> 
             <Route exact path='/' component={Form.create()(Login)}/>   
-            <Route exact path='/register' component={Form.create({ name: 'register' })(Register)}/>   
+            <Route exact path='/register' component={Form.create()(EditRegister)}/>   
             <Route exact path='/recover' component={Form.create()(Recover)}/>
-            <Route exact path='/agreement' component={Agreement}/>        
+            <Route exact path='/agreement' component={Agreement}/>      
+            <PrivateRoute exact path='/edit-user' component={Form.create()(EditRegister)}/>  
             <PrivateRoute exact path="/map" component={Map} />
             <PrivateRoute exact path="/vehicles/edit" component={EditVehicles} />
             <PrivateRoute exact path="/vehicles/add" component={AddVehicles} />

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Layout, Menu, Icon, Button } from "antd";
+import { Layout, Menu, Icon, Button, Avatar } from "antd";
 import auth from "../../Components/Login/Auth";
 import { Cookies } from 'react-cookie';
 import "antd/dist/antd.css";
@@ -26,6 +26,11 @@ class NavBar extends Component {
     this.setState({ collapsed });
   };
 
+  getInitials = (name) => {
+    const initials = name.match(/\b\w/g) || [];
+    return ((initials.shift() || '') + (initials.pop() || '')).toUpperCase();
+  }
+
   render() {
 
     // Because of ANTD 'componentWillReceiveProps has been renamed' warning, 
@@ -42,10 +47,9 @@ class NavBar extends Component {
         <Layout>
           <Header style={{ color: "white", textAlign: "center" }}>
             COMNET
-            
             <Button 
               type="link" 
-              style={{ color: "white", textAlign: "center", float: "right", marginTop: "15px"}} 
+              style={{ color: "white", textAlign: "center", float: "right", marginTop: "3%"}} 
               href='#' 
               onClick={
                 () => {
@@ -54,6 +58,13 @@ class NavBar extends Component {
                 });
               }}>
               Sair
+            </Button>
+            <Button 
+              type="link" 
+              style={{ color: "white", textAlign: "center", float: "right", marginTop: "0.5%", left: "5%"}} 
+              href='/edit-user' 
+              >
+              <Avatar style={{ backgroundColor:"#1890FF"}}>{this.getInitials(auth.getUserName())}</Avatar>
             </Button>
           </Header>
 
