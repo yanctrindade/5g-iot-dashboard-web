@@ -24,7 +24,7 @@ class DataTable extends Component {
     })
   }
 
-  getColumnSearchProps = (dataIndex, cellRender) => ({
+  getColumnSearchProps = (dataIndex, cellRender, renderIcon) => ({
     filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
       <div style={{ padding: 8 }}>
         <Input
@@ -64,7 +64,7 @@ class DataTable extends Component {
         setTimeout(() => this.searchInput.select());
       }
     },
-    render: text => {
+    render: (text, record) => {
       const hasCellRender = (typeof cellRender !== "undefined")
       const cellText = typeof text === "string" ? text : text[0]
       const cellElementes = text.slice(1)
@@ -77,7 +77,8 @@ class DataTable extends Component {
             textToHighlight={cellText.toString()}
           />
           <>
-          {hasCellRender ? cellRender(cellElementes) : <></>}
+            {hasCellRender ? cellRender(cellElementes) : <></>}
+            {(typeof renderIcon !== "undefined") ? renderIcon(record) : <></>}
           </>
         </>
       )
@@ -107,12 +108,13 @@ class DataTable extends Component {
   }
 
   render() {    
-    const columns = DataColumns.map(item => (item.title !== "Editar" ? {...item, ...this.getColumnSearchProps(item.dataIndex, item.cellRender)} : item))
+    const columns = DataColumns.map(item => (item.title !== "Editar" ? {...item, ...this.getColumnSearchProps(item.dataIndex, item.cellRender, item.renderIcon)} : item))
 
     return (
       <div style={{ margin: '25px' }}>
         <Table 
             bordered = {true}
+            size="small"
             columns={columns} dataSource={this.state.VehicleData} 
             expandedRowRender={record => <VehicleStatistics style={{ margin: 0 }} {...record} />}
             pagination={{ 

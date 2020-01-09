@@ -33,6 +33,7 @@ const columns = [
     title: 'Placa',
     dataIndex: 'plate',
     key: 'plate',
+    align: "center",
     onFilter: (value, record) => record.plate.indexOf(value) === 0,
     sorter: (a, b) => { return a.plate[0].localeCompare(b.plate[0])},
     sortDirections: ['descend', 'ascend'],
@@ -42,6 +43,7 @@ const columns = [
     title: 'Modelo',
     dataIndex: 'model',
     key: 'model',
+    align: "center",
     onFilter: (value, record) => record.model.indexOf(value) === 0,
     sorter: (a, b) =>  { return a.model.localeCompare(b.model)},
     sortDirections: ['descend', 'ascend'],
@@ -50,6 +52,7 @@ const columns = [
     title: 'Fabricante',
     dataIndex: 'manufacture',
     key: 'manufacture',
+    align: "center",
     onFilter: (value, record) => record.manufacture.indexOf(value) === 0,
     sorter: (a, b) => { return a.manufacture.localeCompare(b.manufacture)},
     sortDirections: ['descend', 'ascend'],
@@ -58,14 +61,20 @@ const columns = [
     title: 'Data da última Manuntenção',
     dataIndex: 'nextMaintenceDate',
     key: 'revisao',
+    align: "center",
     onFilter: (value, record) => record.nextMaintenceDate.indexOf(value) === 0,
     sorter: (a, b) => { return compareDates(a.nextMaintenceDate, b.nextMaintenceDate)},
     sortDirections: ['descend', 'ascend'],
+    renderIcon:  (record) =>
+        <Link to={'/vehicles/maintenceHistory?plate='  + record.plate[0].replace(" ", "")} style={{position: "relative", left: "15px"}}>
+          <Icon type="unordered-list" />
+        </Link>
   },
   {
     title: 'Departamento',
     dataIndex: 'departament',
     key: 'departament',
+    align: "center",
     onFilter: (value, record) => record.departament.indexOf(value) === 0,
     sorter: (a, b) => { return a.departament.localeCompare(b.departament)},
     sortDirections: ['descend', 'ascend'],
@@ -73,6 +82,7 @@ const columns = [
   {
     title: 'Editar',
     key: 'edit',
+    align: "center",
     render: (record) => 
       <div style={{ textAlign: "center" }}>
         <Link to={'/vehicles/edit?plate=' + record.plate[0].replace(" ", "")}>
