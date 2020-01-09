@@ -114,7 +114,7 @@ class DataTable extends Component {
       <div style={{ margin: '25px' }}>
         <Table 
             bordered = {true}
-            size="small"
+            size="middle"
             columns={columns} dataSource={this.state.VehicleData} 
             expandedRowRender={record => <VehicleStatistics style={{ margin: 0 }} {...record} />}
             pagination={{ 

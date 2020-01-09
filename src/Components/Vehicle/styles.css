@@ -14,7 +14,8 @@
 }
 
 .new-car-buttom {
-    font-size: 25px;
+    font-size: 20px;
     position: relative;
     bottom: 50px;
+    left: 4px;
 }

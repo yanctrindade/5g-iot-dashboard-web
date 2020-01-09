@@ -15,8 +15,9 @@ import Login from "../../Pages/Login/";
 import Recover from "../../Pages/Recover/";
 import EditRegister from "../../Pages/Edit-Register/";
 import Agreement from "../../Pages/Agreement/";
-import EditVehicles from "../../Pages/Vehicles/EditVehicles";
-import AddVehicles from "../../Pages/Vehicles/AddVehicles";
+import EditVehicles from "../../Pages/Vehicles/Add-Edit-Vehicles/EditVehicles";
+import AddVehicles from "../../Pages/Vehicles/Add-Edit-Vehicles/AddVehicles";
+import Maintence from "../../Pages/Vehicles/Maintence/";
 import auth from "../Login/Auth";
 import NotFound from "./NotFound";
 
@@ -45,6 +46,7 @@ const Routes = () => (
             <PrivateRoute exact path="/map" component={Map} />
             <PrivateRoute exact path="/vehicles/edit" component={EditVehicles} />
             <PrivateRoute exact path="/vehicles/add" component={AddVehicles} />
+            <PrivateRoute exact path="/vehicles/maintenceHistory" component={Maintence} />
             <PrivateRoute exact path="/vehicles" component={Vehicles} />
             <PrivateRoute exact path="/statistics" component={Statistics} />
             <Route exact path='*' component={NotFound}/> 

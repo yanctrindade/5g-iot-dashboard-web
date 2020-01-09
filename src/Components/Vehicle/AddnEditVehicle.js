@@ -16,7 +16,7 @@ import "./styles.css";
 const { Text } = Typography;
 
 function hasErrors(fieldsError) {
-return Object.keys(fieldsError).some(field => fieldsError[field]);
+    return Object.keys(fieldsError).some(field => fieldsError[field]);
 }
 
 class AddnEditVehicle extends Component {
