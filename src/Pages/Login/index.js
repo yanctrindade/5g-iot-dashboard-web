@@ -48,7 +48,7 @@ class Login extends React.Component {
         </Row>
 
         <Row type="flex" justify="center" align="top" style={{minHeight: '100vh'}}>
-          <Card style={{ width: 300, height: 325}}>
+          <Card style={{ width: 300, height: 375}}>
             <Form className="login-form">
               <Form.Item validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
                 {getFieldDecorator("userName", {
@@ -95,6 +95,14 @@ class Login extends React.Component {
                   Entrar
                 </Button>
                 Ou <a href="register">Registrar!</a>
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  className="login-form-button"
+                  href="/visitors" 
+                >
+                  Visitantes
+                </Button>
               </Form.Item>
             </Form>
           </Card>

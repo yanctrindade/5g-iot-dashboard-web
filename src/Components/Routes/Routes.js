@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import { ConfigProvider } from 'antd';
 import ptBR from 'antd/es/locale/pt_BR';
+import Visitors from "../../Pages/Visitors/";
 import Map from "../../Pages/Map/";
 import Vehicles from "../../Pages/Vehicles/";
 import Statistics from "../../Pages/Statistics/";
@@ -38,11 +39,12 @@ const Routes = () => (
   <ConfigProvider locale={ptBR}>
     <BrowserRouter>
         <Switch> 
-            <Route exact path='/' component={Form.create()(Login)}/>   
-            <Route exact path='/register' component={Form.create()(EditRegister)}/>   
-            <Route exact path='/recover' component={Form.create()(Recover)}/>
-            <Route exact path='/agreement' component={Agreement}/>      
-            <PrivateRoute exact path='/edit-user' component={Form.create()(EditRegister)}/>  
+            <Route exact path='/' component={Form.create()(Login)} />   
+            <Route exact path='/register' component={Form.create()(EditRegister)} />   
+            <Route exact path='/recover' component={Form.create()(Recover)} />
+            <Route exact path='/agreement' component={Agreement} />      
+            <PrivateRoute exact path='/edit-user' component={Form.create()(EditRegister)} />  
+            <Route exact path='/visitors' component={Visitors} />
             <PrivateRoute exact path="/map" component={Map} />
             <PrivateRoute exact path="/vehicles/edit" component={EditVehicles} />
             <PrivateRoute exact path="/vehicles/add" component={AddVehicles} />

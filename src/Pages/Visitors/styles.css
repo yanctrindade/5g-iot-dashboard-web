@@ -1,0 +1,12 @@
+body{
+    background: linear-gradient(to right, #001529, #004793);
+}
+
+.visitors-login-buttom{
+    position: relative;
+    color: white;
+    text-align: center;
+    float: right;
+    margin-top: 15px;
+    left: 20px;
+}
