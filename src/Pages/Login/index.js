@@ -101,7 +101,6 @@ class Login extends React.Component {
                 <Button
                   type="primary"
                   shape="round"
-                 // htmlType="submit"
                   className="visitors-form-button"
                   href="/visitors" 
                 >
