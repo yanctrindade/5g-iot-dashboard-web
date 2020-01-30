@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Icon, Input, Button, Checkbox, Row, Card, Layout, message } from "antd";
+import { Form, Icon, Input, Button, Checkbox, Row, Card, Layout, message, Divider } from "antd";
 import auth from "../../Components/Login/Auth";
 import fiwareLogo from '../../Assets/poweredbyfiware.png';
 import comnetLogo from '../../Assets/comnetlogo.png';
@@ -48,7 +48,7 @@ class Login extends React.Component {
         </Row>
 
         <Row type="flex" justify="center" align="top" style={{minHeight: '100vh'}}>
-          <Card style={{ width: 300, height: 375}}>
+          <Card style={{ width: 300, height: 410}}>
             <Form className="login-form">
               <Form.Item validateStatus={usernameError ? 'error' : ''} help={usernameError || ''}>
                 {getFieldDecorator("userName", {
@@ -95,10 +95,14 @@ class Login extends React.Component {
                   Entrar
                 </Button>
                 Ou <a href="register">Registrar!</a>
+
+                <Divider />
+
                 <Button
                   type="primary"
-                  htmlType="submit"
-                  className="login-form-button"
+                  shape="round"
+                 // htmlType="submit"
+                  className="visitors-form-button"
                   href="/visitors" 
                 >
                   Visitantes
