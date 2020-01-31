@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Icon, Input, Button, Checkbox, Row, Card, Layout, message, Divider } from "antd";
+import { Form, Icon, Input, Button, Row, Card, Layout, message, Divider } from "antd";
 import auth from "../../Components/Login/Auth";
 import fiwareLogo from '../../Assets/poweredbyfiware.png';
 import comnetLogo from '../../Assets/comnetlogo.png';
@@ -78,10 +78,6 @@ class Login extends React.Component {
               </Form.Item>
 
               <Form.Item>
-                {getFieldDecorator("remember", {
-                  valuePropName: "checked",
-                  initialValue: true
-                })(<Checkbox>Mantenha-me conectado</Checkbox>)}
                 <a className="login-form-forgot" href="recover">
                   Esqueci minha senha
                 </a>

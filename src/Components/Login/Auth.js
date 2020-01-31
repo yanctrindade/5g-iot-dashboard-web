@@ -36,8 +36,10 @@ class Auth {
           this.userAcessLevel = this.UserData[i].isAdmin;
           cookies.remove('user');
           cookies.remove('psswrd');
+          cookies.remove('UserData');
           cookies.set('user', user, { path: '/' });
           cookies.set('psswrd', psswrd, { path: '/' });
+          cookies.set('UserData', this.UserData, { path: '/' });
           break;
       }
       else if (user === this.UserData[i].userName && psswrd !== this.UserData[i].Password)
@@ -65,6 +67,9 @@ class Auth {
   isAuthenticated() {
 
     if (!this.authenticated && cookies.get('user') !== undefined &&  cookies.get('psswrd') !== undefined){
+  
+      this.UserData = cookies.get('UserData');
+      
       for (let i = 0; i < this.UserData.length; i++){
           // authenticate user again
           if (cookies.get('user') === this.UserData[i].userName && cookies.get('psswrd') === this.UserData[i].Password){
