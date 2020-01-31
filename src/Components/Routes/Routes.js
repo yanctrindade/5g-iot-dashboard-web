@@ -21,6 +21,7 @@ import Maintence from "../../Pages/Vehicles/Maintence/";
 import auth from "../Login/Auth";
 import NotFound from "./NotFound";
 import Visitors from "../../Pages/Visitors/";
+import Driver from "../../Pages/Driver/";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route
@@ -50,6 +51,7 @@ const Routes = () => (
             <PrivateRoute exact path="/vehicles/add" component={AddVehicles} />
             <PrivateRoute exact path="/vehicles/maintenceHistory" component={Maintence} />
             <PrivateRoute exact path="/vehicles" component={Vehicles} />
+            <PrivateRoute exact path="/driver" component={Driver} />
             <PrivateRoute exact path="/statistics" component={Statistics} />
             <Route exact path='*' component={NotFound}/> 
         </Switch>

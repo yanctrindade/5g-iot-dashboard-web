@@ -81,20 +81,29 @@ class NavBar extends Component {
               <div className="logo" />
               <Menu theme="dark" defaultSelectedKeys="/map" selectedKeys={this.props.pathname} mode="inline">
                 <Menu.Item key="/map">
-                  <Icon type="search" />
+                  <Icon type="fund" />
                   <span>Mapa</span>
                   <Link to="/map" />
                 </Menu.Item>
-                <Menu.Item key="/vehicles">
-                  <Icon type="car" />
-                  <span>Veículos</span>
-                  <Link to="/vehicles" />
+                { auth.isAdmin() ? 
+                  <Menu.Item key="/vehicles">
+                    <Icon type="car" />
+                    <span>Veículos</span>
+                    <Link to="/vehicles" />
+                  </Menu.Item> : <></>
+                }
+                <Menu.Item key="/driver">
+                  <Icon type="idcard" />
+                  <span>{auth.isAdmin() ? "Motoristas" : "Motorista"}</span>
+                  <Link to="/driver" />
                 </Menu.Item>
-                <Menu.Item key="/statistics">
-                  <Icon type="area-chart" />
-                  <span>Estatísticas</span>
-                  <Link to="/statistics" />
-                </Menu.Item>
+                { auth.isAdmin() ? 
+                  <Menu.Item key="/statistics">
+                    <Icon type="area-chart" />
+                    <span>Estatísticas</span>
+                    <Link to="/statistics" />
+                  </Menu.Item> : <></>
+                }
               </Menu>
             </Sider>
             <Content>

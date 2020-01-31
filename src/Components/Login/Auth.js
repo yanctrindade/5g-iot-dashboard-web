@@ -1,36 +1,55 @@
 import { message } from "antd";
 import { Cookies } from 'react-cookie';
+import axios from 'axios';
 
 const cookies = new Cookies();
 
 class Auth {
   constructor() {
+    axios.get('./users.json')
+    .then((res)=>{
+      this.UserData = res.data;
+    }).catch((err)=>{
+      console.log(err);
+    })
+
     this.authenticated = false;
     this.user = "";
     this.psswrd = "";
-    this.userAcessLevel = 0; // 0 - no acess, 1 - user, 2 - driver, 3 - admin
+    this.userAcessLevel = false; // false - user / driver, true - admin
+    /*
+      User can only see public vehicles
+      Driver can only see its vehicle and public vehicles
+      Admin can see all vehicles
+    */
   }
 
   login(user, psswrd) {
-    if (user === "test" && psswrd === "test")
-    {
-        message.success('Carregado!', 1.0);
-        this.authenticated = true;
-        this.user = user;
-        this.psswrd = psswrd;
-        this.userAcessLevel = 3;
-        cookies.remove('user');
-        cookies.remove('psswrd');
-        cookies.set('user', user, { path: '/' });
-        cookies.set('psswrd', psswrd, { path: '/' });
-    }
-    else if (user !== "test")
-    {
-        message.error('Usuário inexistente!', 1.0);
-    }
-    else
-    {
-        message.error('Senha incorreta!', 1.0);
+    
+    for (let i = 0; i < this.UserData.length; i++){
+      if (user === this.UserData[i].userName && psswrd === this.UserData[i].Password)
+      {
+          message.success('Carregado!', 1.0);
+          this.authenticated = true;
+          this.user = user;
+          this.psswrd = psswrd;
+          this.userAcessLevel = this.UserData[i].isAdmin;
+          cookies.remove('user');
+          cookies.remove('psswrd');
+          cookies.set('user', user, { path: '/' });
+          cookies.set('psswrd', psswrd, { path: '/' });
+          break;
+      }
+      else if (user === this.UserData[i].userName && psswrd !== this.UserData[i].Password)
+      {
+          message.error('Senha incorreta!', 1.0);
+          break;
+      }
+
+      if (!this.authenticated && (i + 1) === this.UserData.length)
+      {
+          message.error('Usuário inexistente!', 1.0);
+      }
     }
   }
 
@@ -40,28 +59,33 @@ class Auth {
     this.authenticated = false;
     this.user = "";
     this.psswrd = "";
-    this.userAcessLevel = 0;
+    this.userAcessLevel = false;
   }
 
   isAuthenticated() {
+
     if (!this.authenticated && cookies.get('user') !== undefined &&  cookies.get('psswrd') !== undefined){
-      // authenticate user again
-      if (cookies.get('user') === "test" && cookies.get('psswrd') === "test"){
-        this.authenticated = true;
-        this.user = cookies.get('user');
-        this.psswrd = cookies.get('psswrd');
-        this.userAcessLevel = 3;
+      for (let i = 0; i < this.UserData.length; i++){
+          // authenticate user again
+          if (cookies.get('user') === this.UserData[i].userName && cookies.get('psswrd') === this.UserData[i].Password){
+            this.authenticated = true;
+            this.user = this.UserData[i].userName;
+            this.psswrd = this.UserData[i].Password;
+            this.userAcessLevel = this.UserData[i].isAdmin;
+            break;
+          }
       }
-      else{
-        cookies.remove('user', { path: '/' });
-        cookies.remove('psswrd', { path: '/' });
-      }
+    }
+
+    if (!this.authenticated){
+      cookies.remove('user', { path: '/' });
+      cookies.remove('psswrd', { path: '/' });
     }
 
     return this.authenticated;
   }
 
-  userAcessLevel(){
+  isAdmin(){
     return this.userAcessLevel;
   }
 
