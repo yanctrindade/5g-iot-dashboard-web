@@ -16,6 +16,7 @@ class Auth {
     this.authenticated = false;
     this.user = "";
     this.psswrd = "";
+    this.name = "";
     this.userAcessLevel = false; // false - user / driver, true - admin
     /*
       User can only see public vehicles
@@ -27,22 +28,23 @@ class Auth {
   login(user, psswrd) {
     
     for (let i = 0; i < this.UserData.length; i++){
-      if (user === this.UserData[i].userName && psswrd === this.UserData[i].Password)
+      if ((user === this.UserData[i].userName || user === this.UserData[i].email) && psswrd === this.UserData[i].password)
       {
           message.success('Carregado!', 1.0);
           this.authenticated = true;
-          this.user = user;
+          this.user = this.UserData[i].userName;
           this.psswrd = psswrd;
+          this.name = this.UserData[i].name
           this.userAcessLevel = this.UserData[i].isAdmin;
           cookies.remove('user');
           cookies.remove('psswrd');
           cookies.remove('UserData');
-          cookies.set('user', user, { path: '/' });
+          cookies.set('user', this.UserData[i].userName, { path: '/' });
           cookies.set('psswrd', psswrd, { path: '/' });
           cookies.set('UserData', this.UserData, { path: '/' });
           break;
       }
-      else if (user === this.UserData[i].userName && psswrd !== this.UserData[i].Password)
+      else if ((user === this.UserData[i].userName || user === this.UserData[i].email) && psswrd !== this.UserData[i].password)
       {
           message.error('Senha incorreta!', 1.0);
           break;
@@ -61,6 +63,7 @@ class Auth {
     this.authenticated = false;
     this.user = "";
     this.psswrd = "";
+    this.name = "";
     this.userAcessLevel = false;
   }
 
@@ -72,10 +75,11 @@ class Auth {
       
       for (let i = 0; i < this.UserData.length; i++){
           // authenticate user again
-          if (cookies.get('user') === this.UserData[i].userName && cookies.get('psswrd') === this.UserData[i].Password){
+          if (cookies.get('user') === this.UserData[i].userName && cookies.get('psswrd') === this.UserData[i].password){
             this.authenticated = true;
             this.user = this.UserData[i].userName;
-            this.psswrd = this.UserData[i].Password;
+            this.psswrd = this.UserData[i].password;
+            this.name = this.UserData[i].name;
             this.userAcessLevel = this.UserData[i].isAdmin;
             break;
           }
@@ -95,7 +99,7 @@ class Auth {
   }
 
   getUserName(){
-    return this.user;
+    return this.name;
   }
 }
 

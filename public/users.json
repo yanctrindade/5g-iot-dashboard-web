@@ -1,14 +1,32 @@
 [
     {
         "key": 1,
+        "name": "Main Administrator",
+        "email": "Administrator@gmail.com",
         "userName": "admin",
-        "Password": "admin",
-        "isAdmin": true
+        "password": "admin",
+        "associatedPlate": "",
+        "isAdmin": true,
+        "isApproved": true
     },
     {
         "key": 2,
+        "name": "Driver testing",
+        "email": "DriverTesting@gmail.com",
         "userName": "test",
-        "Password": "test",
-        "isAdmin": false
+        "password": "test",
+        "associatedPlate": "PAM 9846",
+        "isAdmin": false,
+        "isApproved": true
+    },
+    {
+        "key": 3,
+        "name": "John Conner",
+        "email": "johnjohn@gmail.com",
+        "userName": "john",
+        "password": "john",
+        "associatedPlate": "PJK 9126",
+        "isAdmin": false,
+        "isApproved": true
     }
 ]
