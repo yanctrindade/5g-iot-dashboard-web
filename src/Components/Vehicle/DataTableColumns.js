@@ -59,11 +59,11 @@ const columns = [
   },
   {
     title: 'Data da última Manuntenção',
-    dataIndex: 'nextMaintenceDate',
+    dataIndex: 'lastMaintenceDate',
     key: 'revisao',
     align: "center",
-    onFilter: (value, record) => record.nextMaintenceDate.indexOf(value) === 0,
-    sorter: (a, b) => { return compareDates(a.nextMaintenceDate, b.nextMaintenceDate)},
+    onFilter: (value, record) => record.lastMaintenceDate.indexOf(value) === 0,
+    sorter: (a, b) => { return compareDates(a.lastMaintenceDate, b.lastMaintenceDate)},
     sortDirections: ['descend', 'ascend'],
     renderIcon:  (record) =>
         <Link to={'/vehicles/maintenceHistory?plate='  + record.plate[0].replace(" ", "")} style={{position: "relative", left: "15px"}}>

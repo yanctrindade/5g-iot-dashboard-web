@@ -30,6 +30,7 @@ class Auth {
     for (let i = 0; i < this.UserData.length; i++){
       if ((user === this.UserData[i].userName || user === this.UserData[i].email) && psswrd === this.UserData[i].password)
       {
+        if (this.UserData[i].isApproved){
           message.success('Carregado!', 1.0);
           this.authenticated = true;
           this.user = this.UserData[i].userName;
@@ -42,7 +43,12 @@ class Auth {
           cookies.set('user', this.UserData[i].userName, { path: '/' });
           cookies.set('psswrd', psswrd, { path: '/' });
           cookies.set('UserData', this.UserData, { path: '/' });
-          break;
+        }
+        else {
+          message.error('Usuário ainda não aprovado!', 5.0);
+        }
+          
+        break;
       }
       else if ((user === this.UserData[i].userName || user === this.UserData[i].email) && psswrd !== this.UserData[i].password)
       {

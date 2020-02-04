@@ -27,6 +27,6 @@
         "password": "john",
         "associatedPlate": "PJK 9126",
         "isAdmin": false,
-        "isApproved": true
+        "isApproved": false
     }
 ]

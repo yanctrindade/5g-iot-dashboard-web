@@ -31,7 +31,7 @@ class DataTable extends Component {
           ref={node => {
             this.searchInput = node;
           }}
-          placeholder={`Buscar ${dataIndex.charAt(0).toUpperCase() + dataIndex.slice(1)}`}
+          placeholder={`Buscar Item`}
           value={selectedKeys[0]}
           onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
           onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
