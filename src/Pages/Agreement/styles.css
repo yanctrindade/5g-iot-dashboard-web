@@ -1,0 +1,11 @@
+.agreement-card{
+    width: 340px;
+    position: absolute;
+    left: 38.5%;
+    bottom: 25%;
+}
+
+.back-buttom{
+    margin: 5px;
+    left: 100px;
+}
