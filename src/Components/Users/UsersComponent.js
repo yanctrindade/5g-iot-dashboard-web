@@ -104,8 +104,11 @@ class DriverManager extends Component {
     }
 
     deleteAccount = (key) => {
-        console.log("Deleting account: ");
-        console.log(this.state.users[key-1].userName);
+      let newUsers = this.state.users.filter(item => item.key !== key);
+
+      this.setState(({
+          users: newUsers
+      }));
     }
 
     render(){
