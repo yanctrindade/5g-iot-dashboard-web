@@ -9,31 +9,18 @@ import {
     Table,
     Button,
     Typography,
-    Collapse
+    Collapse,
+    Icon
   } from 'antd';
 import { Redirect } from "react-router-dom";
 import moment from "moment";
+import Highlighter from 'react-highlight-words';
 import axios from 'axios';
 import "./styles.css";
 
 const { Title, Text } = Typography;
 const { TextArea } = Input;
 const { Panel } = Collapse;
-
-const columns = [
-    {
-      title: 'Manuntenções',
-      dataIndex: 'title',
-    }
-    ];
-
-const data = [
-    {
-        key: '1',
-        title: 'Revisão geral',
-        description: 'Foi feita a revisão geral desse veículo',
-    },
-];
 
 function hasErrors(fieldsError) {
     return Object.keys(fieldsError).some(field => fieldsError[field]);
@@ -54,7 +41,8 @@ class MaintenceHistory extends Component {
                       nextMaintenceDate: null,
                       mileage: "",
                       redirect: false,
-                      collapsed: true
+                      collapsed: true,
+                      maintenceHistory: []
                      };
     }
 
@@ -80,7 +68,16 @@ class MaintenceHistory extends Component {
     setData = (allVehicleData, plate) => {
         let found = false;
         let model, manufacture, lastMaintenceDate,
-        departament, year, color, nextMaintenceDate, mileage;
+        departament, year, color, nextMaintenceDate, mileage, maintenceHistory;
+
+        maintenceHistory = [
+            {
+                key: '1',
+                maintenceTitle: 'Revisão geral',
+                date: "2020-02-04",
+                description: 'Foi feita a revisão geral desse veículo',
+            },
+        ];
        
         for (var i = 0; i < allVehicleData.length; i++){
             // look for the entry with a matching `plate` value
@@ -109,17 +106,126 @@ class MaintenceHistory extends Component {
                 year: year,
                 color: color,
                 nextMaintenceDate: nextMaintenceDate,
-                mileage: mileage
+                mileage: mileage,
+                maintenceHistory: this.dataFilter(maintenceHistory)
             });
         } else{
             this.setState({redirect: true});
         }
     }
 
+    dataFilter = (data) => {
+        data.map(item => {
+          item.date = this.getDate(item.date)
+          return item
+        })
+  
+      return data
+    }
+
+    getDate = (date) => new Date(date).toLocaleDateString();
+
+    compareDates = (a, b) => {
+        let dateA = new Date(a);
+        let dateB = new Date(b);
+      
+        if (dateA > dateB)
+          return 1;
+        if (dateA < dateB)
+          return -1;
+      
+        return 0;
+    }
+
+    getColumnSearchProps = (dataIndex) => ({
+        filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters }) => (
+            <div style={{ padding: 8 }}>
+            <Input
+                ref={node => {
+                this.searchInput = node;
+                }}
+                placeholder={`Buscar Item`}
+                value={selectedKeys[0]}
+                onChange={e => setSelectedKeys(e.target.value ? [e.target.value] : [])}
+                onPressEnter={() => this.handleSearch(selectedKeys, confirm)}
+                style={{ width: 188, marginBottom: 8, display: 'block' }}
+            />
+            <Button
+                type="primary"
+                onClick={() => this.handleSearch(selectedKeys, confirm)}
+                icon="search"
+                size="small"
+                style={{ width: 90, marginRight: 8 }}
+            >
+                Buscar
+            </Button>
+            <Button onClick={() => this.handleReset(clearFilters)} size="small" style={{ width: 90 }}>
+                Limpar
+            </Button>
+            </div>
+        ),
+        filterIcon: filtered => (
+            <Icon type="search" style={{ color: filtered ? '#1890ff' : undefined }} />
+        ),
+        onFilter: (value, record) =>
+            record[dataIndex]
+            .toString()
+            .toLowerCase()
+            .includes(value.toLowerCase()),
+        onFilterDropdownVisibleChange: visible => {
+            if (visible) {
+            setTimeout(() => this.searchInput.select());
+            }
+        },
+        render: (text, record) => {
+            const cellText = typeof text === "string" ? text : text[0]
+            return  (
+                <Highlighter
+                highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+                searchWords={[this.state.searchText]}
+                autoEscape
+                textToHighlight={cellText.toString()}
+                />
+            )
+        },
+    });
+
+    handleSearch = (selectedKeys, confirm) => {
+        confirm();
+        this.setState({ searchText: selectedKeys[0] });
+    };
+
+    handleReset = clearFilters => {
+        clearFilters();
+        this.setState({ searchText: '' });
+    };
+
     render(){      
         const { getFieldDecorator, isFieldTouched, getFieldError, getFieldsError } = this.props.form;     
         const titleError = isFieldTouched('title') && getFieldError('title'); 
         const descriptionError = isFieldTouched('description') && getFieldError('description');
+
+        const columns = [
+            {
+                title: 'Manuntenções',
+                dataIndex: 'maintenceTitle',
+                key: 'maintenceTitle',
+                onFilter: (value, record) => record.maintenceTitle.indexOf(value) === 0,
+                sorter: (a, b) =>  { return a.maintenceTitle.localeCompare(b.maintenceTitle)},
+                sortDirections: ['descend', 'ascend'],
+                ...this.getColumnSearchProps('maintenceTitle')
+            },
+            {
+                title: 'Data',
+                dataIndex: 'date',
+                key: 'date',
+                align: "center",
+                onFilter: (value, record) => record.date.indexOf(value) === 0,
+                sorter: (a, b) => { return this.compareDates(a.date, b.date)},
+                sortDirections: ['descend', 'ascend'],
+                ...this.getColumnSearchProps('date')
+            }
+        ];
 
         return(
             <>
@@ -145,7 +251,7 @@ class MaintenceHistory extends Component {
                         <Table 
                             bordered = {true}
                             size="middle"
-                            columns={columns} dataSource={data} 
+                            columns={columns} dataSource={this.state.maintenceHistory} 
                             expandedRowRender={record => <p style={{ margin: 0 }}>{record.description}</p>}
                             pagination={{ 
                             pageSizeOptions: ["5", "10", "15", "20"],

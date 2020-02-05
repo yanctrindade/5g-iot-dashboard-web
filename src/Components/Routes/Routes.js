@@ -22,6 +22,7 @@ import auth from "../Login/Auth";
 import NotFound from "./NotFound";
 import Visitors from "../../Pages/Visitors/";
 import Driver from "../../Pages/Driver/";
+import Users from "../../Pages/Users/";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route
@@ -53,6 +54,7 @@ const Routes = () => (
             <PrivateRoute exact path="/vehicles" component={Vehicles} />
             <PrivateRoute exact path="/driver" component={Driver} />
             <PrivateRoute exact path="/statistics" component={Statistics} />
+            <PrivateRoute exact path="/users" component={Users} />
             <Route exact path='*' component={NotFound}/> 
         </Switch>
     </BrowserRouter>

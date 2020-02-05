@@ -135,23 +135,23 @@ class Driver extends Component {
             const cellText = typeof text === "string" ? text : text[0]
             return  (
                 <Highlighter
-                highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
-                searchWords={[this.state.searchText]}
-                autoEscape
-                textToHighlight={cellText.toString()}
+                    highlightStyle={{ backgroundColor: '#ffc069', padding: 0 }}
+                    searchWords={[this.state.searchText]}
+                    autoEscape
+                    textToHighlight={cellText.toString()}
                 />
             )
         },
     });
 
     handleSearch = (selectedKeys, confirm) => {
-    confirm();
-    this.setState({ searchText: selectedKeys[0] });
+        confirm();
+        this.setState({ searchText: selectedKeys[0] });
     };
 
     handleReset = clearFilters => {
-    clearFilters();
-    this.setState({ searchText: '' });
+        clearFilters();
+        this.setState({ searchText: '' });
     };
 
     getDate = (date) => new Date(date).toLocaleDateString();

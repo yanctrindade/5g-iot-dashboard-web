@@ -104,6 +104,13 @@ class NavBar extends Component {
                     <Link to="/statistics" />
                   </Menu.Item> : <></>
                 }
+                { auth.isAdmin() ? 
+                  <Menu.Item key="/users">
+                    <Icon type="usergroup-add" />
+                    <span>Usuários</span>
+                    <Link to="/users" />
+                  </Menu.Item> : <></>
+                }
               </Menu>
             </Sider>
             <Content>
