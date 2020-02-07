@@ -1,6 +1,8 @@
 [
     {
         "key": 1,
+        "deviceID": "1",
+        "isPublic": true,
         "plate": "PAM 9846",
         "tags" : ["Operando"],
         "model": "GOL G5 1.0",
@@ -1057,6 +1059,8 @@
     },
     {
         "key": 2,
+        "deviceID": "2",
+        "isPublic": true,
         "plate": "PJK 9126",
         "tags" : ["Quebrado"],
         "model": "UP TSI 1.0",
@@ -1470,6 +1474,8 @@
     },
     {
         "key": 3,
+        "deviceID": "3",
+        "isPublic": false,
         "plate": "PAM 8272",
         "tags" : ["Manuntenção"],
         "model": "SAVEIRO 2.0",

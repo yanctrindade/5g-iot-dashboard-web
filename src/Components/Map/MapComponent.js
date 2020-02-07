@@ -27,7 +27,7 @@ class MapComponent extends Component {
   }
 
   componentDidMount() {
-    axios.get('./database.json')
+    axios.get('/database.json')
     .then((res)=>{
       this.setState({markers: res.data});
     }).catch((err)=>{

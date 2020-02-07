@@ -43,7 +43,7 @@ class Register extends React.Component {
 
   componentDidMount() {
     if (auth.isAuthenticated()){
-      axios.get('./users.json')
+      axios.get('/users.json')
       .then((res)=>{
         this.setData(res.data);
       }).catch((err)=>{

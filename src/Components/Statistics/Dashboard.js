@@ -104,7 +104,7 @@ constructor(props) {
 
 componentDidMount() {
 
-  axios.get('./database.json')
+  axios.get('/database.json')
   .then((res)=>{
     this.handleData(res.data);    
     this.setState({VehicleData: res.data});

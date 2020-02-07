@@ -6,7 +6,7 @@ const cookies = new Cookies();
 
 class Auth {
   constructor() {
-    axios.get('./users.json')
+    axios.get('/users.json')
     .then((res)=>{
       this.UserData = res.data;
     }).catch((err)=>{

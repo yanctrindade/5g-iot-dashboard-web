@@ -14,7 +14,7 @@ class DriverManager extends Component {
       }
 
     componentDidMount() {
-        axios.get('./users.json')
+        axios.get('/users.json')
         .then((res)=>{
             this.setState({ users: res.data });
         }).catch((err)=>{

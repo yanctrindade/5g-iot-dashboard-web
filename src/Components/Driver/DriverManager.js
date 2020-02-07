@@ -17,14 +17,14 @@ class DriverManager extends Component {
       }
 
     componentDidMount() {
-        axios.get('./users.json')
+        axios.get('/users.json')
         .then((res)=>{
             this.setState({users: res.data});
         }).catch((err)=>{
             console.log(err);
         })
 
-        axios.get('./database.json')
+        axios.get('/database.json')
         .then((res)=>{
         this.setState({VehicleData: res.data});
         }).catch((err)=>{

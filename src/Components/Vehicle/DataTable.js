@@ -16,7 +16,7 @@ class DataTable extends Component {
   }
 
   componentDidMount() {
-    axios.get('./database.json')
+    axios.get('/database.json')
     .then((res)=>{
       this.setState({VehicleData: this.dataFilter(res.data)});
     }).catch((err)=>{

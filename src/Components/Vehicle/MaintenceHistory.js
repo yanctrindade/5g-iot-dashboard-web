@@ -54,7 +54,7 @@ class MaintenceHistory extends Component {
         const n = window.location.href.search("plate");
 
         if (n !== -1){
-            axios.get('http://localhost:3000/database.json')
+            axios.get('/database.json')
             .then((res)=>{
                 this.setData(res.data, this.insertString(window.location.href.substring(n + 6, n + 13), 3, " "));
             }).catch((err)=>{
