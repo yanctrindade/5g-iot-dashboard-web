@@ -9,6 +9,7 @@ import Start from '../../Assets/start.png'
 import End from '../../Assets/end.png'
 import MapDatePicker from  './MapDatePicker'
 import tinygradient from 'tinygradient';
+import auth from "../../Components/Login/Auth";
 
 class MapComponent extends Component {
 
@@ -31,7 +32,7 @@ class MapComponent extends Component {
   componentDidMount() {
     axios.get('/database.json')
     .then((res)=>{
-      this.setState({markers: res.data});
+      this.setState({markers: auth.isAdmin() ? res.data : res.data.filter(item => (item.isPublic || auth.getUserPlate() === item.plate ))});
     }).catch((err)=>{
       console.log(err);
     })

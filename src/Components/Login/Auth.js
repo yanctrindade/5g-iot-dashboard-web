@@ -17,6 +17,7 @@ class Auth {
     this.user = "";
     this.psswrd = "";
     this.name = "";
+    this.plate = "";
     this.userAcessLevel = false; // false - user / driver, true - admin
     /*
       User can only see public vehicles
@@ -35,7 +36,8 @@ class Auth {
           this.authenticated = true;
           this.user = this.UserData[i].userName;
           this.psswrd = psswrd;
-          this.name = this.UserData[i].name
+          this.name = this.UserData[i].name;
+          this.plate = this.UserData[i].associatedPlate;
           this.userAcessLevel = this.UserData[i].isAdmin;
           cookies.remove('user');
           cookies.remove('psswrd');
@@ -70,6 +72,7 @@ class Auth {
     this.user = "";
     this.psswrd = "";
     this.name = "";
+    this.plate = "";
     this.userAcessLevel = false;
   }
 
@@ -86,6 +89,7 @@ class Auth {
             this.user = this.UserData[i].userName;
             this.psswrd = this.UserData[i].password;
             this.name = this.UserData[i].name;
+            this.plate = this.UserData[i].associatedPlate;
             this.userAcessLevel = this.UserData[i].isAdmin;
             break;
           }
@@ -106,6 +110,10 @@ class Auth {
 
   getUserName(){
     return this.name;
+  }
+
+  getUserPlate(){
+    return this.plate;
   }
 }
 
