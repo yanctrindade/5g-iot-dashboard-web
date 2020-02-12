@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, Polyline, Marker, GoogleApiWrapper } from 'google-maps-react';
+import { Map, Polyline, Marker, GoogleApiWrapper, InfoWindow } from 'google-maps-react';
 import MapCard from './MapCard';
 import axios from 'axios';
 import moment from "moment";
@@ -22,7 +22,9 @@ class MapComponent extends Component {
                   mapCardKey: null,
                   filterState: false,
                   filterPaths: [],
-                  gradientColors:[]
+                  gradientColors:[],
+                  infoMarker: {},
+                  infoMarkerVisible: false
                 };
   }
 
@@ -38,7 +40,9 @@ class MapComponent extends Component {
   clickMarker = (props, marker, e) => {
     this.setState(
       { vehicleContent: marker.data,
-        vehicleSelected: true}
+        vehicleSelected: true,
+        infoMarkerVisible: false
+      }
     )    
   }
 
@@ -103,6 +107,7 @@ class MapComponent extends Component {
         name={marker.plate}
         data={marker}
         onClick={this.clickMarker}
+        onMouseover = {this.onMouseOverMarker}
         icon = {{
           url: CarIcon, // url
           scaledSize: new this.props.google.maps.Size(40,40), // scaled size
@@ -111,6 +116,19 @@ class MapComponent extends Component {
         }}
       />
     )
+  }
+
+  onMouseOverMarker = (prop, marker) => {
+    if (!this.state.vehicleSelected){
+      if (this.state.infoMarker.name !== marker.name){
+        this.setState({infoMarker : marker, infoMarkerVisible : true})
+        //console.log(marker)
+      }
+  
+      if (this.state.infoMarkerVisible !== true){
+        this.setState({infoMarkerVisible : true})
+      }
+    }
   }
 
   addPoint = (key, location, iconUrl) => {
@@ -152,6 +170,17 @@ class MapComponent extends Component {
           {this.state.vehicleSelected && !this.state.filterState ? this.addMarker(this.state.vehicleContent) : <></>}
           {this.state.vehicleSelected ? <MapDatePicker render={this.getFilterPaths} onClose={this.closeDatePicker}/> : <></>}
           <MapCard isVisible={this.state.vehicleSelected && !this.state.filterState} onClose={this.closeMapCard} content={this.state.vehicleContent}/>
+
+          <InfoWindow
+            marker={this.state.infoMarker}
+            visible={this.state.infoMarkerVisible}
+            onClose={()=> this.setState({infoMarkerVisible : false})}>
+              <div>
+                <h2>{this.state.infoMarker.name}</h2>
+                <h1>{this.state.infoMarker.data === undefined ? "" : this.state.infoMarker.data.model}</h1>
+              </div>
+          </InfoWindow>
+          
         </Map>
       </>
     );
