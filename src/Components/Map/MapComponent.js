@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Map, Polyline, Marker, GoogleApiWrapper, InfoWindow } from 'google-maps-react';
 import MapCard from './MapCard';
-import axios from 'axios';
 import moment from "moment";
 import CarIcon from '../../Assets/CarPin.png'
 import StartIcon from '../../Assets/StartIcon.png'
@@ -10,6 +9,7 @@ import End from '../../Assets/end.png'
 import MapDatePicker from  './MapDatePicker'
 import tinygradient from 'tinygradient';
 import auth from "../../Components/Login/Auth";
+import API from "../../api/fiware";
 
 class MapComponent extends Component {
 
@@ -33,12 +33,56 @@ class MapComponent extends Component {
   }
 
   componentDidMount() {
-    axios.get('/database.json')
+    const headers = {
+      headers : {         
+                  'fiware-servicepath' : '/',
+                  'fiware-service' : 'openiot'
+                }
+    }
+
+    API.get(`v2/entities/?type=Car&options=keyValues`, headers)
     .then((res)=>{
-      this.setState({markers: auth.isAdmin() ? res.data : res.data.filter(item => (item.isPublic || auth.getUserPlate() === item.plate ))});
+      console.log("GET Done")
+      console.log(res.data);
     }).catch((err)=>{
       console.log(err);
     })
+    this.intervalId = setInterval(() => this.updateMarkers(), 1000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+  }
+
+  updateMarkers = () => {
+    const headers = {
+      headers : {         
+                  'fiware-servicepath' : '/',
+                  'fiware-service' : 'openiot'
+                }
+    }
+
+    API.get(`/v2/entities/?type=Car&options=keyValues`, headers)
+    .then((res)=>{
+      this.setState({markers: this.filterMarkers(res.data)});
+      console.log(this.state.markers);
+    }).catch((err)=>{
+      console.log(err);
+    })
+
+    // axios.get('/database.json')
+    // .then((res)=>{
+    //   this.setState({markers: this.filterMarkers(res.data)});
+    // }).catch((err)=>{
+    //   console.log(err);
+    // })
+  }
+
+  filterMarkers = (data) => {
+    if(auth.isAdmin()) 
+      return data
+    else  
+      return data.filter(item => (item.isPublic || auth.getUserPlate() === item.plate ))
   }
 
   clickMarker = (props, marker, e) => {
@@ -107,11 +151,16 @@ class MapComponent extends Component {
     this.setState({filterPaths: filteredPaths, filterState: true})
   }
 
+  transformLocation = (location) => {
+    const coords = location.coordinates;
+    return {"lat": coords[0], "lng": coords[1]}
+  };
+
   addMarker = (marker) => {
     return(
       <Marker
-        key={marker.key}
-        position={marker.currentLocation}
+        key={marker.id}
+        position={this.transformLocation(marker.location)}
         name={marker.plate}
         data={marker}
         onClick={this.clickMarker}
