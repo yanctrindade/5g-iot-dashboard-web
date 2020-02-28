@@ -10,6 +10,7 @@ import MapDatePicker from  './MapDatePicker'
 import tinygradient from 'tinygradient';
 import auth from "../../Components/Login/Auth";
 import API from "../../api/fiware";
+import CarPin from './CarPin'
 
 class MapComponent extends Component {
 
@@ -153,12 +154,12 @@ class MapComponent extends Component {
 
   transformLocation = (location) => {
     const coords = location.coordinates;
-    return {"lat": coords[0], "lng": coords[1]}
+    return {"lat": coords[1], "lng": coords[0]}
   };
 
   addMarker = (marker) => {
     return(
-      <Marker
+      <CarPin
         key={marker.id}
         position={this.transformLocation(marker.location)}
         name={marker.plate}
