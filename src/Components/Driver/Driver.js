@@ -7,6 +7,7 @@ import {    Form,
             Collapse,
             Typography,
             Table,
+            Popconfirm,
             Icon } from 'antd';
 
 import Highlighter from 'react-highlight-words';
@@ -21,11 +22,41 @@ function hasErrors(fieldsError) {
 class Driver extends Component {
     constructor(props) {
         super(props);
+        this.stopsColumns = [
+            {
+              title: "Longitude",
+              dataIndex: "longitude",
+              width: "30%"
+            },
+            {
+              title: "Latitude",
+              dataIndex: "latitude"
+            },
+            {
+              title: "Ação",
+              dataIndex: "operation",
+              render: (text, record) =>
+                this.state.vehicleStops.length >= 1 ? (
+                  <Popconfirm
+                    title="Certeza que deseja deletar?"
+                    onConfirm={() => this.handleDelete(record.key)}
+                  >
+                    <Button type="link">
+                      Deletar
+                    </Button>
+                  </Popconfirm>
+                ) : null
+            }
+          ];
         this.state = { 
                         routesData: [],
                         initialLocation: "",
                         finalLocation: "",
-                        isOnRoute: false
+                        isOnRoute: false,
+                        vehicleStops: [],
+                        count: 0,
+                        stopLongitude: "",
+                        stopLatitude: ""
                      };
     }
 
@@ -47,6 +78,28 @@ class Driver extends Component {
 
         this.setState({routesData: this.dataFilter(dataSource)});
     }
+
+    handleDelete = key => {
+        const vehicleStops = [...this.state.vehicleStops];
+        this.setState({
+          vehicleStops: vehicleStops.filter(item => item.key !== key)
+        });
+    };
+
+    handleAdd = () => {
+    const { count, vehicleStops } = this.state;
+    const newData = {
+        key: count,
+        longitude: this.state.stopLongitude,
+        latitude: this.state.stopLatitude
+    };
+    this.setState({
+        vehicleStops: [...vehicleStops, newData],
+        count: count + 1,
+        stopLongitude: "",
+        stopLatitude: ""
+    });
+    };
 
     dataFilter = (data) => {
         data.map(item => {
@@ -74,6 +127,18 @@ class Driver extends Component {
             isOnRoute: !prevState.isOnRoute
         }));
     } 
+
+    updateStopLongitude = (e) => {
+        this.setState(({
+            stopLongitude: e.target.value
+        }));
+    }
+
+    updateStopLatitude = (e) => {
+        this.setState(({
+            stopLatitude: e.target.value
+        }));
+    }
 
     areFieldsEmpty = () => {
         return !(this.state.initialLocation !== "" && this.state.finalLocation !== "")
@@ -230,6 +295,55 @@ class Driver extends Component {
                                     )}
                             </Form.Item>
                         </Col>
+                    </Row>
+
+                    <Row style={{marginLeft: "50px"}}>
+                        <Col span={5} style={{margin: "5px"}}>
+                            <Form.Item label="Longitude">
+                                <Input
+                                    placeholder="Longitude da parada."
+                                    onChange={this.updateStopLongitude}
+                                    allowClear={true}
+                                    value={this.state.stopLongitude}
+                                    disabled={this.state.isOnRoute}
+                                />
+                            </Form.Item>
+                        </Col>
+
+                        <Col span={5} style={{margin: "5px"}}>
+                            <Form.Item label="Latitude">
+                                <Input
+                                    placeholder="Latitude da parada."
+                                    onChange={this.updateStopLatitude}
+                                    allowClear={true}
+                                    value={this.state.stopLatitude}
+                                    disabled={this.state.isOnRoute}
+                                />
+                            </Form.Item>
+                        </Col>
+
+                        <Col span={5} style={{margin: "5px", marginTop: "42px"}}>
+                            <Form.Item >
+                                <Button
+                                    onClick={this.handleAdd}
+                                    type="primary"
+                                    style={{
+                                        marginBottom: 16
+                                    }}
+                                    disabled={this.state.isOnRoute}
+                                >
+                                    Adicionar Parada
+                                </Button>
+                            </Form.Item>
+                        </Col>
+                    </Row>
+                    
+                    <Row style={{marginLeft: "50px"}}>
+                        <Table
+                            bordered
+                            dataSource={this.state.vehicleStops}
+                            columns={this.stopsColumns}
+                        />
                     </Row>
 
                     <Row style={{marginLeft: "38%"}}>
