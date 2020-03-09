@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Map, Polyline, Marker, GoogleApiWrapper, InfoWindow } from 'google-maps-react';
+import { Map, Polyline, Marker, GoogleApiWrapper, InfoWindow, Circle } from 'google-maps-react';
 import MapCard from './MapCard';
 import moment from "moment";
 import CarIcon from '../../Assets/CarPin.png'
@@ -10,7 +10,8 @@ import MapDatePicker from  './MapDatePicker'
 import tinygradient from 'tinygradient';
 import auth from "../../Components/Login/Auth";
 import API from "../../api/fiware";
-import CarPin from './CarPin'
+import CarPin from './CarPin';
+import axios from 'axios';
 
 class MapComponent extends Component {
 
@@ -219,6 +220,40 @@ class MapComponent extends Component {
       />
     )
   }
+
+  getRoute = (start, end) => {
+    const headers = {
+      'api_key' : '5b3ce3597851110001cf6248588f0970a97d457493639af7cb254012',
+      'start' : start.lng + ',' + start.lat,
+      'end' : end.lng + ',' + end.lat
+    }
+
+    axios.get('https://api.openrouteservice.org/v2/directions/driving-car', headers)
+    .then((res)=>{
+      console.log(res.data);
+
+      return res.data['features']['geometry']['coordinates']
+    }).catch((err)=>{
+      console.log(err);
+
+      return null;
+    })
+  }
+
+  renderCircle = (location, radius) => {
+    return <Circle
+      defaultCenter={{
+        lat: parseFloat(location.lat),
+        lng: parseFloat(location.lng)
+      }}
+      radius={radius}
+      options= {{
+        strokeColor: "#ff0000"
+      }}
+    />
+  }
+
+
 
   render() {
 
