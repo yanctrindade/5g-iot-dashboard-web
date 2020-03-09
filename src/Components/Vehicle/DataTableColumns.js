@@ -80,6 +80,17 @@ const columns = [
     sortDirections: ['descend', 'ascend'],
   },
   {
+    title: 'Rotas',
+    key: 'routes',
+    align: "center",
+    render: (record) => 
+      <div style={{ textAlign: "center" }}>
+        <Link to={'/vehicles/routes?plate=' + record.plate[0].replace(" ", "")}>
+          <Icon type="swap"/>
+        </Link>
+      </div>
+  },
+  {
     title: 'Editar',
     key: 'edit',
     align: "center",
