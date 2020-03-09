@@ -23,6 +23,7 @@ import NotFound from "./NotFound";
 import Visitors from "../../Pages/Visitors/";
 import Driver from "../../Pages/Driver/";
 import Users from "../../Pages/Users/";
+import CarRoutes from "../../Pages/CarRoutes/";
 
 const PrivateRoute = ({ component: Component, ...rest }) => (
     <Route
@@ -48,6 +49,7 @@ const Routes = () => (
             <Route exact path='/visitors' component={Visitors} />    
             <PrivateRoute exact path='/edit-user' component={Form.create()(EditRegister)} />  
             <PrivateRoute exact path="/map" component={Map} />
+            <PrivateRoute exact path="/vehicles/routes" component={CarRoutes} />
             <PrivateRoute exact path="/vehicles/edit" component={EditVehicles} />
             <PrivateRoute exact path="/vehicles/add" component={AddVehicles} />
             <PrivateRoute exact path="/vehicles/maintenceHistory" component={Maintence} />

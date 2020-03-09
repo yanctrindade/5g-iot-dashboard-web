@@ -52,7 +52,6 @@ class Driver extends Component {
                         routesData: [],
                         initialLocation: "",
                         finalLocation: "",
-                        isOnRoute: false,
                         vehicleStops: [],
                         count: 0,
                         stopLongitude: "",
@@ -122,11 +121,34 @@ class Driver extends Component {
         }));
     }
 
-    updateIsOnRoute = () => {
-        this.setState(prevState => ({
-            isOnRoute: !prevState.isOnRoute
-        }));
+    saveRoute = () => {
+        const n = window.location.href.search("plate");
+
+        console.log("SAVING ROUTE!");
+        if (n !== -1){
+            // this is the plate of the car which route is being defined
+            console.log(this.insertString(window.location.href.substring(n + 6, n + 13), 3, " "))
+        }
+
+        // Here we transform every state data that is related to the route that is being saved to a json
+        const routesData = {
+            initialLocation: this.state.initialLocation,
+            finalLocation: this.state.finalLocation,
+            vehicleStops: this.state.vehicleStops
+        }
+
+        // now we transform that json to a string
+        const jsonString = JSON.stringify(routesData)
+        console.log(jsonString);
+
+        // And here we transform the data from string again back to a json
+        const stringJson = JSON.parse(jsonString)
+        console.log(stringJson);
     } 
+
+    insertString = (str, index, value) => {
+        return str.substr(0, index) + value + str.substr(index);
+    }
 
     updateStopLongitude = (e) => {
         this.setState(({
@@ -273,7 +295,6 @@ class Driver extends Component {
                                         placeholder="Local de partida"
                                         onChange={this.updateInitialLocation}
                                         allowClear={true}
-                                        disabled={this.state.isOnRoute}
                                     />
                                     )}
                             </Form.Item>
@@ -290,7 +311,6 @@ class Driver extends Component {
                                         placeholder="Local de destino"
                                         onChange={this.updateFinalLocation}
                                         allowClear={true}
-                                        disabled={this.state.isOnRoute}
                                     />
                                     )}
                             </Form.Item>
@@ -305,7 +325,6 @@ class Driver extends Component {
                                     onChange={this.updateStopLongitude}
                                     allowClear={true}
                                     value={this.state.stopLongitude}
-                                    disabled={this.state.isOnRoute}
                                 />
                             </Form.Item>
                         </Col>
@@ -317,7 +336,6 @@ class Driver extends Component {
                                     onChange={this.updateStopLatitude}
                                     allowClear={true}
                                     value={this.state.stopLatitude}
-                                    disabled={this.state.isOnRoute}
                                 />
                             </Form.Item>
                         </Col>
@@ -330,7 +348,6 @@ class Driver extends Component {
                                     style={{
                                         marginBottom: 16
                                     }}
-                                    disabled={this.state.isOnRoute}
                                 >
                                     Adicionar Parada
                                 </Button>
@@ -346,28 +363,15 @@ class Driver extends Component {
                         />
                     </Row>
 
-                    <Row style={{marginLeft: "38%"}}>
+                    <Row style={{marginLeft: "49%"}}>
                         <Form.Item >
-                            <Row>
-                                <Col span={5}>                                
-                                    <Button 
-                                        type="danger"
-                                        onClick={this.updateIsOnRoute}
-                                        disabled={!this.state.isOnRoute}
-                                    >
-                                        Finalizar
-                                    </Button>
-                                </Col>
-                                <Col span={5}>      
-                                    <Button 
-                                        type="primary" 
-                                        onClick={this.updateIsOnRoute}
-                                        disabled={hasErrors(getFieldsError()) || this.areFieldsEmpty() || this.state.isOnRoute}
-                                    >
-                                        Iniciar
-                                    </Button>
-                                </Col>
-                            </Row>
+                            <Button 
+                                type="primary" 
+                                onClick={this.saveRoute}
+                                disabled={hasErrors(getFieldsError()) || this.areFieldsEmpty()}
+                            >
+                                Salvar
+                            </Button>
                         </Form.Item>
                     </Row>
 

@@ -108,7 +108,7 @@ class DataTable extends Component {
   }
 
   render() {    
-    const columns = DataColumns.map(item => (item.title !== "Editar" ? {...item, ...this.getColumnSearchProps(item.dataIndex, item.cellRender, item.renderIcon)} : item))
+    const columns = DataColumns.map(item => (item.title !== "Editar" && item.title !== "Rotas" ? {...item, ...this.getColumnSearchProps(item.dataIndex, item.cellRender, item.renderIcon)} : item))
 
     return (
       <div style={{ margin: '25px' }}>
