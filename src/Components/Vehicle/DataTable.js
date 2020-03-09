@@ -3,7 +3,8 @@ import { Table, Input, Button, Icon } from 'antd';
 import Highlighter from 'react-highlight-words';
 import VehicleStatistics from './VehicleStatistics'
 import DataColumns from './DataTableColumns';
-import axios from 'axios';
+// import axios from 'axios';
+import API from "../../api/fiware";
 import "./styles.css";
 
 class DataTable extends Component {
@@ -16,9 +17,25 @@ class DataTable extends Component {
   }
 
   componentDidMount() {
-    axios.get('/database.json')
+    // axios.get('/database.json')
+    // .then((res)=>{
+    //   this.setState({VehicleData: this.dataFilter(res.data)});
+    // }).catch((err)=>{
+    //   console.log(err);
+    // })
+
+    const headers = {
+      headers : {         
+                  'fiware-servicepath' : '/',
+                  'fiware-service' : 'openiot'
+                }
+    }
+
+    API.get(`/v2/entities/?type=Car&options=keyValues`, headers)
     .then((res)=>{
+      res.data.map(car => car.key = car.id)
       this.setState({VehicleData: this.dataFilter(res.data)});
+      console.log(res.data);
     }).catch((err)=>{
       console.log(err);
     })
@@ -99,7 +116,7 @@ class DataTable extends Component {
 
   dataFilter = (data) => {
       data.map(item => {
-        item.nextMaintenceDate = this.getDate(item.nextMaintenceDate)
+        item.lastMaintenance = this.getDate(item.lastMaintenance)
         item.plate = [item.plate].concat(item.tags)
         return item
       })
