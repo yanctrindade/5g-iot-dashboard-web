@@ -145,24 +145,22 @@ class Driver extends Component {
         }
 
         // Here we transform every state data that is related to the route that is being saved to a json
-        let output = [], item, initialLocationItem, finalLocationItem;
-
+        let item, route = [];
+        
+        // Initial lotation
+        route = [[parseFloat(this.state.initialLocationLong), parseFloat(this.state.initialLocationLat)]];
+        
+        // Stops
         for (let i = 0; i < this.state.vehicleStops.length; i++) {
             item = [parseFloat(this.state.vehicleStops[i].longitude), parseFloat(this.state.vehicleStops[i].latitude)];
-            output.push(item);
+            route.push(item);
         }
-
-        initialLocationItem = [parseFloat(this.state.initialLocationLong), parseFloat(this.state.initialLocationLat)];
-        finalLocationItem = [parseFloat(this.state.finalLocationLong), parseFloat(this.state.finalLocationLat)];
-
-        const routesData = {
-            initialLocation: initialLocationItem,
-            finalLocation: finalLocationItem,
-            vehicleStops: output
-        }
+        
+        // Final location
+        route.push([parseFloat(this.state.finalLocationLong), parseFloat(this.state.finalLocationLat)]);
 
         // now we transform that json to a string
-        const jsonString = JSON.stringify(routesData)
+        const jsonString = JSON.stringify(route)
         console.log(jsonString);
 
         // And here we transform the data from string again back to a json
