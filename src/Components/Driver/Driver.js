@@ -50,8 +50,10 @@ class Driver extends Component {
           ];
         this.state = { 
                         routesData: [],
-                        initialLocation: "",
-                        finalLocation: "",
+                        initialLocationLong: "",
+                        initialLocationLat: "",
+                        finalLocationLong: "",
+                        finalLocationLat: "",
                         vehicleStops: [],
                         count: 0,
                         stopLongitude: "",
@@ -109,15 +111,27 @@ class Driver extends Component {
       return data
     }
 
-    updateInitialLocation = (e) => {
+    updateInitialLocationLong = (e) => {
         this.setState(({
-            initialLocation: e.target.value
+            initialLocationLong: e.target.value
         }));
     }
 
-    updateFinalLocation = (e) => {
+    updateInitialLocationLat = (e) => {
         this.setState(({
-            finalLocation: e.target.value
+            initialLocationLat: e.target.value
+        }));
+    }
+
+    updateFinalLocationLong = (e) => {
+        this.setState(({
+            finalLocationLong: e.target.value
+        }));
+    }
+
+    updateFinalLocationLat = (e) => {
+        this.setState(({
+            finalLocationLat: e.target.value
         }));
     }
 
@@ -131,14 +145,22 @@ class Driver extends Component {
         }
 
         // Here we transform every state data that is related to the route that is being saved to a json
-        const routesData = {
-            initialLocation: this.state.initialLocation,
-            finalLocation: this.state.finalLocation,
-            vehicleStops: this.state.vehicleStops
+        let item, route = [];
+        
+        // Initial lotation
+        route = [[parseFloat(this.state.initialLocationLong), parseFloat(this.state.initialLocationLat)]];
+        
+        // Stops
+        for (let i = 0; i < this.state.vehicleStops.length; i++) {
+            item = [parseFloat(this.state.vehicleStops[i].longitude), parseFloat(this.state.vehicleStops[i].latitude)];
+            route.push(item);
         }
+        
+        // Final location
+        route.push([parseFloat(this.state.finalLocationLong), parseFloat(this.state.finalLocationLat)]);
 
         // now we transform that json to a string
-        const jsonString = JSON.stringify(routesData)
+        const jsonString = JSON.stringify(route)
         console.log(jsonString);
 
         // And here we transform the data from string again back to a json
@@ -163,7 +185,8 @@ class Driver extends Component {
     }
 
     areFieldsEmpty = () => {
-        return !(this.state.initialLocation !== "" && this.state.finalLocation !== "")
+        return !(this.state.initialLocationLong !== "" && this.state.finalLocationLong !== "" &&
+        this.state.initialLocationLat !== "" && this.state.finalLocationLat !== "")
     }
 
     compareDates = (a, b) => {
@@ -245,8 +268,10 @@ class Driver extends Component {
 
     render(){
         const { getFieldDecorator, isFieldTouched, getFieldError, getFieldsError } = this.props.form;
-        const initialLocation = isFieldTouched('initialLocation') && getFieldError('initialLocation');   
-        const finalLocation = isFieldTouched('finalLocation') && getFieldError('finalLocation');
+        const initialLocationLong = isFieldTouched('initialLocationLong') && getFieldError('initialLocationLong');
+        const initialLocationLat = isFieldTouched('initialLocationLat') && getFieldError('initialLocationLat');   
+        const finalLocationLong = isFieldTouched('finalLocationLong') && getFieldError('finalLocationLong');
+        const finalLocationLat = isFieldTouched('finalLocationLat') && getFieldError('finalLocationLat');
 
         const columns = [
             {
@@ -284,35 +309,75 @@ class Driver extends Component {
                 <Form onSubmit={this.handleSubmit}>
                     <Row>
                         <Col span={9} style={{margin: "5%"}}>
-                            <Form.Item label="Local de partida" validateStatus={initialLocation ? 'error' : ''} help={initialLocation || ''}>
-                                {getFieldDecorator("initialLocation", {
-                                    initialValue: this.state.initialLocation,
-                                    rules: [
-                                        { required: true, message: "Insira o local de partida!" }
-                                    ]
-                                    })(
-                                    <Input
-                                        placeholder="Local de partida"
-                                        onChange={this.updateInitialLocation}
-                                        allowClear={true}
-                                    />
-                                    )}
+                            <Form.Item label="Local de partida">
+                                <Col span={11} style={{margin: "2%"}}>
+                                    <Form.Item label="Longitude" validateStatus={initialLocationLong ? 'error' : ''} help={initialLocationLong || ''}>
+                                        {getFieldDecorator("initialLocationLong", {
+                                            initialValue: this.state.initialLocationLong,
+                                            rules: [
+                                                { required: true, message: "Insira a longitude da partida!" }
+                                            ]
+                                            })(
+                                            <Input
+                                                placeholder="Longitude da partida"
+                                                onChange={this.updateInitialLocationLong}
+                                                allowClear={true}
+                                            />
+                                            )}
+                                    </Form.Item>
+                                </Col>
+                                <Col span={11} style={{margin: "2%"}}>
+                                    <Form.Item label="Latitude" validateStatus={initialLocationLat ? 'error' : ''} help={initialLocationLat || ''}>
+                                        {getFieldDecorator("initialLocationLat", {
+                                            initialValue: this.state.initialLocationLat,
+                                            rules: [
+                                                { required: true, message: "Insira a latitude da partida!" }
+                                            ]
+                                            })(
+                                            <Input
+                                                placeholder="Latitude da partida"
+                                                onChange={this.updateInitialLocationLat}
+                                                allowClear={true}
+                                            />
+                                            )}
+                                    </Form.Item>
+                                </Col>
                             </Form.Item>
                         </Col>
                         <Col span={9} style={{margin: "5%"}}>
-                            <Form.Item label="Local de destino" validateStatus={finalLocation ? 'error' : ''} help={finalLocation || ''}>
-                                {getFieldDecorator("finalLocation", {
-                                    initialValue: this.state.finalLocation,
-                                    rules: [
-                                        { required: true, message: "Insira o local de destino!" }
-                                    ]
-                                    })(
-                                    <Input
-                                        placeholder="Local de destino"
-                                        onChange={this.updateFinalLocation}
-                                        allowClear={true}
-                                    />
-                                    )}
+                            <Form.Item label="Local de destino">
+                                <Col span={11} style={{margin: "2%"}}>
+                                    <Form.Item label="Longitude" validateStatus={finalLocationLong ? 'error' : ''} help={finalLocationLong || ''}>
+                                        {getFieldDecorator("finalLocationLong", {
+                                        initialValue: this.state.finalLocationLong,
+                                        rules: [
+                                            { required: true, message: "Insira a longitude de destino!" }
+                                        ]
+                                        })(
+                                        <Input
+                                            placeholder="Longitude do destino"
+                                            onChange={this.updateFinalLocationLong}
+                                            allowClear={true}
+                                        />
+                                        )}
+                                    </Form.Item>
+                                </Col>
+                                <Col span={11} style={{margin: "2%"}}>
+                                    <Form.Item label="Latitude" validateStatus={finalLocationLat ? 'error' : ''} help={finalLocationLat || ''}>
+                                        {getFieldDecorator("finalLocationLat", {
+                                        initialValue: this.state.finalLocationLat,
+                                        rules: [
+                                            { required: true, message: "Insira a latitude do destino!" }
+                                        ]
+                                        })(
+                                        <Input
+                                            placeholder="Latitude do destino"
+                                            onChange={this.updateFinalLocationLat}
+                                            allowClear={true}
+                                        />
+                                        )}
+                                    </Form.Item>
+                                </Col>                                
                             </Form.Item>
                         </Col>
                     </Row>
