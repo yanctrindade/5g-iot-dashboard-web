@@ -10,9 +10,11 @@ import {
     DatePicker,
     Radio,
     Tooltip,
-    Icon
+    Icon,
+    message
   } from 'antd';
-import axios from 'axios';
+//import axios from 'axios';
+import API from "../../api/fiware";
 import moment from "moment";
 import "./styles.css";
 
@@ -28,19 +30,19 @@ class AddnEditVehicle extends Component {
         super(props);
         this.state = { 
                       isNewCar: true,
-                      deviceID: "",
+                      id: "",
                       isPublic: false,
                       plate: "",
                       operating: false,
                       broken: false,
                       maintenance: false,
-                      model: "",
-                      manufacture: "",
-                      lastMaintenceDate: null,
-                      departament: "",
-                      year: "",
-                      color: "",
-                      nextMaintenceDate: null,
+                      carModel: "",
+                      carBrand: "",
+                      lastMaintenance: null,
+                      department: "",
+                      carYearModel: "",
+                      carColor: "",
+                      nextMaintenance: null,
                       mileage: "",
                       tagErrorMessage: ""
                      };
@@ -49,8 +51,15 @@ class AddnEditVehicle extends Component {
     componentDidMount() {
         const n = window.location.href.search("plate");
 
+        const headers = {
+            headers : {         
+                        'fiware-servicepath' : '/',
+                        'fiware-service' : 'openiot'
+                      }
+        }
+
         if (n !== -1){
-            axios.get('/database.json')
+            API.get(`/v2/entities/?type=Car&options=keyValues`, headers)
             .then((res)=>{
                 this.setData(res.data, this.insertString(window.location.href.substring(n + 6, n + 13), 3, " "));
             }).catch((err)=>{
@@ -61,8 +70,8 @@ class AddnEditVehicle extends Component {
 
     setData = (allVehicleData, plate) => {
         let found = false;
-        let operating = false, broken = false, maintenance = false, model, manufacture, lastMaintenceDate,
-        departament, year, color, nextMaintenceDate, mileage, deviceID, isPublic;
+        let operating = false, broken = false, maintenance = false, carModel, carBrand, lastMaintenance,
+        department, carYearModel, carColor, nextMaintenance, mileage, id, isPublic;
         
         for (var i = 0; i < allVehicleData.length; i++){
             // look for the entry with a matching `plate` value
@@ -83,15 +92,15 @@ class AddnEditVehicle extends Component {
                 }
 
                 // Sets all the other variables
-                deviceID = allVehicleData[i].deviceID;
+                id = allVehicleData[i].id;
                 isPublic = allVehicleData[i].isPublic;
-                model = allVehicleData[i].model;
-                manufacture = allVehicleData[i].manufacture;
-                lastMaintenceDate = allVehicleData[i].lastMaintenceDate;
-                departament = allVehicleData[i].departament;
-                year = allVehicleData[i].year;
-                color = allVehicleData[i].color;
-                nextMaintenceDate = allVehicleData[i].nextMaintenceDate;
+                carModel = allVehicleData[i].carModel;
+                carBrand = allVehicleData[i].carBrand;
+                lastMaintenance = allVehicleData[i].lastMaintenance;
+                department = allVehicleData[i].department;
+                carYearModel = allVehicleData[i].carYearModel;
+                carColor = allVehicleData[i].carColor;
+                nextMaintenance = allVehicleData[i].nextMaintenance;
                 mileage = allVehicleData[i].statistics.mileage;
             }
         }
@@ -99,19 +108,19 @@ class AddnEditVehicle extends Component {
         if (found){
             this.setState({
                 isNewCar: false,
-                deviceID: deviceID,
+                id: id,
                 isPublic: isPublic,
                 plate: plate,
                 operating: operating,
                 broken: broken,
                 maintenance: maintenance,
-                model: model,
-                manufacture: manufacture,
-                lastMaintenceDate: lastMaintenceDate,
-                departament: departament,
-                year: year,
-                color: color,
-                nextMaintenceDate: nextMaintenceDate,
+                carModel: carModel,
+                carBrand: carBrand,
+                lastMaintenance: lastMaintenance,
+                department: department,
+                carYearModel: carYearModel,
+                carColor: carColor,
+                nextMaintenance: nextMaintenance,
                 mileage: mileage
             });
         }
@@ -122,10 +131,10 @@ class AddnEditVehicle extends Component {
     }
 
     areFieldsEmpty = () => {
-        return !(this.state.plate !== "" && this.state.model !== "" && this.state.manufacture !== "" &&
-        this.state.lastMaintenceDate !== "" && this.state.departament !== "" && this.state.year !== "" &&
-        this.state.color !== "" && this.state.nextMaintenceDate !== "" && this.state.mileage !== "" && 
-        (this.state.operating || this.state.broken || this.state.maintenance) && this.state.deviceID !== "")
+        return !(this.state.plate !== "" && this.state.carModel !== "" && this.state.carBrand !== "" &&
+        this.state.lastMaintenance !== "" && this.state.department !== "" && this.state.carYearModel !== "" &&
+        this.state.carColor !== "" && this.state.nextMaintenance !== "" && this.state.mileage !== "" && 
+        (this.state.operating || this.state.broken || this.state.maintenance) && this.state.id !== "")
     }
 
     getTagError = () => {
@@ -150,10 +159,20 @@ class AddnEditVehicle extends Component {
             if(this.state.isNewCar){
                 // Save to database as new entry
                 console.log("new entry!");
+                
+                // If sucess
+                message.success('This is a success message');
+                // If error
+                message.error('This is an error message');
             }
             else{
                 // update on database according to this.state.plate value
                 console.log("old entry!");
+
+                // If sucess
+                message.success('This is a success message');
+                // If error
+                message.error('This is an error message');
             }
           }
         });
@@ -224,15 +243,15 @@ class AddnEditVehicle extends Component {
         }    
     };
 
-    lastMaintenceDate = (date, dateString) => {
+    lastMaintenance = (date, dateString) => {
         this.setState(({
-            lastMaintenceDate: date !== null ? date.format("YYYY-MM-DD") : null
+            lastMaintenance: date !== null ? date.format("YYYY-MM-DD") : null
         }));
     }
 
-    nextMaintenceDate = (date, dateString) => {
+    nextMaintenance = (date, dateString) => {
         this.setState(({
-            nextMaintenceDate: date !== null ? date.format("YYYY-MM-DD") : null
+            nextMaintenance: date !== null ? date.format("YYYY-MM-DD") : null
         }));
     }
 
@@ -242,27 +261,27 @@ class AddnEditVehicle extends Component {
         }));
     }
 
-    updateModel = (e) => {
+    updatecarModel = (e) => {
         this.setState(({
-            model: e.target.value
+            carModel: e.target.value
         }));
     }
 
-    updateManufacture = (e) => {
+    updatecarBrand = (e) => {
         this.setState(({
-            manufacture: e.target.value
+            carBrand: e.target.value
         }));
     }
 
-    updateColor = (e) => {
+    updatecarColor = (e) => {
         this.setState(({
-            color: e.target.value
+            carColor: e.target.value
         }));
     }
 
-    updateYear = (e) => {
+    updatecarYearModel = (e) => {
         this.setState(({
-            year: e.target.value
+            carYearModel: e.target.value
         }));
     }
 
@@ -272,15 +291,15 @@ class AddnEditVehicle extends Component {
         }));
     }
 
-    updateDepartament = (e) => {
+    updatedepartment = (e) => {
         this.setState(({
-            departament: e.target.value
+            department: e.target.value
         }));
     }
 
-    updateDeviceID = (e) => {
+    updateid = (e) => {
         this.setState(({
-            deviceID: e.target.value
+            id: e.target.value
         }));
     }
 
@@ -293,15 +312,15 @@ class AddnEditVehicle extends Component {
     render(){      
         const { getFieldDecorator, isFieldTouched, getFieldError, getFieldsError } = this.props.form;     
         const plateError = isFieldTouched('plate') && getFieldError('plate');   
-        const modelError = isFieldTouched('model') && getFieldError('model');
-        const manufactureError = isFieldTouched('manufacture') && getFieldError('manufacture');
-        const departamentError = isFieldTouched('departament') && getFieldError('departament');
-        const colorError = isFieldTouched('color') && getFieldError('color');
-        const yearError = isFieldTouched('year') && getFieldError('year');
+        const carModelError = isFieldTouched('carModel') && getFieldError('carModel');
+        const carBrandError = isFieldTouched('carBrand') && getFieldError('carBrand');
+        const departmentError = isFieldTouched('department') && getFieldError('department');
+        const carColorError = isFieldTouched('carColor') && getFieldError('carColor');
+        const carYearModelError = isFieldTouched('carYearModel') && getFieldError('carYearModel');
         const mileageError = isFieldTouched('mileage') && getFieldError('mileage');
-        const lastMaintenceDateError = isFieldTouched('lastMaintenceDate') && getFieldError('lastMaintenceDate');
-        const nextMaintenceDateError = isFieldTouched('nextMaintenceDate') && getFieldError('nextMaintenceDate');
-        const deviceIDError = isFieldTouched('deviceID') && getFieldError('deviceID');
+        const lastMaintenanceError = isFieldTouched('lastMaintenance') && getFieldError('lastMaintenance');
+        const nextMaintenanceError = isFieldTouched('nextMaintenance') && getFieldError('nextMaintenance');
+        const idError = isFieldTouched('id') && getFieldError('id');
         
         return(
             <>
@@ -324,32 +343,32 @@ class AddnEditVehicle extends Component {
                             </Form.Item>
                         </Col>
                         <Col span={7} style={{margin: "1%"}}>
-                            <Form.Item label="Modelo" validateStatus={modelError ? 'error' : ''} help={modelError || ''}>
-                                {getFieldDecorator("model", {
-                                    initialValue: this.state.model,
+                            <Form.Item label="carModelo" validateStatus={carModelError ? 'error' : ''} help={carModelError || ''}>
+                                {getFieldDecorator("carModel", {
+                                    initialValue: this.state.carModel,
                                     rules: [
-                                        { required: true, message: "Insira o modelo do carro!" }
+                                        { required: true, message: "Insira o carModelo do carro!" }
                                     ]
                                     })(
                                     <Input
-                                        placeholder="Modelo do carro."
-                                        onChange={this.updateModel}
+                                        placeholder="carModelo do carro."
+                                        onChange={this.updatecarModel}
                                         allowClear={true}
                                     />
                                     )}
                             </Form.Item>
                         </Col>
                         <Col span={7} style={{margin: "1%"}}>
-                            <Form.Item label="Fabricante" validateStatus={manufactureError ? 'error' : ''} help={manufactureError || ''}>
-                                {getFieldDecorator("manufacture", {
-                                    initialValue: this.state.manufacture,
+                            <Form.Item label="Fabricante" validateStatus={carBrandError ? 'error' : ''} help={carBrandError || ''}>
+                                {getFieldDecorator("carBrand", {
+                                    initialValue: this.state.carBrand,
                                     rules: [
                                         { required: true, message: "Insira o fabricante do carro!" }
                                     ]
                                     })(
                                     <Input
                                         placeholder="Fabricante do carro."
-                                        onChange={this.updateManufacture}
+                                        onChange={this.updatecarBrand}
                                         allowClear={true}
                                     />
                                     )}
@@ -359,32 +378,32 @@ class AddnEditVehicle extends Component {
 
                     <Row>
                         <Col span={7} style={{margin: "1%"}}>
-                            <Form.Item label="Cor" validateStatus={colorError ? 'error' : ''} help={colorError || ''}>
-                                {getFieldDecorator("color", {
-                                    initialValue: this.state.color,
+                            <Form.Item label="Cor" validateStatus={carColorError ? 'error' : ''} help={carColorError || ''}>
+                                {getFieldDecorator("carColor", {
+                                    initialValue: this.state.carColor,
                                     rules: [
                                         { required: true, message: "Insira a cor do carro!" }
                                     ]
                                     })(
                                     <Input
                                         placeholder="Cor do carro."
-                                        onChange={this.updateColor}
+                                        onChange={this.updatecarColor}
                                         allowClear={true}
                                     />
                                     )}
                             </Form.Item>
                         </Col>
                         <Col span={7} style={{margin: "1%"}}>
-                            <Form.Item label="Ano" validateStatus={yearError ? 'error' : ''} help={yearError || ''}>
-                                {getFieldDecorator("year", {
-                                    initialValue: this.state.year,
+                            <Form.Item label="Ano" validateStatus={carYearModelError ? 'error' : ''} help={carYearModelError || ''}>
+                                {getFieldDecorator("carYearModel", {
+                                    initialValue: this.state.carYearModel,
                                     rules: [
                                         { required: true, message: "Insira o ano do carro!" }
                                     ]
                                     })(
                                     <Input
                                         placeholder="Ano do carro."
-                                        onChange={this.updateYear}
+                                        onChange={this.updatecarYearModel}
                                         allowClear={true}
                                     />
                                 )}
@@ -410,15 +429,15 @@ class AddnEditVehicle extends Component {
 
                     <Row>
                         <Col span={7} style={{margin: "1%"}}>
-                            <Form.Item label="Última manuntenção" validateStatus={lastMaintenceDateError ? 'error' : ''} help={lastMaintenceDateError || ''}>
-                                {getFieldDecorator("lastMaintenceDate", {
-                                    initialValue: this.state.lastMaintenceDate !== null ? moment(this.state.lastMaintenceDate) : null,
+                            <Form.Item label="Última manuntenção" validateStatus={lastMaintenanceError ? 'error' : ''} help={lastMaintenanceError || ''}>
+                                {getFieldDecorator("lastMaintenance", {
+                                    initialValue: this.state.lastMaintenance !== null ? moment(this.state.lastMaintenance) : null,
                                     rules: [
                                         { required: true, message: "Selecione uma data!" }
                                     ]
                                     })(
                                         <DatePicker 
-                                            onChange={this.lastMaintenceDate}
+                                            onChange={this.lastMaintenance}
                                             format="DD/MM/YYYY"
                                             className="vehicle-calendar-picker"
                                             placeholder="Última manuntenção do carro."
@@ -428,15 +447,15 @@ class AddnEditVehicle extends Component {
                             </Form.Item>
                         </Col>
                         <Col span={7} style={{margin: "1%"}}>
-                            <Form.Item label="Próxima manuntenção" required={true} validateStatus={nextMaintenceDateError ? 'error' : ''} help={nextMaintenceDateError || ''}>
-                                {getFieldDecorator("nextMaintenceDate", {
-                                    initialValue: this.state.nextMaintenceDate !== null ? moment(this.state.nextMaintenceDate) : null,
+                            <Form.Item label="Próxima manuntenção" required={true} validateStatus={nextMaintenanceError ? 'error' : ''} help={nextMaintenanceError || ''}>
+                                {getFieldDecorator("nextMaintenance", {
+                                    initialValue: this.state.nextMaintenance !== null ? moment(this.state.nextMaintenance) : null,
                                     rules: [
                                         { required: true, message: "Selecione uma data!" }
                                     ]
                                     })(
                                         <DatePicker 
-                                            onChange={this.nextMaintenceDate}
+                                            onChange={this.nextMaintenance}
                                             format="DD/MM/YYYY"
                                             className="vehicle-calendar-picker"
                                             placeholder="Próxima manuntenção do carro."
@@ -446,16 +465,16 @@ class AddnEditVehicle extends Component {
                             </Form.Item>
                         </Col>
                         <Col span={7} style={{margin: "1%"}}>
-                            <Form.Item label="Departamento" validateStatus={departamentError ? 'error' : ''} help={departamentError || ''}>
-                                {getFieldDecorator("departament", {
-                                    initialValue: this.state.departament,
+                            <Form.Item label="departmento" validateStatus={departmentError ? 'error' : ''} help={departmentError || ''}>
+                                {getFieldDecorator("department", {
+                                    initialValue: this.state.department,
                                     rules: [
-                                        { required: true, message: "Insira o departamento que pertence o carro!" }
+                                        { required: true, message: "Insira o departmento que pertence o carro!" }
                                     ]
                                     })(
                                     <Input
-                                        placeholder="Departamento do carro."
-                                        onChange={this.updateDepartament}
+                                        placeholder="departmento do carro."
+                                        onChange={this.updatedepartment}
                                         allowClear={true}
                                     />
                                     )}
@@ -465,16 +484,16 @@ class AddnEditVehicle extends Component {
 
                     <Row>
                         <Col span={7} style={{margin: "1%"}}>
-                            <Form.Item label="ID do Veículo" validateStatus={deviceIDError ? 'error' : ''} help={deviceIDError || ''}>
-                                {getFieldDecorator("deviceID", {
-                                    initialValue: this.state.deviceID,
+                            <Form.Item label="ID do Veículo" validateStatus={idError ? 'error' : ''} help={idError || ''}>
+                                {getFieldDecorator("id", {
+                                    initialValue: this.state.id,
                                     rules: [
                                         { required: true, message: "Insira o ID do veículo!" }
                                     ]
                                     })(
                                     <Input
                                         placeholder="Identificador do veículo."
-                                        onChange={this.updateDeviceID}
+                                        onChange={this.updateid}
                                         allowClear={true}
                                     />
                                     )}
@@ -502,19 +521,19 @@ class AddnEditVehicle extends Component {
                             <Form.Item label="Estado atual" validateStatus={this.getTagError() ? 'error' : ''} help={this.getTagError() || ''}>
                                 <Tag
                                     style={{marginLeft: "5%"}}
-                                    color={this.state.operating ? "green" : "blue"}
+                                    carColor={this.state.operating ? "green" : "blue"}
                                     onClick={this.setOperating}
                                 >
                                     Operando
                                 </Tag>
                                 <Tag
-                                    color={this.state.broken ? "red" : "blue"}
+                                    carColor={this.state.broken ? "red" : "blue"}
                                     onClick={this.setBroken}
                                 >
                                     Quebrado
                                 </Tag>
                                 <Tag
-                                    color={this.state.maintenance ? "yellow" : "blue"}
+                                    carColor={this.state.maintenance ? "yellow" : "blue"}
                                     onClick={this.setMaintenance}
                                 >
                                     Manuntenção

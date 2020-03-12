@@ -8,7 +8,9 @@ import {    Form,
             Typography,
             Table,
             Popconfirm,
-            Icon } from 'antd';
+            Icon,
+            message
+} from 'antd';
 
 import Highlighter from 'react-highlight-words';
 
@@ -166,6 +168,11 @@ class Driver extends Component {
         // And here we transform the data from string again back to a json
         const stringJson = JSON.parse(jsonString)
         console.log(stringJson);
+
+        // If sucess
+        message.success('This is a success message');
+        // If error
+        message.error('This is an error message');
     } 
 
     insertString = (str, index, value) => {
