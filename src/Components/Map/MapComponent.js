@@ -1,17 +1,12 @@
 import React, { Component } from 'react';
 import { Map, Polyline, Marker, GoogleApiWrapper, InfoWindow, Circle } from 'google-maps-react';
 import MapCard from './MapCard';
-import moment from "moment";
 import CarIcon from '../../Assets/CarPin.png'
-import StartIcon from '../../Assets/StartIcon.png'
-import Start from '../../Assets/start.png'
-import End from '../../Assets/end.png'
-import MapDatePicker from  './MapDatePicker'
-import tinygradient from 'tinygradient';
+import StopIcon from '../../Assets/StopIcon.png'
 import auth from "../../Components/Login/Auth";
 import API from "../../api/fiware";
 import CarPin from './CarPin';
-import axios from 'axios';
+import CarRoute from './CarRoute';
 
 class MapComponent extends Component {
 
@@ -67,7 +62,6 @@ class MapComponent extends Component {
     API.get(`/v2/entities/?type=Car&options=keyValues`, headers)
     .then((res)=>{
       this.setState({markers: this.filterMarkers(res.data)});
-      console.log(this.state.markers);
     }).catch((err)=>{
       console.log(err);
     })
@@ -80,6 +74,8 @@ class MapComponent extends Component {
     // })
   }
 
+
+
   filterMarkers = (data) => {
     if(auth.isAdmin()) 
       return data
@@ -88,6 +84,7 @@ class MapComponent extends Component {
   }
 
   clickMarker = (props, marker, e) => {
+    
     this.setState(
       { vehicleContent: marker.data,
         vehicleSelected: true,
@@ -95,14 +92,7 @@ class MapComponent extends Component {
       }
     )    
   }
-
-  closeDatePicker = () => {
-    this.setState({
-      infoPathVisible: false,
-      filterState: false
-    })   
-  }
-
+  
   closeMapCard = () => this.setState({vehicleSelected : false, filterState: false})
 
   renderPath = (coords, key, color, startTime, endTime) => {
@@ -115,42 +105,10 @@ class MapComponent extends Component {
           path={coords}
           strokeColor={color}
           strokeOpacity={0.5}
-          strokeWeight={4} 
+          strokeWeight={4}
           onMouseover = {() => this.onMouseOverPolyline(coords, startTime, endTime)}
         />
     )
-  }
-
-  getFilterPaths = (startDate,endDate) => {
-    // Get all data from the selected vehicle
-    const vehiclePaths = this.state.vehicleContent.paths
-    const pathLength = vehiclePaths.length;
-
-    // Set the paths gradient colors
-    let gradient;
-
-    if(pathLength > 1){
-      gradient = tinygradient('red', 'green', 'blue').rgb(pathLength).map(color => color.toHexString())
-    }else{
-      gradient = ['#03fc28']
-    }
-
-    // Filter the paths according to the Start and End dates selected
-    startDate = startDate.toDate()
-    endDate = endDate.toDate()
-
-    let filteredPaths = vehiclePaths.filter(item => {
-      let startMoment = moment(item.startTime,'YYYY-MM-DDTHH:mm:ss').toDate()
-      let endMoment = moment(item.endTime,'YYYY-MM-DDTHH:mm:ss').toDate()
-
-      return startMoment >= startDate && endMoment <= endDate;
-    })
-
-    // Orders the data as a dictionary, with each path having its corresponding color
-    filteredPaths = filteredPaths.map((item,index) => ({'path':item.coordinates, 'color': gradient[index], 'startTime': item.startTime, 'endTime': item.endTime}))
-
-    // Sets the state with the filtered paths and sets filterstate to true
-    this.setState({filterPaths: filteredPaths, filterState: true})
   }
 
   transformLocation = (location) => {
@@ -177,11 +135,27 @@ class MapComponent extends Component {
     )
   }
 
+  addStop = (stop) => {
+    return(
+      <Marker
+        key={stop.id}
+        position={this.transformLocation(stop.location)}
+        icon = {{
+          url: StopIcon, // url
+          scaledSize: new this.props.google.maps.Size(40,40), // scaled size
+          //origin: new Point(0,0), // origin
+          //anchor: new Point(0, 0) // anchor
+        }}
+      />
+    )
+  }
+
   onMouseOverMarker = (prop, marker) => {
     if (!this.state.vehicleSelected){
       if (this.state.infoMarker.name !== marker.name){
         this.setState({infoMarker : marker, infoMarkerVisible : true})
-        //console.log(marker)
+        console.log("marker")
+        console.log(marker)
       }
   
       if (this.state.infoMarkerVisible !== true){
@@ -221,25 +195,6 @@ class MapComponent extends Component {
     )
   }
 
-  getRoute = (start, end) => {
-    const headers = {
-      'api_key' : '5b3ce3597851110001cf6248588f0970a97d457493639af7cb254012',
-      'start' : start.lng + ',' + start.lat,
-      'end' : end.lng + ',' + end.lat
-    }
-
-    axios.get('https://api.openrouteservice.org/v2/directions/driving-car', headers)
-    .then((res)=>{
-      console.log(res.data);
-
-      return res.data['features']['geometry']['coordinates']
-    }).catch((err)=>{
-      console.log(err);
-
-      return null;
-    })
-  }
-
   renderCircle = (location, radius) => {
     return <Circle
       defaultCenter={{
@@ -252,8 +207,6 @@ class MapComponent extends Component {
       }}
     />
   }
-
-
 
   render() {
 
@@ -271,14 +224,9 @@ class MapComponent extends Component {
           //initialCenter={coords[Math.round(coords.length/2)]}
           initialCenter={{lat:-15.765577, lng:-47.857529}}
         >
-          {!this.state.vehicleSelected ? this.state.markers.map( marker => this.addMarker(marker)) : <></>}
-          {this.state.vehicleSelected && this.state.filterState ? this.state.filterPaths.map( (item, index) => this.renderPath(item.path, index, item.color, item.startTime, item.endTime)) : <></>}
-          {this.state.vehicleSelected && this.state.filterState ? this.state.filterPaths.map( (item, index) => this.addPoint(index, {lat : item.path[0][1], lng: item.path[0][0]}, Start))  : <></>}
-          {this.state.vehicleSelected && this.state.filterState ? this.state.filterPaths.map( (item, index) => this.addPoint(index, {lat : item.path[item.path.length -1][1], lng: item.path[item.path.length -1][0]},End))  : <></>}
-          {this.state.vehicleSelected && !this.state.filterState ? this.renderPath(this.state.vehicleContent.currentPath) : <></>}
-          {this.state.vehicleSelected && !this.state.filterState ? this.addPoint(0, {lat : this.state.vehicleContent.currentPath[0][1], lng: this.state.vehicleContent.currentPath[0][0]}, StartIcon) : <></>}
-          {this.state.vehicleSelected && !this.state.filterState ? this.addMarker(this.state.vehicleContent) : <></>}
-          {this.state.vehicleSelected ? <MapDatePicker render={this.getFilterPaths} onClose={this.closeDatePicker}/> : <></>}
+          {!this.state.vehicleSelected ? this.state.markers.map( marker => this.addMarker(marker)) : this.addMarker(this.state.vehicleContent)}
+          {this.state.vehicleSelected ? <CarRoute isVisible = {this.state.vehicleSelected} vehicle={this.state.vehicleContent}/> : <></>}
+          
           <MapCard isVisible={this.state.vehicleSelected && !this.state.filterState} onClose={this.closeMapCard} content={this.state.vehicleContent}/>
 
           {/* All Vehicles infoview */}
@@ -287,19 +235,8 @@ class MapComponent extends Component {
             visible={this.state.infoMarkerVisible}
             onClose={()=> this.setState({infoMarkerVisible : false})}>
               <div>
-                <h2>{this.state.infoMarker.name}</h2>
-                <h1>{this.state.infoMarker.data === undefined ? "" : this.state.infoMarker.data.model}</h1>
-              </div>
-          </InfoWindow>
-
-          {/* Vehicle Paths infoview */}
-          <InfoWindow
-            position={this.state.infoPathPosition}
-            visible={this.state.infoPathVisible}
-            onClose={()=> this.setState({infoPathVisible : false})}>
-              <div>
-                <h2>{"Inicio da rota: " + new Date(this.state.infoPathTime.startTime).toLocaleDateString() + " às " + new Date(this.state.infoPathTime.startTime).toLocaleTimeString()}</h2>
-                <h2>{"Fim da rota: " + new Date(this.state.infoPathTime.endTime).toLocaleDateString() + " às " + new Date(this.state.infoPathTime.endTime).toLocaleTimeString()}</h2>
+                <h1>{this.state.infoMarker.name}</h1>
+                <p>{this.state.infoMarker.data === undefined ? "" : this.state.infoMarker.data.carModel}</p>
               </div>
           </InfoWindow>
           

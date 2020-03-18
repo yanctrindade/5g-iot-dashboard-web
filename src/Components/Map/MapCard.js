@@ -16,7 +16,7 @@ class MapCard extends Component{
                     <Row  className="MapCard-title">
                         <Icon type="close" id="CloseButton" onClick={this.props.onClose}/>
                         <h3>{data.plate}</h3>
-                        <p>Última atualização em {this.getDate(data.updateTime)} às {this.getTime(data.updateTime)}</p>
+                        <p>Última atualização em {this.getDate(data.dateModified)} às {this.getTime(data.dateModified)}</p>
                     </Row>
                     <Row>
                         <Col span={12}>
@@ -33,16 +33,16 @@ class MapCard extends Component{
                         </Col>
                     </Row>
                     <Row style={{padding: '0px 10px 0px 10px'}}>
-                        <Col span={12} className="Info" style={{fontWeight: 'bold'}}>{data.model}</Col>
-                        <Col span={12} className="Info" style={{textAlign: 'right'}}>{data.brand}</Col>
+                        <Col span={12} className="Info" style={{fontWeight: 'bold'}}>{data.carModel}</Col>
+                        <Col span={12} className="Info" style={{textAlign: 'right'}}>{data.carBrand}</Col>
                     </Row>
                     <Row style={{padding: '0px 10px 0px 10px'}}>
-                        <Col span={12} className="Info">{data.year}</Col>
-                        <Col span={12} className="Info" style={{textAlign: 'right'}}>{data.color}</Col>
+                        <Col span={12} className="Info">{data.carYearModel}</Col>
+                        <Col span={12} className="Info" style={{textAlign: 'right'}}>{data.carColor}</Col>
                     </Row>
                     <Row style={{padding: '10px 10px 0px 10px'}}>
                         <Col span={18} className="Info" style={{fontSize: '16px'}}>Data da próxima manutenção:</Col>
-                        <Col span={6} className="Info" style={{textAlign: 'right', fontSize: '16px'}}>{this.getDate(data.nextMaintenceDate)}</Col>
+                        <Col span={6} className="Info" style={{textAlign: 'right', fontSize: '16px'}}>{this.getDate(data.nextMaintenance)}</Col>
                     </Row>
                 </div>
             ) : (
