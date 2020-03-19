@@ -1,6 +1,7 @@
 import React from "react";
-import { Tag, Icon } from 'antd';
+import { Tag, Icon, message, Button } from 'antd';
 import { Link } from "react-router-dom";
+import API from "../../api/fiware";
 
 const tagsFunction = tags => (
   <span>
@@ -85,7 +86,7 @@ const columns = [
     align: "center",
     render: (record) => 
       <div style={{ textAlign: "center" }}>
-        <Link to={'/vehicles/routes?plate=' + record.plate[0].replace(" ", "")}>
+        <Link to={'/vehicles/routes?id=' + record.id}>
           <Icon type="swap"/>
         </Link>
       </div>
@@ -101,7 +102,42 @@ const columns = [
         </Link>
       </div>
   },
+  {
+    title: 'Deletar',
+    key: 'delete',
+    align: "center",
+    render: (record) => 
+    <div style={{ textAlign: "center" }}>
+        <Button 
+            type="dashed" 
+            shape="circle" 
+            icon="delete" 
+            onClick={() => {deleteVehicle(record.id)}} 
+        />
+    </div>
+}
 ];
+
+function deleteVehicle(id){
+
+  const headers = {
+    headers : {         
+                'fiware-servicepath' : '/',
+                'fiware-service' : 'openiot'
+                }
+  }
+
+  API.delete(`/v2/entities/` + id, headers)
+            .then(
+                message.success('Deletado!', 5),
+                window.location.reload()
+            ).catch((err)=>{
+                console.log(err);
+                message.error('Erro ao deletar!', 5);
+            })      
+  
+  
+} 
 
 function compareDates(a, b){
   let dateA = new Date(a);

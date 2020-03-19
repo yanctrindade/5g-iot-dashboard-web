@@ -117,6 +117,11 @@ class MapComponent extends Component {
   };
 
   addMarker = (marker) => {
+    
+    if (marker.location.coordinates[0] === 0 && marker.location.coordinates[1] === 0){
+      return (<></>);
+    }
+
     return(
       <CarPin
         key={marker.id}

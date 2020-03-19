@@ -27,9 +27,9 @@ class MapCard extends Component{
                         </Col>
                         <Col span={12}>
                             <div className="Metric-info">
-                                {data.distance}<span className="Metric">km</span>
+                                {data.carMileage}<span className="Metric">km</span>
                             </div>
-                            <div className="Info-tag">Distância Percorrida</div>
+                            <div className="Info-tag">Hodômetro</div>
                         </Col>
                     </Row>
                     <Row style={{padding: '0px 10px 0px 10px'}}>

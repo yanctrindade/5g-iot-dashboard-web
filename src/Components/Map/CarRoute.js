@@ -44,9 +44,11 @@ class CarRoute extends Component {
       const vehicle = this.props.vehicle;
       let route = JSON.parse(vehicle.route)
       let coords = []
-
-      for(let i = 0; i < route.length - 1; i++){
-        coords.push({start : route[i], end : route[i+1]})
+      
+      if (route.length >= 3){
+        for(let i = 0; i < route.length - 1; i++){
+          coords.push({start : route[i], end : route[i+1]})
+        }
       }
 
       return coords
@@ -74,49 +76,55 @@ class CarRoute extends Component {
     renderMarkers = () => {
       const vehicle = this.props.vehicle;
       let route = JSON.parse(vehicle.route)
-      const stops = this.getStopsLocations(route)
-      const start = this.getStartLocation(route)
-      const end = this.getEndLocation(route)
-      console.log("stops ----> " + stops)
-      return(
-        <>
-        <Marker
-          google={this.props.google}
-          map={this.props.map}
-          key={101}
-          position={{"lat": start[1], "lng": start[0]}}
-          icon = {{
-            url: StartIcon, // url
-            scaledSize: new this.props.google.maps.Size(30,30), // scaled size
-          }}
-        />
-        <Marker
-          google={this.props.google}
-          map={this.props.map}
-          key={102}
-          position={{"lat": end[1], "lng": end[0]}}
-          icon = {{
-            url: EndIcon, // url
-            scaledSize: new this.props.google.maps.Size(30,30), // scaled size
-          }}
-        />
-        {
-          stops.map(
-            (stop, index) =>
-            <Marker
-              google={this.props.google}
-              map={this.props.map}
-              key={index}
-              position={{"lat": stop[1], "lng": stop[0]}}
-              icon = {{
-                url: StopIcon, // url
-                scaledSize: new this.props.google.maps.Size(30,30), // scaled size
-              }}
-            />
-          )
-        }
-        </>
-      )
+
+      if (route < 3){
+        return (<></>);
+      }
+      else{
+        const stops = this.getStopsLocations(route)
+        const start = this.getStartLocation(route)
+        const end = this.getEndLocation(route)
+        console.log("stops ----> " + stops)
+        return(
+          <>
+          <Marker
+            google={this.props.google}
+            map={this.props.map}
+            key={101}
+            position={{"lat": start[1], "lng": start[0]}}
+            icon = {{
+              url: StartIcon, // url
+              scaledSize: new this.props.google.maps.Size(30,30), // scaled size
+            }}
+          />
+          <Marker
+            google={this.props.google}
+            map={this.props.map}
+            key={102}
+            position={{"lat": end[1], "lng": end[0]}}
+            icon = {{
+              url: EndIcon, // url
+              scaledSize: new this.props.google.maps.Size(30,30), // scaled size
+            }}
+          />
+          {
+            stops.map(
+              (stop, index) =>
+              <Marker
+                google={this.props.google}
+                map={this.props.map}
+                key={index}
+                position={{"lat": stop[1], "lng": stop[0]}}
+                icon = {{
+                  url: StopIcon, // url
+                  scaledSize: new this.props.google.maps.Size(30,30), // scaled size
+                }}
+              />
+            )
+          }
+          </>
+        )
+      }
     }
 
     render(){

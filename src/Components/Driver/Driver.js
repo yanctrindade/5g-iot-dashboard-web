@@ -13,6 +13,7 @@ import {    Form,
 } from 'antd';
 
 import Highlighter from 'react-highlight-words';
+import API from "../../api/fiware";
 
 const { Panel } = Collapse;
 const { Title } = Typography;
@@ -138,12 +139,14 @@ class Driver extends Component {
     }
 
     saveRoute = () => {
-        const n = window.location.href.search("plate");
+        const n = window.location.href.search("id");
 
-        console.log("SAVING ROUTE!");
+        let carID = "";
+        
         if (n !== -1){
             // this is the plate of the car which route is being defined
-            console.log(this.insertString(window.location.href.substring(n + 6, n + 13), 3, " "))
+            carID = window.location.href.substring(n + 3, n + 6);
+            console.log(carID)
         }
 
         // Here we transform every state data that is related to the route that is being saved to a json
@@ -163,16 +166,28 @@ class Driver extends Component {
 
         // now we transform that json to a string
         const jsonString = JSON.stringify(route)
-        console.log(jsonString);
 
-        // And here we transform the data from string again back to a json
-        const stringJson = JSON.parse(jsonString)
-        console.log(stringJson);
+        const finalRoute = {
+            "route": {
+                "type": "Text",
+                "value": jsonString
+            }
+        }
 
-        // If sucess
-        message.success('This is a success message');
-        // If error
-        message.error('This is an error message');
+        const headers = {
+            headers : {         
+                        'fiware-servicepath' : '/',
+                        'fiware-service' : 'openiot'
+                        }
+        }
+
+        API.patch(`/v2/entities/` + carID + '/attrs', finalRoute, headers)
+            .then(
+                message.success('Rotas adicionadas com sucesso!', 5)
+            ).catch((err)=>{
+                console.log(err);
+                message.error('Erro ao adicionar as rotas!', 5);
+        })
     } 
 
     insertString = (str, index, value) => {
