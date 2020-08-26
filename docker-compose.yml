@@ -1,7 +1,10 @@
+kind: Application
+name: unbApp
 version: '3.8'
-
 services:
   sample-prod:
+    gateway: host
+    container_name: unb_app
     image: yantrindade/fiware-app:latest
     build:
       context: .
